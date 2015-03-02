@@ -7,6 +7,8 @@ module Fog
 
       model      :server
       collection :servers
+      model      :workload
+      collection :workloads
 
       class Real
         def initialize(options={})
