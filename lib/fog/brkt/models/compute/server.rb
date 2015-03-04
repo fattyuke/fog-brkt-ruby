@@ -4,12 +4,21 @@ module Fog
   module Compute
     class Brkt
       class Server < Fog::Compute::Server
+        identity :id
+
         attribute :name
         attribute :description
-        attribute :image_id,  :aliases => 'image_definition'
-        attribute :arch,      :aliases => 'cpu_arch'
-        attribute :cpu_cores, :aliases => 'cpu_cores_minimum', :type => :integer
-        attribute :ram,       :aliases => 'ram_minimum',       :type => :integer
+        attribute :workload_id,     :aliases => "workload"
+        attribute :image_id,        :aliases => "image_definition"
+        attribute :machine_type_id, :aliases => "machine_type"
+
+        def save
+          requires :name, :image_id, :machine_type_id, :workload_id
+
+          data = service.create_server(image_id, machine_type_id, name, workload_id).body
+          merge_attributes(data)
+          true
+        end
 
         def start
         end
@@ -21,6 +30,9 @@ module Fog
         end
 
         def destroy
+          requires :id
+
+          service.delete_server(id)
         end
       end
     end

@@ -2,7 +2,7 @@
 #
 # FOG_MOCK=true fog
 
-if ENV["FOG_MOCK"] == "true"
+if ENV["FOG_MOCK"] == "true" or ENV["FOG_MOCK"] == nil
   Fog.mock!
 end
 

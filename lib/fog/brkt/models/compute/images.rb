@@ -6,6 +6,10 @@ module Fog
     class Brkt
       class Images < Fog::Collection
         model Fog::Compute::Brkt::Image
+
+        def all
+          load(service.list_images.body)
+        end
       end
     end
   end

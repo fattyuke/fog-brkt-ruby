@@ -22,6 +22,8 @@ module Fog
       collection :images
       model      :workload
       collection :workloads
+      model      :machine_type
+      collection :machine_types
 
       request_path "fog/brkt/requests/compute"
       request :create_billing_group
@@ -32,6 +34,9 @@ module Fog
       request :list_workloads
       request :list_zones
       request :list_machine_types
+      request :create_server
+      request :delete_server
+      request :list_images
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -88,6 +93,7 @@ module Fog
           @data ||= {
             :billing_groups => {},
             :workloads      => {},
+            :servers        => {},
             :zones          => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
@@ -119,6 +125,40 @@ module Fog
                 "id"                   => "565f94793df94bbba3f45ae2745ee23a",
                 "hourly_cost"          => "0.49",
                 "storage_gb"           => 80
+              }
+            },
+            :images => {
+              "f789efac46bf43c792e51b73d28fc398" => {
+                "customer"           => nil,
+                "os_settings"        => {"mounts.options" => "nobootwait"},
+                "modified_by"        => nil,
+                "description"        => "",
+                "unencrypted_parent" => nil,
+                "csp_images"         => "/v1/api/config/imagedefinition/f789efac46bf43c792e51b73d28fc398/cspimages",
+                "created_by"         => nil,
+                "is_encrypted"       => false,
+                "metadata"           => {},
+                "state"              => "READY",
+                "modified_time"      => "2015-02-23T22:03:47.036014+00:00",
+                "created_time"       => "2015-02-23T22:03:47.035985+00:00",
+                "is_base"            => true,
+                "os"                 => {
+                  "customer"      => nil,
+                  "modified_by"   => nil,
+                  "description"   => "",
+                  "os_features"   => {},
+                  "modified_time" => "2015-02-23T22:03:46.944208+00:00",
+                  "label"         => "Ubuntu 13.10 Saucy (64 bit)",
+                  "platform"      => "linux",
+                  "version"       => "13.10",
+                  "created_by"    => nil,
+                  "created_time"  => "2015-02-23T22:03:46.944180+00:00",
+                  "metadata"      => {},
+                  "id"            => "bd2c801afb174ca9baba61363a2a5554",
+                  "name"          => "ubuntu"
+                },
+                "id"                 => "f789efac46bf43c792e51b73d28fc398",
+                "name"               => "Ubuntu 13.10 Saucy (64 bit)"
               }
             }
           }

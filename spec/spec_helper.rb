@@ -23,6 +23,7 @@ end
 compute # touch compute service to load models & requests classes
 
 def customer_id; "ffffffffffff4fffafffffffffffff00"; end
+def zone_id; "df43995a1d8a48d28b835238bfd079b4"; end
 
 RSpec.configure do |c|
 end
