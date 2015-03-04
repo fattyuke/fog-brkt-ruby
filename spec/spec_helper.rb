@@ -9,7 +9,18 @@ $:.unshift(File.expand_path("../../lib", __FILE__))
 require "rspec/core"
 require "fog/brkt"
 
-Fog::Compute.new(provider: 'brkt')
+require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
+
+Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
+
+Excon.ssl_verify_peer = false
+
+def compute
+  return @compute if @compute
+
+  @compute = Fog::Compute.new(provider: 'brkt')
+end
+compute # touch compute service to load models & requests classes
 
 RSpec.configure do |c|
 end
