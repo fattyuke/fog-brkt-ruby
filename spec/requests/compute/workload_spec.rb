@@ -1,6 +1,5 @@
 describe "workload requests" do
-  customer_id = "ffffffffffff4fffafffffffffffff00"
-  zone_id     = "df43995a1d8a48d28b835238bfd079b4"
+  zone_id = "df43995a1d8a48d28b835238bfd079b4"
 
   let(:workload_format) do
     {

@@ -22,5 +22,7 @@ def compute
 end
 compute # touch compute service to load models & requests classes
 
+def customer_id; "ffffffffffff4fffafffffffffffff00"; end
+
 RSpec.configure do |c|
 end

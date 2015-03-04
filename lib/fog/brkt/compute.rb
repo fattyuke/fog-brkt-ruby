@@ -85,8 +85,29 @@ module Fog
 
         def self.data
           @data ||= {
-            billing_groups: {},
-            workloads:      {}
+            :billing_groups => {},
+            :workloads      => {},
+            :zones          => {
+              "df43995a1d8a48d28b835238bfd079b4" => {
+                "customer"             => "ffffffffffff4fffafffffffffffff00",
+                "use_main_route_table" => false,
+                "network"              => "2ebf551a7de24bfea2280dcdc79ae0df",
+                "description"          => "",
+                "modified_time"        => "2015-02-23T22:18:59.064137+00:00",
+                "requested_state"      => "AVAILABLE",
+                "created_by"           => "berndt@brkt.com",
+                "provider_zone"        => {
+                  "state" => "IGNORE",
+                  "why"   => ""
+                },
+                "created_time"         => "2015-02-23T22:18:59.064097+00:00",
+                "modified_by"          => "user@example.com",
+                "cidr_block"           => "10.0.0.0/18",
+                "metadata"             => {},
+                "id"                   => "df43995a1d8a48d28b835238bfd079b4",
+                "name"                 => "customer"
+              }
+            }
           }
         end
 

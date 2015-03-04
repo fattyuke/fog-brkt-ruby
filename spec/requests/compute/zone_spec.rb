@@ -22,16 +22,10 @@ describe "zone requests" do
   end
 
   describe "#list_zones" do
-    before(:all) { @response = compute.list_zones }
-
     describe "response" do
-      subject { @response.body }
+      subject { compute.list_zones.body }
 
-      it do
-        # TODO: remove pending
-        pending if Fog.mocking?
-        is_expected.to have_format([zone_format])
-      end
+      it { is_expected.to have_format([zone_format]) }
     end
   end
 end

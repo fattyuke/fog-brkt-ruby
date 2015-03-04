@@ -13,6 +13,7 @@ module Fog
       class Mock
         def list_zones
           response = Excon::Response.new
+          response.body = self.data[:zones].map { |id, zone_data| zone_data }
           response
         end
       end

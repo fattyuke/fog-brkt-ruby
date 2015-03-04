@@ -1,6 +1,4 @@
 describe "billing group requests" do
-  customer_id = "ffffffffffff4fffafffffffffffff00"
-
   let(:billing_group_format) do
     {
       'customer'          => String,
@@ -25,16 +23,15 @@ describe "billing group requests" do
 
   describe "#create_billing_group" do
     before(:all) do
-      @response = compute.create_billing_group(customer_id, "name", {
+      @group_name = Fog::Brkt::Mock.name
+      @response = compute.create_billing_group(customer_id, @group_name, {
         description: "description",
         members:     ["user@example.com"]
       })
       @billing_group_id = @response.body["id"]
     end
 
-    after(:all) do
-      compute.delete_billing_group(@billing_group_id)
-    end
+    after(:all) { compute.delete_billing_group(@billing_group_id) }
 
     describe "response" do
       subject { @response.body }
@@ -42,7 +39,7 @@ describe "billing group requests" do
       it { is_expected.to have_format(billing_group_format) }
       it { expect(subject["id"]).to_not be_nil }
       it { expect(subject["customer"]).to eq customer_id }
-      it { expect(subject["name"]).to eq "name" }
+      it { expect(subject["name"]).to eq @group_name }
       it { expect(subject["description"]).to eq "description" }
       it { expect(subject["number_of_members"]).to eq 1 }
     end
@@ -50,7 +47,10 @@ describe "billing group requests" do
 
   describe "#list_billing_groups" do
     before(:all) do
-      @billing_group = compute.billing_groups.create(:customer_id => customer_id, :name => "test")
+      @billing_group = compute.billing_groups.create(
+        :customer_id => customer_id,
+        :name        => Fog::Brkt::Mock.name
+      )
       @response = compute.list_billing_groups
     end
 
