@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Brkt::BillingGroup
 
         def all
-          service.list_billing_groups
+          load(service.list_billing_groups)
         end
 
         def get(id)

@@ -31,6 +31,7 @@ module Fog
       request :delete_workload
       request :list_workloads
       request :list_zones
+      request :list_machine_types
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -106,6 +107,18 @@ module Fog
                 "metadata"             => {},
                 "id"                   => "df43995a1d8a48d28b835238bfd079b4",
                 "name"                 => "customer"
+              }
+            },
+            :machine_types   => {
+              "565f94793df94bbba3f45ae2745ee23a" => {
+                "cpu_cores"            => 4,
+                "supports_pv"          => true,
+                "provider"             => 1,
+                "encrypted_storage_gb" => 36.0,
+                "ram"                  => 15.0,
+                "id"                   => "565f94793df94bbba3f45ae2745ee23a",
+                "hourly_cost"          => "0.49",
+                "storage_gb"           => 80
               }
             }
           }
