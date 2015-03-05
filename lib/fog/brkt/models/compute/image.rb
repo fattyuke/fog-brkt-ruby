@@ -9,8 +9,8 @@ module Fog
         attribute :name
         attribute :description
         attribute :state
-        attribute :base,      :aliases => 'is_base',      :type => :boolean
-        attribute :encrypted, :aliases => 'is_encrypted', :type => :boolean
+        attribute :base,      :aliases => :is_base,      :type => :boolean
+        attribute :encrypted, :aliases => :is_encrypted, :type => :boolean
       end
     end
   end

@@ -8,9 +8,9 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :billing_group_id, :aliases => 'billing_group'
-        attribute :zone_id,          :aliases => 'zone'
-        attribute :max_cost, :type => :float
+        attribute :billing_group_id, :aliases => :billing_group
+        attribute :zone_id,          :aliases => :zone
+        attribute :max_cost,                                     :type => :float
 
         def save
           requires :billing_group_id, :name, :zone_id

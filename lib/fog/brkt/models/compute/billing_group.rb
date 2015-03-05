@@ -8,8 +8,8 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :members, :type => :array
-        attribute :customer_id, :aliases => 'customer'
+        attribute :members,                            :type => :array
+        attribute :customer_id, :aliases => :customer
 
         def save
           requires :name, :customer_id
