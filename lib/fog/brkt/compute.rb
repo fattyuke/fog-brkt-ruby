@@ -24,6 +24,8 @@ module Fog
       collection :workloads
       model      :machine_type
       collection :machine_types
+      model      :computing_cell
+      collection :computing_cells
 
       request_path "fog/brkt/requests/compute"
       request :create_billing_group
@@ -38,6 +40,8 @@ module Fog
       request :delete_server
       request :list_images
       request :create_volume
+      request :create_computing_cell
+      request :delete_computing_cell
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -92,11 +96,12 @@ module Fog
 
         def self.data
           @data ||= {
-            :billing_groups => {},
-            :workloads      => {},
-            :servers        => {},
-            :volumes        => {},
-            :zones          => {
+            :computing_cells => {},
+            :billing_groups  => {},
+            :workloads       => {},
+            :servers         => {},
+            :volumes         => {},
+            :zones           => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
                 "use_main_route_table" => false,

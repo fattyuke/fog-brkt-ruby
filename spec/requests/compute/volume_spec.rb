@@ -46,17 +46,21 @@ describe "volume requests" do
 
   describe "#create_volume" do
     before(:all) do
-      @cell_id = "78830636ebcb4151b2d3d638258fd785"
+      @cell = compute.computing_cells.create(
+        :name => Fog::Brkt::Mock.name,
+        :cidr => "10.0.0.0/16"
+      )
       @volume_name = Fog::Brkt::Mock.name
       @billing_group = compute.billing_groups.create(
         :customer_id => customer_id,
         :name        => Fog::Brkt::Mock.name
       )
-      @response = compute.create_volume(@volume_name, @cell_id, @billing_group.id)
+      @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id)
     end
 
     after(:all) do
       @billing_group.destroy
+      @cell.destroy
     end
 
     describe "response" do
@@ -67,7 +71,7 @@ describe "volume requests" do
         it { is_expected.to have_format(volume_format) }
         it { expect(subject["id"]).to_not be_nil }
         it { expect(subject["name"]).to eq @volume_name }
-        it { expect(subject["computing_cell"]).to eq @cell_id }
+        it { expect(subject["computing_cell"]).to eq @cell.id }
         it { expect(subject["billing_group"]).to eq @billing_group.id }
       else
         pending
