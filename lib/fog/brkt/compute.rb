@@ -37,6 +37,7 @@ module Fog
       request :create_server
       request :delete_server
       request :list_images
+      request :create_volume
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -94,6 +95,7 @@ module Fog
             :billing_groups => {},
             :workloads      => {},
             :servers        => {},
+            :volumes        => {},
             :zones          => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
