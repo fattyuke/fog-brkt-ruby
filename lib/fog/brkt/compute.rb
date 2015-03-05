@@ -42,6 +42,7 @@ module Fog
       request :create_volume
       request :create_computing_cell
       request :delete_computing_cell
+      request :list_computing_cells
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"

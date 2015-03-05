@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Brkt::ComputingCell
 
         def all
-          raise NotImplementedError
+          load(service.list_computing_cells.body)
         end
       end
     end

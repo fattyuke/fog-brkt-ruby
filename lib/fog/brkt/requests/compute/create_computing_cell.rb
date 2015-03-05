@@ -26,7 +26,7 @@ module Fog
             "id"                      => id,
             "name"                    => name,
             "description"             => "",
-            "customer"                => "ffffffffffff4fffafffffffffffff00",
+            "customer"                => Fog::Brkt::Mock.id,
             "created_by"              => "user@example.com",
             "modified_by"             => "user@example.com",
             "requested_state"         => "AVAILABLE",
@@ -45,7 +45,7 @@ module Fog
             "network" => {
               "id"               => network_id,
               "name"             => name,
-              "customer"         => "ffffffffffff4fffafffffffffffff00",
+              "customer"         => Fog::Brkt::Mock.id,
               "modified_by"      => "maksim.zhylinski@brkt.com",
               "description"      => "",
               "computing_cell"   => "53577723079a4220ade3081a12fb3492",

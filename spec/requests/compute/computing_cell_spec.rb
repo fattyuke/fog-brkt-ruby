@@ -58,4 +58,22 @@ describe "computing cell requests" do
       it { expect(subject["network"]["cidr_block"]).to eq "10.0.0.0/16" }
     end
   end
+
+  describe "#list_computing_cells" do
+    before(:all) do
+      @cell = compute.computing_cells.create(
+        :name => Fog::Brkt::Mock.name,
+        :cidr => "10.0.0.0/16"
+      )
+      @response = compute.list_computing_cells
+    end
+
+    after(:all) { @cell.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format([computing_cell_format]) }
+    end
+  end
 end
