@@ -8,9 +8,9 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :workload_id,     :aliases => :workload
-        attribute :image_id,        :aliases => :image_definition
-        attribute :machine_type_id, :aliases => :machine_type
+        attribute :workload_id,     :aliases => "workload"
+        attribute :image_id,        :aliases => "image_definition"
+        attribute :machine_type_id, :aliases => "machine_type"
 
         def save
           requires :name, :image_id, :machine_type_id, :workload_id

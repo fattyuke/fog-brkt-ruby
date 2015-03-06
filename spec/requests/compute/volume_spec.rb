@@ -47,8 +47,10 @@ describe "volume requests" do
   describe "#create_volume" do
     before(:all) do
       @cell = compute.computing_cells.create(
-        :name => Fog::Brkt::Mock.name,
-        :cidr => "10.0.0.0/16"
+        :name    => Fog::Brkt::Mock.name,
+        :network => {
+          :cidr => "10.0.0.0/16"
+        }
       )
       @volume_name = Fog::Brkt::Mock.name
       @billing_group = compute.billing_groups.create(
@@ -59,8 +61,8 @@ describe "volume requests" do
     end
 
     after(:all) do
-      @billing_group.destroy
-      @cell.destroy
+      @billing_group.destroy if @billing_group
+      @cell.destroy if @cell
     end
 
     describe "response" do

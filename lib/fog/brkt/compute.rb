@@ -26,6 +26,7 @@ module Fog
       collection :machine_types
       model      :computing_cell
       collection :computing_cells
+      model      :network
 
       request_path "fog/brkt/requests/compute"
       request :create_billing_group
