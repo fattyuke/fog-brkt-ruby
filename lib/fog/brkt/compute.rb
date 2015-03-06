@@ -38,6 +38,7 @@ module Fog
       request :delete_workload
       request :list_workloads
       request :create_network_zone
+      request :delete_network_zone
       request :list_network_zones
       request :list_machine_types
       request :create_server

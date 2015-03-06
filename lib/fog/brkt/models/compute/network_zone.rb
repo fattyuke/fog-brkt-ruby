@@ -14,6 +14,17 @@ module Fog
 
         def save
           requires :network_id, :name, :cidr_block
+
+          data = service.create_network_zone(network_id, cidr_block, name).body
+          merge_attributes(data)
+          true
+        end
+
+        def destroy
+          requires :id
+
+          service.delete_network_zone(id)
+          true
         end
 
         alias_method :use_main_route_table?, :use_main_route_table

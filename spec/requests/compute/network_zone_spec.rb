@@ -32,6 +32,7 @@ describe "network zone requests" do
     end
 
     after(:all) do
+      compute.delete_network_zone(@response.body["id"])
       @cell.destroy
       # wait while computing cell will be deleted completely and API will return 404
       # to prevent hitting the limit
