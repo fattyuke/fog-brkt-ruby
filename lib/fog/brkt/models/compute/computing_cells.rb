@@ -10,6 +10,10 @@ module Fog
         def all
           load(service.list_computing_cells.body)
         end
+
+        def get(id)
+          new(service.get_computing_cell(id).body)
+        end
       end
     end
   end

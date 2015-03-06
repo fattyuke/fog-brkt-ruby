@@ -1,4 +1,5 @@
 require "fog/core/model"
+require "fog/core/association"
 
 module Fog
   module Compute
@@ -9,6 +10,15 @@ module Fog
         attribute :cidr,       :aliases => [:cidr_block, "cidr_block"]
         attribute :name
         attribute :description
+
+        def zones
+          @zones ||= begin
+            Fog::Compute::Brkt::NetworkZones.new({
+              :service => service,
+              :network => self
+            })
+          end
+        end
       end
     end
   end

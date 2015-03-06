@@ -61,8 +61,11 @@ describe "volume requests" do
     end
 
     after(:all) do
-      @billing_group.destroy if @billing_group
-      @cell.destroy if @cell
+      @billing_group.destroy
+      @cell.destroy
+      # wait while computing cell will be deleted completely and API will return 404
+      # to prevent hitting the limit
+      Fog.wait_for { @cell.completely_deleted? }
     end
 
     describe "response" do

@@ -30,28 +30,40 @@ describe "server requests" do
     }
   end
 
+  before(:all) do
+    @cell = compute.computing_cells.create({
+      :name    => Fog::Brkt::Mock.name,
+      :network => { :cidr_block => "10.0.0.0/16" }
+    })
+    @billing_group = compute.billing_groups.create(
+      :customer_id => customer_id,
+      :name        => Fog::Brkt::Mock.name
+    )
+    @workload = compute.workloads.create(
+      :billing_group_id => @billing_group.id,
+      :zone_id          => @cell.zones.first.id,
+      :name             => Fog::Brkt::Mock.name
+    )
+  end
+
+  after(:all) do
+    @workload.destroy
+    @billing_group.destroy
+    @cell.destroy
+    # wait while computing cell will be deleted completely and API will return 404
+    # to prevent hitting the limit
+    Fog.wait_for { @cell.completely_deleted? }
+  end
+
   describe "#create_server" do
     before(:all) do
-      @billing_group = compute.billing_groups.create(
-        :customer_id => customer_id,
-        :name        => Fog::Brkt::Mock.name
-      )
-      @workload = compute.workloads.create(
-        :billing_group_id => @billing_group.id,
-        :zone_id          => zone_id,
-        :name             => Fog::Brkt::Mock.name
-      )
       @machine_type = compute.machine_types.first
       image = compute.images.first
       @server_name = Fog::Brkt::Mock.name
       @response = compute.create_server(image.id, @machine_type.id, @server_name, @workload.id)
     end
 
-    after(:all) do
-      @workload.destroy
-      @billing_group.destroy
-      compute.delete_server(@response.body["id"])
-    end
+    after(:all) { compute.delete_server(@response.body["id"]) }
 
     describe "response" do
       subject { @response.body }

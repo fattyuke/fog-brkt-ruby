@@ -63,19 +63,45 @@ describe "computing cell requests" do
     before(:all) do
       @cell = compute.computing_cells.create(
         :name    => Fog::Brkt::Mock.name,
-        :network => {
-          :cidr_block => "10.0.0.0/16"
-        }
+        :network => { :cidr_block => "10.0.0.0/16" }
       )
       @response = compute.list_computing_cells
     end
 
-    after(:all) { @cell.destroy }
+    after(:all) do
+      @cell.destroy
+      # wait while computing cell will be deleted completely and API will return 404
+      # to prevent hitting the limit
+      Fog.wait_for { @cell.completely_deleted? }
+    end
 
     describe "response" do
       subject { @response.body }
 
       it { is_expected.to have_format([computing_cell_format]) }
+    end
+  end
+
+  describe "#get_computing_cell" do
+    before(:all) do
+      @cell = compute.computing_cells.create(
+        :name    => Fog::Brkt::Mock.name,
+        :network => { :cidr_block => "10.0.0.0/16" }
+      )
+      @response = compute.get_computing_cell(@cell.id)
+    end
+
+    after(:all) do
+      @cell.destroy
+      # wait while computing cell will be deleted completely and API will return 404
+      # to prevent hitting the limit
+      Fog.wait_for { @cell.completely_deleted? }
+    end
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(computing_cell_format) }
     end
   end
 end

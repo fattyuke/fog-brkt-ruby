@@ -24,48 +24,44 @@ describe "workload requests" do
     }
   end
 
+  before(:all) do
+    @cell = compute.computing_cells.create({
+      :name    => Fog::Brkt::Mock.name,
+      :network => { :cidr_block => "10.0.0.0/16" }
+    })
+    @billing_group = compute.billing_groups.create(
+      :customer_id => customer_id,
+      :name        => Fog::Brkt::Mock.name
+    )
+  end
+
+  after(:all) do
+    @billing_group.destroy
+    @cell.destroy
+    # wait while computing cell will be deleted completely and API will return 404
+    # to prevent hitting the limit
+    Fog.wait_for { @cell.completely_deleted? }
+  end
+
   describe "#create_workload" do
     before(:all) do
       @workload_name = Fog::Brkt::Mock.name
-      @billing_group = compute.billing_groups.create(
-        :customer_id => customer_id,
-        :name        => Fog::Brkt::Mock.name
-      )
-      @response = compute.create_workload(@billing_group.id, @workload_name, zone_id)
+      @response = compute.create_workload(@billing_group.id, @workload_name, @cell.zones.first.id)
     end
 
-    after(:all) do
-      compute.delete_workload(@response.body["id"]) if @response
-      @billing_group.destroy
-    end
+    after(:all) { compute.delete_workload(@response.body["id"]) }
 
     describe "response" do
       subject { @response.body }
 
       it { is_expected.to have_format(workload_format) }
-      it { expect(subject["name"]).to eq @workload_name }
       it { expect(subject["id"]).to_not be_nil }
+      it { expect(subject["name"]).to eq @workload_name }
     end
   end
 
   describe "#list_workloads" do
-    before(:all) do
-      @billing_group = compute.billing_groups.create(
-        :customer_id => customer_id,
-        :name        => Fog::Brkt::Mock.name
-      )
-      @workload = compute.workloads.create(
-        :billing_group_id => @billing_group.id,
-        :name             => Fog::Brkt::Mock.name,
-        :zone_id          => zone_id
-      )
-      @response = compute.list_workloads
-    end
-
-    after(:all) do
-      @workload.destroy
-      @billing_group.destroy
-    end
+    before(:all) { @response = compute.list_workloads }
 
     describe "response" do
       subject { @response.body }

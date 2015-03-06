@@ -14,6 +14,7 @@ require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_help
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
 
 Excon.ssl_verify_peer = false
+Fog.timeout = 300 # wait for no longer than 5 minutes
 
 def compute
   return @compute if @compute
@@ -23,7 +24,6 @@ end
 compute # touch compute service to load models & requests classes
 
 def customer_id; "ffffffffffff4fffafffffffffffff00"; end
-def zone_id; "df43995a1d8a48d28b835238bfd079b4"; end
 
 RSpec.configure do |c|
 end

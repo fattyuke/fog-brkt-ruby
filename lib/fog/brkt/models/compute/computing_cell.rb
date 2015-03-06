@@ -14,7 +14,7 @@ module Fog
 
         def initialize(options={})
           self.provider = "AWS"
-          self.network = Network.new
+          self.network = Network.new(:service => options[:service])
           super
         end
 
@@ -35,11 +35,24 @@ module Fog
           true
         end
 
+        def zones
+          network.zones
+        end
+
         def network=(new_network)
           if network && new_network.is_a?(Hash)
             network.merge_attributes(new_network)
           else
             associations[:network] = new_network
+          end
+        end
+
+        def completely_deleted?
+          begin
+            reload
+            false
+          rescue
+            true
           end
         end
       end

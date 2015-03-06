@@ -27,6 +27,8 @@ module Fog
       model      :computing_cell
       collection :computing_cells
       model      :network
+      model      :network_zone
+      collection :network_zones
 
       request_path "fog/brkt/requests/compute"
       request :create_billing_group
@@ -35,7 +37,8 @@ module Fog
       request :create_workload
       request :delete_workload
       request :list_workloads
-      request :list_zones
+      request :create_network_zone
+      request :list_network_zones
       request :list_machine_types
       request :create_server
       request :delete_server
@@ -43,6 +46,7 @@ module Fog
       request :create_volume
       request :create_computing_cell
       request :delete_computing_cell
+      request :get_computing_cell
       request :list_computing_cells
 
       class Real
@@ -111,7 +115,7 @@ module Fog
                 "description"          => "",
                 "modified_time"        => "2015-02-23T22:18:59.064137+00:00",
                 "requested_state"      => "AVAILABLE",
-                "created_by"           => "berndt@brkt.com",
+                "created_by"           => "user@example.com",
                 "provider_zone"        => {
                   "state" => "IGNORE",
                   "why"   => ""
