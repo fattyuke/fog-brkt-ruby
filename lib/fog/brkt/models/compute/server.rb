@@ -12,13 +12,19 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :workload_id,     :aliases => "workload"
-        attribute :image_id,        :aliases => "image_definition"
-        attribute :machine_type_id, :aliases => "machine_type"
+        attribute :workload_id,        :aliases => "workload"
+        attribute :image_id,           :aliases => "image_definition"
+        attribute :machine_type_id,    :aliases => "machine_type"
         attribute :provider_instance
+        attribute :internet_accessible,                                :type => :boolean
 
         def ready?
+          requires :provider_instance
           provider_instance["state"] == State::READY
+        end
+
+        def internet_accessible?
+          !!internet_accessible
         end
 
         def save
