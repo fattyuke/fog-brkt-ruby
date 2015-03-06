@@ -43,6 +43,7 @@ module Fog
       request :list_machine_types
       request :create_server
       request :delete_server
+      request :list_servers
       request :list_images
       request :create_volume
       request :create_computing_cell

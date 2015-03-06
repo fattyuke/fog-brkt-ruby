@@ -76,4 +76,21 @@ describe "server requests" do
       it { expect(subject["ram"]).to       eq @machine_type.ram       }
     end
   end
+
+  describe "#list_servers" do
+    before(:all) do
+      @machine_type = compute.machine_types.first
+      image = compute.images.first
+      @server_name = Fog::Brkt::Mock.name
+      @response = compute.create_server(image.id, @machine_type.id, @server_name, @workload.id)
+    end
+
+    after(:all) { compute.delete_server(@response.body["id"]) }
+
+    describe "response" do
+      subject { compute.list_servers.body }
+
+      it { is_expected.to have_format([server_format]) }
+    end
+  end
 end

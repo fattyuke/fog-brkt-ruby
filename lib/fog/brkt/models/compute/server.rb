@@ -20,12 +20,6 @@ module Fog
           true
         end
 
-        def start
-        end
-
-        def stop(force=false)
-        end
-
         def reboot
         end
 
@@ -33,6 +27,7 @@ module Fog
           requires :id
 
           service.delete_server(id)
+          true
         end
       end
     end

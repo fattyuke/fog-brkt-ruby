@@ -6,6 +6,10 @@ module Fog
     class Brkt
       class Servers < Fog::Collection
         model Fog::Compute::Brkt::Server
+
+        def all(filter={})
+          load(service.list_servers(filter).body)
+        end
       end
     end
   end
