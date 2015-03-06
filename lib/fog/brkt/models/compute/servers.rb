@@ -10,6 +10,10 @@ module Fog
         def all(filter={})
           load(service.list_servers(filter).body)
         end
+
+        def get(id)
+          new(service.get_server(id).body)
+        end
       end
     end
   end

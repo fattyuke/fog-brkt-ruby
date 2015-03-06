@@ -41,8 +41,10 @@ module Fog
       request :delete_network_zone
       request :list_network_zones
       request :list_machine_types
+      request :get_server
       request :create_server
       request :delete_server
+      request :reboot_server
       request :list_servers
       request :list_images
       request :create_volume

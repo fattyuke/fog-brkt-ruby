@@ -1,4 +1,7 @@
 describe "server requests" do
+  machine_type = compute.machine_types.first
+  image = compute.images.first
+
   let(:server_format) do
     {
       "id"                  => String,
@@ -57,10 +60,8 @@ describe "server requests" do
 
   describe "#create_server" do
     before(:all) do
-      @machine_type = compute.machine_types.first
-      image = compute.images.first
       @server_name = Fog::Brkt::Mock.name
-      @response = compute.create_server(image.id, @machine_type.id, @server_name, @workload.id)
+      @response = compute.create_server(image.id, machine_type.id, @server_name, @workload.id)
     end
 
     after(:all) { compute.delete_server(@response.body["id"]) }
@@ -72,25 +73,67 @@ describe "server requests" do
       it { expect(subject["id"]).to_not be_nil }
       it { expect(subject["name"]).to      eq @server_name            }
       it { expect(subject["workload"]).to  eq @workload.id            }
-      it { expect(subject["cpu_cores"]).to eq @machine_type.cpu_cores }
-      it { expect(subject["ram"]).to       eq @machine_type.ram       }
+      it { expect(subject["cpu_cores"]).to eq machine_type.cpu_cores }
+      it { expect(subject["ram"]).to       eq machine_type.ram       }
     end
   end
 
   describe "#list_servers" do
     before(:all) do
-      @machine_type = compute.machine_types.first
-      image = compute.images.first
-      @server_name = Fog::Brkt::Mock.name
-      @response = compute.create_server(image.id, @machine_type.id, @server_name, @workload.id)
+      @server = compute.servers.create(
+        :name            => Fog::Brkt::Mock.name,
+        :image_id        => image.id,
+        :machine_type_id => machine_type.id,
+        :workload_id     => @workload.id
+      )
     end
 
-    after(:all) { compute.delete_server(@response.body["id"]) }
+    after(:all) { @server.destroy }
 
     describe "response" do
       subject { compute.list_servers.body }
 
       it { is_expected.to have_format([server_format]) }
+    end
+  end
+
+  describe "#get_server" do
+    before(:all) do
+      @server = compute.servers.create(
+        :name            => Fog::Brkt::Mock.name,
+        :image_id        => image.id,
+        :machine_type_id => machine_type.id,
+        :workload_id     => @workload.id
+      )
+      @response = compute.get_server(@server.id)
+    end
+
+    after(:all) { @server.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(server_format) }
+    end
+  end
+
+  describe "#reboot_server" do
+    before(:all) do
+      @server = compute.servers.create(
+        :name            => Fog::Brkt::Mock.name,
+        :image_id        => image.id,
+        :machine_type_id => machine_type.id,
+        :workload_id     => @workload.id
+      )
+      @server.wait_for { ready? }
+    end
+
+    after(:all) { @server.destroy }
+
+    describe "response" do
+      subject { compute.reboot_server(@server.id).body }
+
+      it { is_expected.to have_format({"request_id" => String }) }
     end
   end
 end

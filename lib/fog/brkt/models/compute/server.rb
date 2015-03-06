@@ -4,6 +4,10 @@ module Fog
   module Compute
     class Brkt
       class Server < Fog::Compute::Server
+        module State
+          READY = "READY"
+        end
+
         identity :id
 
         attribute :name
@@ -11,6 +15,11 @@ module Fog
         attribute :workload_id,     :aliases => "workload"
         attribute :image_id,        :aliases => "image_definition"
         attribute :machine_type_id, :aliases => "machine_type"
+        attribute :provider_instance
+
+        def ready?
+          provider_instance["state"] == State::READY
+        end
 
         def save
           requires :name, :image_id, :machine_type_id, :workload_id
@@ -21,6 +30,10 @@ module Fog
         end
 
         def reboot
+          requires :id
+
+          service.reboot_server(id)
+          true
         end
 
         def destroy

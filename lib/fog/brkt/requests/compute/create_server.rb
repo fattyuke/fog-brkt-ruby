@@ -45,7 +45,7 @@ module Fog
             "modified_by"         => "user@example.com",
             "zone"                => "df43995a1d8a48d28b835238bfd079b4",
             "provider_instance"   => {
-              "state" => "IGNORE",
+              "state" => "READY",
               "why"   => ""
             }
           }
