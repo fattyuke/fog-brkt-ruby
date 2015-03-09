@@ -8,12 +8,14 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :billing_group_id, :aliases => :billing_group
-        attribute :zone_id,          :aliases => :zone
+        attribute :billing_group, :aliases => [:billing_group_id, "billing_group_id"]
+        attribute :zone,          :aliases => [:zone_id, "zone_id"]
         attribute :max_cost,                                     :type => :float
+        attribute :state
+        attribute :requested_state
 
         def save
-          requires :billing_group_id, :name, :zone_id
+          requires :billing_group, :name, :zone
 
           data = service.create_workload(billing_group_id, name, zone_id).body
           merge_attributes(data)

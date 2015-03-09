@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Brkt::Workload
 
         def all
-          load(service.list_workloads)
+          load(service.list_workloads.body)
         end
       end
     end
