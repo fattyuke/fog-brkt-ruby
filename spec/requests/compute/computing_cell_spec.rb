@@ -61,10 +61,7 @@ describe "computing cell requests" do
 
   describe "#list_computing_cells" do
     before(:all) do
-      @cell = compute.computing_cells.create(
-        :name    => Fog::Brkt::Mock.name,
-        :network => { :cidr_block => "10.0.0.0/16" }
-      )
+      @cell = create_computing_cell
       @response = compute.list_computing_cells
     end
 
@@ -84,10 +81,7 @@ describe "computing cell requests" do
 
   describe "#get_computing_cell" do
     before(:all) do
-      @cell = compute.computing_cells.create(
-        :name    => Fog::Brkt::Mock.name,
-        :network => { :cidr_block => "10.0.0.0/16" }
-      )
+      @cell = create_computing_cell
       @response = compute.get_computing_cell(@cell.id)
     end
 

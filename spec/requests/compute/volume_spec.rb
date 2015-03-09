@@ -45,10 +45,7 @@ describe "volume requests" do
   end
 
   before(:all) do
-    @cell = compute.computing_cells.create(
-      :name    => Fog::Brkt::Mock.name,
-      :network => { :cidr => "10.0.0.0/16" }
-    )
+    @cell = create_computing_cell
     @billing_group = compute.billing_groups.create(
       :customer_id => customer_id,
       :name        => Fog::Brkt::Mock.name

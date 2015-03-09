@@ -9,21 +9,26 @@ module Fog
         attribute :name
         attribute :description
         attribute :provider
+        attribute :gateway_ip
+        attribute :provider_options, :aliases => ["provider_computing_cell", :provider_computing_cell]
 
         has_one :network, :networks
 
         def initialize(options={})
           self.provider = "AWS"
+          self.provider_options = {}
           self.network = Network.new(:service => options[:service])
           super
         end
 
         def save
           requires :name, :provider, :network
+          if provider_options.empty?
+            raise ArgumentError.new("missing provider_options are required for this operation")
+          end
 
-          data = service.create_computing_cell(name, network.cidr, provider, {
-            :aws_region => "us-west-2" # TODO: remove hardcode
-          }).body
+          data = service.create_computing_cell(name, network.cidr, provider,
+            provider_options, attributes).body
           merge_attributes(data)
           true
         end

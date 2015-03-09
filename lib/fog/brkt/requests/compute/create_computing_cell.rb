@@ -2,23 +2,24 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_computing_cell(name, cidr_block, provider, provider_options = {}, options = {})
+        def create_computing_cell(name, cidr_block, provider, provider_options={}, options={})
+          body = Fog::StringifyKeys.stringify(options).merge({
+            "name"                    => name,
+            "network"                 => { "cidr_block" => cidr_block },
+            "provider"                => provider,
+            "provider_computing_cell" => provider_options
+          })
           request(
             :expects => [201],
             :method  => "POST",
             :path    => "v1/api/config/computingcell",
-            :body    => Fog::JSON.encode({
-              :name                    => name,
-              :network                 => { :cidr_block => cidr_block },
-              :provider                => provider,
-              :provider_computing_cell => provider_options
-            })
+            :body    => Fog::JSON.encode(body)
           )
         end
       end
 
       class Mock
-        def create_computing_cell(name, cidr_block, provider, provider_options = {}, options = {})
+        def create_computing_cell(name, cidr_block, provider, provider_options={}, options={})
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           network_id = Fog::Brkt::Mock.id

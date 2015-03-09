@@ -23,10 +23,7 @@ describe "network zone requests" do
 
   describe "#create_network_zone" do
     before(:all) do
-      @cell = compute.computing_cells.create({
-        :name    => Fog::Brkt::Mock.name,
-        :network => { :cidr_block => "10.0.0.0/16" }
-      })
+      @cell = create_computing_cell
       @zone_name = Fog::Brkt::Mock.name
       @response = compute.create_network_zone(@cell.network.id, "10.0.0.0/18", @zone_name)
     end
