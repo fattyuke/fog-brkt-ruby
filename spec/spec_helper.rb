@@ -33,5 +33,9 @@ def create_computing_cell
   )
 end
 
+def fast_tests?
+  ENV["FAST_TESTS"] == "true" || ENV["FAST_TESTS"] == "1"
+end
+
 RSpec.configure do |c|
 end

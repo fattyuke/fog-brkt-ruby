@@ -36,9 +36,13 @@ module Fog
         end
 
         def save
-          requires :name, :image_definition, :machine_type, :workload
+          if persisted?
+            data = service.update_server(attributes).body
+          else
+            requires :name, :image_definition, :machine_type, :workload
 
-          data = service.create_server(image_definition, machine_type, name, workload, attributes).body
+            data = service.create_server(image_definition, machine_type, name, workload, attributes).body
+          end
           merge_attributes(data)
           true
         end

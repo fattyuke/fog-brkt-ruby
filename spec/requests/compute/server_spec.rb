@@ -114,7 +114,7 @@ describe "server requests" do
     end
   end
 
-  describe "#reboot_server" do
+  describe "#update_server" do
     before(:all) do
       @server = compute.servers.create(
         :name            => Fog::Brkt::Mock.name,
@@ -122,15 +122,40 @@ describe "server requests" do
         :machine_type_id => machine_type.id,
         :workload_id     => @workload.id
       )
-      @server.wait_for { ready? } # you cannot reboot server until it's ready
+      @response = compute.update_server(@server.id, { :name => "new name"} )
     end
 
     after(:all) { @server.destroy }
 
     describe "response" do
-      subject { compute.reboot_server(@server.id).body }
+      subject { @response.body }
 
-      it { is_expected.to have_format({"request_id" => String }) }
+      it { is_expected.to have_format(server_format) }
+      it { expect(subject["name"]).to eq "new name" }
+    end
+  end
+
+  if fast_tests?
+    pending "#reboot_server"
+  else
+    describe "#reboot_server" do
+      before(:all) do
+        @server = compute.servers.create(
+          :name            => Fog::Brkt::Mock.name,
+          :image_id        => image.id,
+          :machine_type_id => machine_type.id,
+          :workload_id     => @workload.id
+        )
+        @server.wait_for { ready? } # you cannot reboot server until it's ready
+      end
+
+      after(:all) { @server.destroy }
+
+      describe "response" do
+        subject { compute.reboot_server(@server.id).body }
+
+        it { is_expected.to have_format({"request_id" => String }) }
+      end
     end
   end
 end
