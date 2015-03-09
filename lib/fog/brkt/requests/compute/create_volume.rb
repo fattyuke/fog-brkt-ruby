@@ -37,7 +37,7 @@ module Fog
             "deleted"                     => false,
             "expired"                     => false,
             "hourly_cost"                 => nil,
-            "instance"                    => nil,
+            "instance"                    => options[:instance],
             "iops"                        => 5000,
             "iops_max"                    => 8000,
             "is_readonly"                 => false,

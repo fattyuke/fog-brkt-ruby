@@ -60,15 +60,14 @@ describe "volume requests" do
     Fog.wait_for { @cell.completely_deleted? }
   end
 
-  describe "#create_volume" do
-    before(:all) do
-      @volume_name = Fog::Brkt::Mock.name
-      @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id)
-    end
+  if Fog.mock?
+    describe "#create_volume" do
+      before(:all) do
+        @volume_name = Fog::Brkt::Mock.name
+        @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id)
+      end
 
-    describe "response" do
-      # TODO: remove this condition when bug fixed
-      if Fog.mock?
+      describe "response" do
         subject { @response.body }
 
         it { is_expected.to have_format(volume_format) }
@@ -76,9 +75,54 @@ describe "volume requests" do
         it { expect(subject["name"]).to           eq @volume_name }
         it { expect(subject["computing_cell"]).to eq @cell.id }
         it { expect(subject["billing_group"]).to  eq @billing_group.id }
-      else
-        pending
       end
     end
+
+    describe "#list_volumes" do
+      before(:all) do
+        compute.volumes.create(
+          :name              => Fog::Brkt::Mock.name,
+          :computing_cell_id => @cell.id,
+          :billing_group_id  => @billing_group.id
+        )
+        compute.volumes.create(
+          :name              => Fog::Brkt::Mock.name,
+          :computing_cell_id => @cell.id,
+          :billing_group_id  => @billing_group.id
+        )
+      end
+
+      describe "response" do
+        subject { compute.list_volumes.body }
+
+        it { is_expected.to have_format([volume_format]) }
+        it { expect(subject.size).to eq 3 } # TODO: should be 2
+      end
+    end
+
+    describe "#list_instance_volumes" do
+      before(:all) do
+        compute.volumes.create(
+          :name              => Fog::Brkt::Mock.name,
+          :computing_cell_id => @cell.id,
+          :billing_group_id  => @billing_group.id
+        )
+        compute.volumes.create(
+          :name              => Fog::Brkt::Mock.name,
+          :computing_cell_id => @cell.id,
+          :billing_group_id  => @billing_group.id,
+          :instance_id       => "foobar"
+        )
+      end
+
+      describe "response" do
+        subject { compute.list_instance_volumes("foobar").body }
+
+        it { is_expected.to have_format([volume_format]) }
+        it { expect(subject.size).to eq 1 }
+      end
+    end
+  else
+    pending("Turned off due to API bug")
   end
 end

@@ -60,6 +60,10 @@ module Fog
           service.delete_server(id)
           true
         end
+
+        def volumes
+          service.volumes(:instance => self)
+        end
       end
     end
   end

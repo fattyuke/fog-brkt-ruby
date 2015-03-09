@@ -49,6 +49,8 @@ module Fog
       request :list_servers
       request :list_images
       request :create_volume
+      request :list_volumes
+      request :list_instance_volumes
       request :create_computing_cell
       request :delete_computing_cell
       request :get_computing_cell

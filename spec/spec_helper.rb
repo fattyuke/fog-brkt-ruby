@@ -25,12 +25,12 @@ compute # touch compute service to load models & requests classes
 
 def customer_id; "ffffffffffff4fffafffffffffffff00"; end
 
-def create_computing_cell
-  compute.computing_cells.create(
+def create_computing_cell(options={})
+  compute.computing_cells.create({
     :name             => Fog::Brkt::Mock.name,
     :network          => { :cidr_block => "10.0.0.0/16" },
     :provider_options => { :aws_region => "us-west-2" }
-  )
+  }.merge(options))
 end
 
 def fast_tests?

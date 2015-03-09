@@ -17,7 +17,7 @@ module Fog
         def save
           requires :billing_group, :name, :zone
 
-          data = service.create_workload(billing_group_id, name, zone_id).body
+          data = service.create_workload(billing_group, name, zone).body
           merge_attributes(data)
           true
         end

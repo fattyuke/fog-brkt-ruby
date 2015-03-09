@@ -136,7 +136,7 @@ describe "server requests" do
   end
 
   if fast_tests?
-    pending "#reboot_server"
+    pending "#reboot_server", "Disabled to speed up tests"
   else
     describe "#reboot_server" do
       before(:all) do
