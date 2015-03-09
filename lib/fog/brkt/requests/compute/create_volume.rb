@@ -7,11 +7,11 @@ module Fog
             :expects => [201],
             :method  => "POST",
             :path    => "v1/api/config/brktvolume",
-            :body    => Fog::JSON.encode({
+            :body    => Fog::JSON.encode(options.merge({
               :name           => name,
               :computing_cell => computing_cell_id,
               :billing_group  => billing_group_id
-            }.merge(options))
+            }))
           )
         end
       end

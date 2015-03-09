@@ -1,6 +1,6 @@
 describe "server requests" do
   machine_type = compute.machine_types.first
-  image = compute.images.first
+  image        = compute.images.first
 
   let(:server_format) do
     {
@@ -125,7 +125,7 @@ describe "server requests" do
         :machine_type_id => machine_type.id,
         :workload_id     => @workload.id
       )
-      @server.wait_for { ready? }
+      @server.wait_for { ready? } # you cannot reboot server until it's ready
     end
 
     after(:all) { @server.destroy }

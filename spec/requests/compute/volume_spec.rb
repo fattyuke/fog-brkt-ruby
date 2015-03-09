@@ -44,28 +44,29 @@ describe "volume requests" do
     }
   end
 
+  before(:all) do
+    @cell = compute.computing_cells.create(
+      :name    => Fog::Brkt::Mock.name,
+      :network => { :cidr => "10.0.0.0/16" }
+    )
+    @billing_group = compute.billing_groups.create(
+      :customer_id => customer_id,
+      :name        => Fog::Brkt::Mock.name
+    )
+  end
+
+  after(:all) do
+    @billing_group.destroy
+    @cell.destroy
+    # wait while computing cell will be deleted completely and API will return 404
+    # to prevent hitting the limit
+    Fog.wait_for { @cell.completely_deleted? }
+  end
+
   describe "#create_volume" do
     before(:all) do
-      @cell = compute.computing_cells.create(
-        :name    => Fog::Brkt::Mock.name,
-        :network => {
-          :cidr => "10.0.0.0/16"
-        }
-      )
       @volume_name = Fog::Brkt::Mock.name
-      @billing_group = compute.billing_groups.create(
-        :customer_id => customer_id,
-        :name        => Fog::Brkt::Mock.name
-      )
       @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id)
-    end
-
-    after(:all) do
-      @billing_group.destroy
-      @cell.destroy
-      # wait while computing cell will be deleted completely and API will return 404
-      # to prevent hitting the limit
-      Fog.wait_for { @cell.completely_deleted? }
     end
 
     describe "response" do
@@ -75,9 +76,9 @@ describe "volume requests" do
 
         it { is_expected.to have_format(volume_format) }
         it { expect(subject["id"]).to_not be_nil }
-        it { expect(subject["name"]).to eq @volume_name }
+        it { expect(subject["name"]).to           eq @volume_name }
         it { expect(subject["computing_cell"]).to eq @cell.id }
-        it { expect(subject["billing_group"]).to eq @billing_group.id }
+        it { expect(subject["billing_group"]).to  eq @billing_group.id }
       else
         pending
       end

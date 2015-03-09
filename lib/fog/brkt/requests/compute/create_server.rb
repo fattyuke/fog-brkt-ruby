@@ -2,23 +2,24 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_server(image_id, machine_type_id, name, workload_id, options = {})
+        def create_server(image_id, machine_type_id, name, workload_id, options={})
+          body = Fog::StringifyKeys.stringify(options).merge({
+            "image_definition" => image_id,
+            "machine_type"     => machine_type_id,
+            "name"             => name,
+            "workload"         => workload_id
+          })
           request(
             :expects => [201],
             :method  => "POST",
             :path    => "v2/api/config/instance",
-            :body    => Fog::JSON.encode({
-              :image_definition => image_id,
-              :machine_type     => machine_type_id,
-              :name             => name,
-              :workload         => workload_id
-            })
+            :body    => Fog::JSON.encode(body)
           )
         end
       end
 
       class Mock
-        def create_server(image_id, machine_type_id, name, workload_id, options = {})
+        def create_server(image_id, machine_type_id, name, workload_id, options={})
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           data = {
@@ -37,7 +38,7 @@ module Fog
             "internet_accessible" => false,
             "machine_type"        => machine_type_id,
             "created_time"        => "2015-03-04T22:32:02.496133+00:00",
-            "internet_ip_address" => nil,
+            "internet_ip_address" => "127.0.0.1",
             "ip_address"          => nil,
             "security_groups"     => [],
             "billing_group"       => nil,
