@@ -24,7 +24,7 @@ describe "billing group requests" do
   describe "#create_billing_group" do
     before(:all) do
       @group_name = Fog::Brkt::Mock.name
-      @response = compute.create_billing_group(customer_id, @group_name, {
+      @response = compute.create_billing_group(compute.customer.id, @group_name, {
         description: "description",
         members:     ["user@example.com"]
       })
@@ -38,7 +38,7 @@ describe "billing group requests" do
 
       it { is_expected.to have_format(billing_group_format) }
       it { expect(subject["id"]).to_not be_nil }
-      it { expect(subject["customer"]).to eq customer_id }
+      it { expect(subject["customer"]).to eq compute.customer.id }
       it { expect(subject["name"]).to eq @group_name }
       it { expect(subject["description"]).to eq "description" }
       it { expect(subject["number_of_members"]).to eq 1 }
@@ -48,7 +48,7 @@ describe "billing group requests" do
   describe "#list_billing_groups" do
     before(:all) do
       @billing_group = compute.billing_groups.create(
-        :customer_id => customer_id,
+        :customer_id => compute.customer.id,
         :name        => Fog::Brkt::Mock.name
       )
       @response = compute.list_billing_groups

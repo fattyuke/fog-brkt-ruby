@@ -27,7 +27,7 @@ describe "workload requests" do
   before(:all) do
     @cell = create_computing_cell
     @billing_group = compute.billing_groups.create(
-      :customer_id => customer_id,
+      :customer_id => compute.customer.id,
       :name        => Fog::Brkt::Mock.name
     )
   end

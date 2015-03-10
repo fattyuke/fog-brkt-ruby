@@ -12,6 +12,7 @@ module Fog
       requires :brkt_public_access_token, :brkt_private_mac_key
 
       model_path "fog/brkt/models/compute"
+      model      :customer
       model      :billing_group
       collection :billing_groups
       model      :server
@@ -31,6 +32,7 @@ module Fog
       collection :network_zones
 
       request_path "fog/brkt/requests/compute"
+      request :get_customer
       request :create_billing_group
       request :delete_billing_group
       request :get_billing_group
@@ -87,6 +89,12 @@ module Fog
           response
         end
 
+        def customer
+          @customer ||= begin
+            Customer.new(get_customer.body)
+          end
+        end
+
         private
 
         def build_auth(uri, method)
@@ -110,8 +118,18 @@ module Fog
           @public_access_token = options[:public_access_token]
         end
 
+        def customer
+          @customer ||= begin
+            Customer.new(get_customer.body)
+          end
+        end
+
         def self.data
           @data ||= {
+            :customer        => {
+              :id   => Fog::Brkt::Mock.id,
+              :name => Fog::Brkt::Mock.name
+            },
             :computing_cells => {},
             :billing_groups  => {},
             :workloads       => {},

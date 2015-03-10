@@ -23,8 +23,6 @@ def compute
 end
 compute # touch compute service to load models & requests classes
 
-def customer_id; "ffffffffffff4fffafffffffffffff00"; end
-
 def create_computing_cell(options={})
   compute.computing_cells.create({
     :name             => Fog::Brkt::Mock.name,
