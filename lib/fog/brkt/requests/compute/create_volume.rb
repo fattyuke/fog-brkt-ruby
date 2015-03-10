@@ -2,22 +2,24 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_volume(name, computing_cell_id, billing_group_id, options = {})
+        def create_volume(name, computing_cell_id, billing_group_id, size_in_gb, options={})
+          body = Fog::StringifyKeys.stringify(options).merge({
+            "name"           => name,
+            "computing_cell" => computing_cell_id,
+            "billing_group"  => billing_group_id,
+            "size_in_gb"     => size_in_gb
+          })
           request(
             :expects => [201],
             :method  => "POST",
             :path    => "v1/api/config/brktvolume",
-            :body    => Fog::JSON.encode(options.merge({
-              :name           => name,
-              :computing_cell => computing_cell_id,
-              :billing_group  => billing_group_id
-            }))
+            :body    => Fog::JSON.encode(body)
           )
         end
       end
 
       class Mock
-        def create_volume(name, computing_cell_id, billing_group_id, options = {})
+        def create_volume(name, computing_cell_id, billing_group_id, size_in_gb, options={})
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           data = {
@@ -58,7 +60,7 @@ module Fog
             "remaining_gb"                => 2000,
             "remaining_iops"              => 10000,
             "requested_state"             => "AVAILABLE",
-            "size_in_gb"                  => 100,
+            "size_in_gb"                  => size_in_gb,
             "slo"                         => 1,
             "version"                     => 2
           }

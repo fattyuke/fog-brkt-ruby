@@ -44,27 +44,24 @@ describe "volume requests" do
     }
   end
 
-  before(:all) do
-    @cell = create_computing_cell
-    @billing_group = compute.billing_groups.create(
-      :customer_id => compute.customer.id,
-      :name        => Fog::Brkt::Mock.name
-    )
-  end
-
-  after(:all) do
-    @billing_group.destroy
-    @cell.destroy
-    # wait while computing cell will be deleted completely and API will return 404
-    # to prevent hitting the limit
-    Fog.wait_for { @cell.completely_deleted? }
-  end
-
   if Fog.mock?
+    before(:all) do
+      @cell = create_computing_cell
+      @billing_group = compute.billing_groups.create(
+        :customer_id => compute.customer.id,
+        :name        => Fog::Brkt::Mock.name
+      )
+    end
+
+    after(:all) do
+      @billing_group.destroy
+      delete_computing_cell(@cell)
+    end
+
     describe "#create_volume" do
       before(:all) do
         @volume_name = Fog::Brkt::Mock.name
-        @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id)
+        @response = compute.create_volume(@volume_name, @cell.id, @billing_group.id, 10)
       end
 
       describe "response" do
@@ -75,6 +72,7 @@ describe "volume requests" do
         it { expect(subject["name"]).to           eq @volume_name }
         it { expect(subject["computing_cell"]).to eq @cell.id }
         it { expect(subject["billing_group"]).to  eq @billing_group.id }
+        it { expect(subject["size_in_gb"]).to     eq 10 }
       end
     end
 
@@ -83,12 +81,14 @@ describe "volume requests" do
         compute.volumes.create(
           :name              => Fog::Brkt::Mock.name,
           :computing_cell_id => @cell.id,
-          :billing_group_id  => @billing_group.id
+          :billing_group_id  => @billing_group.id,
+          :size_in_gb        => 10
         )
         compute.volumes.create(
           :name              => Fog::Brkt::Mock.name,
           :computing_cell_id => @cell.id,
-          :billing_group_id  => @billing_group.id
+          :billing_group_id  => @billing_group.id,
+          :size_in_gb        => 10
         )
       end
 
@@ -105,12 +105,14 @@ describe "volume requests" do
         compute.volumes.create(
           :name              => Fog::Brkt::Mock.name,
           :computing_cell_id => @cell.id,
-          :billing_group_id  => @billing_group.id
+          :billing_group_id  => @billing_group.id,
+          :size_in_gb        => 10
         )
         compute.volumes.create(
           :name              => Fog::Brkt::Mock.name,
           :computing_cell_id => @cell.id,
           :billing_group_id  => @billing_group.id,
+          :size_in_gb        => 10,
           :instance_id       => "foobar"
         )
       end
@@ -123,6 +125,6 @@ describe "volume requests" do
       end
     end
   else
-    pending("Turned off due to API bug")
+    pending
   end
 end

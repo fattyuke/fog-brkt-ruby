@@ -45,7 +45,16 @@ describe "computing cell requests" do
     end
 
     after(:all) do
-      compute.delete_computing_cell(@response.body["id"])
+      id = @response.body["id"]
+      compute.delete_computing_cell(id)
+      Fog.wait_for do
+        begin
+          compute.get_computing_cell(id)
+          false
+        rescue
+          true
+        end
+      end
     end
 
     describe "response" do
@@ -60,20 +69,12 @@ describe "computing cell requests" do
   end
 
   describe "#list_computing_cells" do
-    before(:all) do
-      @cell = create_computing_cell
-      @response = compute.list_computing_cells
-    end
+    before(:all) { @cell = create_computing_cell }
 
-    after(:all) do
-      @cell.destroy
-      # wait while computing cell will be deleted completely and API will return 404
-      # to prevent hitting the limit
-      Fog.wait_for { @cell.completely_deleted? }
-    end
+    after(:all) { delete_computing_cell(@cell) }
 
     describe "response" do
-      subject { @response.body }
+      subject { compute.list_computing_cells.body }
 
       it { is_expected.to have_format([computing_cell_format]) }
     end
@@ -85,12 +86,7 @@ describe "computing cell requests" do
       @response = compute.get_computing_cell(@cell.id)
     end
 
-    after(:all) do
-      @cell.destroy
-      # wait while computing cell will be deleted completely and API will return 404
-      # to prevent hitting the limit
-      Fog.wait_for { @cell.completely_deleted? }
-    end
+    after(:all) { delete_computing_cell(@cell) }
 
     describe "response" do
       subject { @response.body }

@@ -24,8 +24,8 @@ module Fog
             requires :id
             data = service.update_volume(id, attributes).body
           else
-            requires :name, :computing_cell, :billing_group
-            data = service.create_volume(name, computing_cell, billing_group, attributes).body
+            requires :name, :computing_cell, :billing_group, :size_in_gb
+            data = service.create_volume(name, computing_cell, billing_group, size_in_gb, attributes).body
           end
           merge_attributes(data)
           true

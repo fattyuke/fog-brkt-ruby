@@ -12,7 +12,7 @@ module Fog
         def save
           requires :name, :network
 
-          data = service.create_security_group(network, name).body
+          data = service.create_security_group(network, name).body.dup
           data.delete("network")
           merge_attributes(data)
           true

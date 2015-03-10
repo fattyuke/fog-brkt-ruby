@@ -135,8 +135,8 @@ describe "server requests" do
     end
   end
 
-  if fast_tests?
-    pending "#reboot_server", "Disabled to speed up tests"
+  if !Fog.mock? and fast_tests?
+    pending "#reboot_server" # Disabled to speed up tests
   else
     describe "#reboot_server" do
       before(:all) do
