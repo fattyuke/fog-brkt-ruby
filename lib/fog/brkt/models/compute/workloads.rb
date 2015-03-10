@@ -10,6 +10,10 @@ module Fog
         def all
           load(service.list_workloads.body)
         end
+
+        def get(id)
+          new(service.get_workload(id).body)
+        end
       end
     end
   end

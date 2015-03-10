@@ -66,4 +66,23 @@ describe "workload requests" do
       it { is_expected.to have_format([workload_format]) }
     end
   end
+
+  describe "#get_workload" do
+    before(:all) do
+      @workload = compute.workloads.create({
+        :name          => Fog::Brkt::Mock.name,
+        :billing_group => @billing_group.id,
+        :zone          => @cell.zones.first.id
+      })
+      @response = compute.get_workload(@workload.id)
+    end
+
+    after(:all) { @workload.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(workload_format) }
+    end
+  end
 end

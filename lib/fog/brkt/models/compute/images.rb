@@ -10,6 +10,10 @@ module Fog
         def all
           load(service.list_images.body)
         end
+
+        def get(id)
+          new(service.get_image(id).body)
+        end
       end
     end
   end

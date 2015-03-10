@@ -8,11 +8,11 @@ module Fog
         model Fog::Compute::Brkt::BillingGroup
 
         def all
-          load(service.list_billing_groups)
+          load(service.list_billing_groups.body)
         end
 
         def get(id)
-          raise NotImplementedError
+          new(service.get_billing_group(id))
         end
       end
     end

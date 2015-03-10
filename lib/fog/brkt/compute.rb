@@ -33,9 +33,11 @@ module Fog
       request_path "fog/brkt/requests/compute"
       request :create_billing_group
       request :delete_billing_group
+      request :get_billing_group
       request :list_billing_groups
       request :create_workload
       request :delete_workload
+      request :get_workload
       request :list_workloads
       request :create_network_zone
       request :delete_network_zone
@@ -48,6 +50,7 @@ module Fog
       request :reboot_server
       request :list_servers
       request :list_images
+      request :get_image
       request :create_volume
       request :list_volumes
       request :list_instance_volumes

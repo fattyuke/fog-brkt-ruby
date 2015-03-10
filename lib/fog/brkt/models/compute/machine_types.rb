@@ -10,6 +10,10 @@ module Fog
         def all
           load(service.list_machine_types.body)
         end
+
+        def get(id)
+          all.find { |machine_type| machine_type.id == id }
+        end
       end
     end
   end

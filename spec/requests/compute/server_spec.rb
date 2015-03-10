@@ -81,7 +81,7 @@ describe "server requests" do
         :name            => Fog::Brkt::Mock.name,
         :image_id        => image.id,
         :machine_type_id => machine_type.id,
-        :workload_id     => @workload.id
+        :workload        => @workload.id
       )
     end
 
@@ -100,7 +100,7 @@ describe "server requests" do
         :name            => Fog::Brkt::Mock.name,
         :image_id        => image.id,
         :machine_type_id => machine_type.id,
-        :workload_id     => @workload.id
+        :workload        => @workload.id
       )
       @response = compute.get_server(@server.id)
     end
@@ -120,7 +120,7 @@ describe "server requests" do
         :name            => Fog::Brkt::Mock.name,
         :image_id        => image.id,
         :machine_type_id => machine_type.id,
-        :workload_id     => @workload.id
+        :workload        => @workload.id
       )
       @response = compute.update_server(@server.id, { :name => "new name"} )
     end
@@ -144,7 +144,7 @@ describe "server requests" do
           :name            => Fog::Brkt::Mock.name,
           :image_id        => image.id,
           :machine_type_id => machine_type.id,
-          :workload_id     => @workload.id
+          :workload        => @workload.id
         )
         @server.wait_for { ready? } # you cannot reboot server until it's ready
       end

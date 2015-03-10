@@ -12,7 +12,7 @@ module Fog
 
         attribute :name
         attribute :description
-        attribute :workload,           :aliases => ["workload_id", :workload_id]
+        attribute :workload
         attribute :image_definition,   :aliases => ["image_id", :image_id]
         attribute :machine_type,       :aliases => ["machine_type_id", :machine_type_id]
         attribute :ram,                                                :type => :float
@@ -21,6 +21,10 @@ module Fog
         attribute :ip_address
         attribute :internet_accessible,                                :type => :boolean
         attribute :internet_ip_address
+
+        has_one_identity :workload, :workloads
+        has_one_identity :image_definition, :images
+        has_one_identity :machine_type, :machine_types
 
         def initialize(options={})
           self.provider_instance = {}
@@ -41,7 +45,13 @@ module Fog
           else
             requires :name, :image_definition, :machine_type, :workload
 
-            data = service.create_server(image_definition, machine_type, name, workload, attributes).body
+            data = service.create_server(
+              associations[:image_definition],
+              associations[:machine_type],
+              name,
+              associations[:workload],
+              attributes
+            ).body
           end
           merge_attributes(data)
           true
