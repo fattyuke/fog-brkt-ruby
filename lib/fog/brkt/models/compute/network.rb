@@ -1,5 +1,4 @@
 require "fog/core/model"
-require "fog/core/association"
 
 module Fog
   module Compute

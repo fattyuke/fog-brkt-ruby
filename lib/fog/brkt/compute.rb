@@ -31,6 +31,8 @@ module Fog
       collection :networks
       model      :zone
       collection :zones
+      model      :security_group
+      collection :security_groups
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -64,6 +66,9 @@ module Fog
       request :delete_computing_cell
       request :get_computing_cell
       request :list_computing_cells
+      request :create_security_group
+      request :delete_security_group
+      request :list_security_groups
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -140,6 +145,7 @@ module Fog
             :servers         => {},
             :volumes         => {},
             :networks        => {},
+            :security_groups => {},
             :zones           => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",

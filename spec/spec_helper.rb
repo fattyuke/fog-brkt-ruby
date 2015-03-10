@@ -31,6 +31,13 @@ def create_computing_cell(options={})
   }.merge(options))
 end
 
+def delete_computing_cell(cell)
+  cell.destroy
+  # wait while computing cell will be deleted completely and API will return 404
+  # to prevent hitting the limit
+  Fog.wait_for { cell.completely_deleted? }
+end
+
 def fast_tests?
   ENV["FAST_TESTS"] == "true" || ENV["FAST_TESTS"] == "1"
 end
