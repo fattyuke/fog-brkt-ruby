@@ -28,8 +28,9 @@ module Fog
       model      :computing_cell
       collection :computing_cells
       model      :network
-      model      :network_zone
-      collection :network_zones
+      collection :networks
+      model      :zone
+      collection :zones
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -41,8 +42,11 @@ module Fog
       request :delete_workload
       request :get_workload
       request :list_workloads
-      request :create_network_zone
-      request :delete_network_zone
+      request :list_networks
+      request :get_network
+      request :create_zone
+      request :delete_zone
+      request :list_zones
       request :list_network_zones
       request :list_machine_types
       request :get_server
@@ -135,6 +139,7 @@ module Fog
             :workloads       => {},
             :servers         => {},
             :volumes         => {},
+            :networks        => {},
             :zones           => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",

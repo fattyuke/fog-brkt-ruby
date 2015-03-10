@@ -22,12 +22,15 @@ module Fog
         end
 
         def save
-          requires :name, :provider, :network
+          requires :name, :provider, :network, :provider_options
           if provider_options.empty?
-            raise ArgumentError.new("missing provider_options are required for this operation")
+            raise ArgumentError.new("missing provider_options is required for this operation")
+          end
+          if network.cidr_block.nil? or network.cidr_block.empty?
+            raise ArgumentError.new("missing network.cidr_block is required for this operation")
           end
 
-          data = service.create_computing_cell(name, network.cidr, provider,
+          data = service.create_computing_cell(name, network.cidr_block, provider,
             provider_options, attributes).body
           merge_attributes(data)
           true

@@ -2,19 +2,18 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def delete_network_zone(id)
+        def list_networks
           request(
             :expects => [200],
-            :method  => "DELETE",
-            :path    => "v1/api/config/zone/#{id}"
+            :path    => "v1/api/config/network"
           )
         end
       end
 
       class Mock
-        def delete_network_zone(id)
+        def list_networks
           response = Excon::Response.new
-          self.data[:zones].delete(id)
+          response.body = data[:networks].map { |id, network_data| billing_group_data }
           response
         end
       end

@@ -3,19 +3,21 @@ require "fog/core/model"
 module Fog
   module Compute
     class Brkt
-      class NetworkZone < Fog::Model
+      class Zone < Fog::Model
         identity :id
 
         attribute :cidr_block
         attribute :name
         attribute :provider_zone
-        attribute :network_id,           :aliases => "network"
-        attribute :use_main_route_table,                        :type => :boolean
+        attribute :network,           :aliases => [:network_id, "network_id"]
+        attribute :use_main_route_table, :type => :boolean
+
+        has_one_identity :network, :networks
 
         def save
-          requires :network_id, :name, :cidr_block
+          requires :network, :name, :cidr_block
 
-          data = service.create_network_zone(network_id, cidr_block, name).body
+          data = service.create_zone(associations[:network], cidr_block, name).body
           merge_attributes(data)
           true
         end
@@ -23,7 +25,7 @@ module Fog
         def destroy
           requires :id
 
-          service.delete_network_zone(id)
+          service.delete_zone(id)
           true
         end
 

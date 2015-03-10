@@ -64,6 +64,7 @@ module Fog
             }
           }
           self.data[:computing_cells][id] = data
+          self.data[:networks][network_id] = data["network"]
           response.body = data
           response
         end

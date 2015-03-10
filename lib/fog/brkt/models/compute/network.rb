@@ -7,17 +7,17 @@ module Fog
       class Network < Fog::Model
         identity :id
 
-        attribute :cidr,       :aliases => [:cidr_block, "cidr_block"]
+        attribute :cidr_block,       :aliases => [:cidr, "cidr"]
         attribute :name
         attribute :description
+        attribute :computing_cell
+        attribute :provider_network
+        attribute :requested_state
+
+        has_one_identity :computing_cell, :computing_cells
 
         def zones
-          @zones ||= begin
-            Fog::Compute::Brkt::NetworkZones.new({
-              :service => service,
-              :network => self
-            })
-          end
+          service.zones(:network => self)
         end
       end
     end

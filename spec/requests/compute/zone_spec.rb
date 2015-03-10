@@ -21,19 +21,25 @@ describe "network zone requests" do
     }
   end
 
-  describe "#create_network_zone" do
+  before(:all) do
+    @cell = create_computing_cell
+  end
+
+  after(:all) do
+    @cell.destroy
+    # wait while computing cell will be deleted completely and API will return 404
+    # to prevent hitting the limit
+    Fog.wait_for { @cell.completely_deleted? }
+  end
+
+  describe "#create_zone" do
     before(:all) do
-      @cell = create_computing_cell
       @zone_name = Fog::Brkt::Mock.name
-      @response = compute.create_network_zone(@cell.network.id, "10.0.0.0/18", @zone_name)
+      @response = compute.create_zone(@cell.network.id, "10.0.0.0/18", @zone_name)
     end
 
     after(:all) do
-      compute.delete_network_zone(@response.body["id"])
-      @cell.destroy
-      # wait while computing cell will be deleted completely and API will return 404
-      # to prevent hitting the limit
-      Fog.wait_for { @cell.completely_deleted? }
+      compute.delete_zone(@response.body["id"])
     end
 
     describe "response" do
@@ -47,9 +53,9 @@ describe "network zone requests" do
     end
   end
 
-  describe "#list_network_zones" do
+  describe "#list_zones" do
     describe "response" do
-      subject { compute.list_network_zones.body }
+      subject { compute.list_zones.body }
 
       it { is_expected.to have_format([zone_format]) }
     end

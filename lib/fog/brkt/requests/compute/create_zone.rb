@@ -2,7 +2,7 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_network_zone(network_id, cidr_block, name, options={})
+        def create_zone(network_id, cidr_block, name, options={})
           request(
             :expects => [201],
             :method  => "POST",
@@ -16,7 +16,7 @@ module Fog
       end
 
       class Mock
-        def create_network_zone(network_id, cidr_block, name, options={})
+        def create_zone(network_id, cidr_block, name, options={})
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           data = {
