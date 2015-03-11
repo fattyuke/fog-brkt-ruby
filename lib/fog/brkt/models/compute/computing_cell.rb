@@ -59,7 +59,7 @@ module Fog
           begin
             reload
             false
-          rescue
+          rescue Excon::Errors::NotFound
             true
           end
         end
