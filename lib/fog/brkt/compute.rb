@@ -60,6 +60,7 @@ module Fog
       request :list_images
       request :get_image
       request :create_volume
+      request :delete_volume
       request :list_volumes
       request :list_instance_volumes
       request :create_computing_cell

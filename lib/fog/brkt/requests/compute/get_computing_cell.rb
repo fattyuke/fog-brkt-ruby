@@ -12,7 +12,9 @@ module Fog
 
       class Mock
         def get_computing_cell(id)
-          Excon::Response.new(:body => self.data[:computing_cells][id])
+          data = self.data[:computing_cells][id]
+          raise Excon::Errors::NotFound if data.nil?
+          Excon::Response.new(:body => data)
         end
       end
     end

@@ -49,10 +49,7 @@ describe "server requests" do
   after(:all) do
     @workload.destroy
     @billing_group.destroy
-    @cell.destroy
-    # wait while computing cell will be deleted completely and API will return 404
-    # to prevent hitting the limit
-    Fog.wait_for { @cell.completely_deleted? }
+    delete_computing_cell(@cell)
   end
 
   describe "#create_server" do

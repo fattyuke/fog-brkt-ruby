@@ -2,67 +2,62 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_volume(name, computing_cell_id, billing_group_id, size_in_gb, options={})
-          body = Fog::StringifyKeys.stringify(options).merge({
-            "name"           => name,
-            "computing_cell" => computing_cell_id,
-            "billing_group"  => billing_group_id,
-            "size_in_gb"     => size_in_gb
-          })
+        def create_volume(options={})
           request(
             :expects => [201],
             :method  => "POST",
             :path    => "v1/api/config/brktvolume",
-            :body    => Fog::JSON.encode(body)
+            :body    => Fog::JSON.encode(options)
           )
         end
       end
 
       class Mock
-        def create_volume(name, computing_cell_id, billing_group_id, size_in_gb, options={})
+        def create_volume(options={})
+          options = Fog::StringifyKeys.stringify(options)
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           data = {
             "id"                          => id,
-            "name"                        => name,
-            "billing_group"               => billing_group_id,
-            "computing_cell"              => computing_cell_id,
-            "description"                 => "This is an example resource",
-            "auto_snapshot_duration_days" => 7,
-            "availability"                => 2,
-            "bracket_volume_template"     => nil,
-            "children"                    => "/v1/api/config/brktvolume/#{id}/children",
-            "created_by"                  => "user@example.com",
-            "created_time"                => "2014-05-20T19:56:58.782760+00:00",
-            "customer"                    => Fog::Brkt::Mock.id,
-            "daily_cost"                  => nil,
-            "deleted"                     => false,
+            "name"                        => options["name"],
+            "description"                 => "",
+            "customer"                    => customer.id,
+            "provider_bracket_volume"     => {"state" => "IGNORE", "why" => ""},
             "expired"                     => false,
-            "hourly_cost"                 => nil,
-            "instance"                    => options[:instance],
-            "iops"                        => 5000,
-            "iops_max"                    => 8000,
-            "is_readonly"                 => false,
-            "iscsi_target_ip"             => "10.0.45.9",
-            "large_io"                    => false,
-            "lease_expire_time"           => "2014-05-20T19:56:58.782760+00:00",
-            "metadata"                    => { "role" => "example" },
-            "min_iops"                    => 10000,
-            "min_size"                    => 2000,
-            "modified_by"                 => "user@example.com",
-            "modified_time"               => "2014-05-20T19:56:58.782760+00:00",
-            "monthly_cost"                => nil,
+            "deleted"                     => false,
+            "daily_cost"                  => "8.44",
+            "cost"                        => "0.00",
             "parent"                      => nil,
-            "provider_bracket_volume"     => {
-              "state" => "READY",
-              "why"   => ""
-            },
-            "remaining_gb"                => 2000,
-            "remaining_iops"              => 10000,
-            "requested_state"             => "AVAILABLE",
-            "size_in_gb"                  => size_in_gb,
+            "lease_expire_time"           => nil,
+            "modified_time"               => "2015-03-10T21:51:01.356206+00:00",
+            "large_io"                    => false,
+            "min_iops"                    => 100,
+            "iops"                        => options["iops"],
+            "iops_max"                    => options["iops_max"],
+            "hourly_cost"                 => "0.36",
+            "fixed_charge"                => "0.00",
+            "created_time"                => "2015-03-10T21:51:00.904066+00:00",
+            "modified_by"                 => "user@example.com",
+            "base_hourly_rate"            => "0.35156250",
+            "iscsi_target_ip"             => nil,
+            "children"                    => "/v1/api/config/brktvolume/#{id}/children",
+            "billing_group"               => options["billing_group"],
+            "min_size"                    => 10,
+            "size_in_gb"                  => 10,
+            "remaining_gb"                => 10240,
+            "is_readonly"                 => false,
+            "monthly_cost"                => "253.13",
+            "auto_snapshot_duration_days" => 7,
+            "remaining_iops"              => 0,
             "slo"                         => 1,
-            "version"                     => 2
+            "requested_state"             => "AVAILABLE",
+            "created_by"                  => "user@example.com",
+            "availability"                => 1,
+            "instance"                    => nil,
+            "version"                     => 2,
+            "computing_cell"              => options["computing_cell"],
+            "bracket_volume_template"     => nil,
+            "metadata"                    => {}
           }
           self.data[:volumes][id] = data
           response.body = data

@@ -7,7 +7,7 @@ module Fog
       class Volumes < Fog::Collection
         model Fog::Compute::Brkt::Volume
 
-        attribute :instance
+        attr_accessor :instance
 
         def all
           if instance.nil?

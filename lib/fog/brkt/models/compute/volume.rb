@@ -13,7 +13,7 @@ module Fog
         attribute :instance,                    :aliases => ["instance_id", :instance_id]
         attribute :size_in_gb,                                                  :type => :integer
         attribute :iops,                                                        :type => :integer
-        attribute :max_iops,                    :aliases => :iops_max,          :type => :integer
+        attribute :iops_max,                                                    :type => :integer
         attribute :large_io,                                                    :type => :boolean
         attribute :deleted,                                                     :type => :boolean
         attribute :expired,                                                     :type => :boolean
@@ -24,8 +24,8 @@ module Fog
             requires :id
             data = service.update_volume(id, attributes).body
           else
-            requires :name, :computing_cell, :billing_group, :size_in_gb
-            data = service.create_volume(name, computing_cell, billing_group, size_in_gb, attributes).body
+            requires :name, :computing_cell, :billing_group, :size_in_gb, :iops, :iops_max
+            data = service.create_volume(attributes).body
           end
           merge_attributes(data)
           true
