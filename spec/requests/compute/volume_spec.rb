@@ -87,6 +87,31 @@ describe "volume requests" do
     end
   end
 
+  describe "#update_volume" do
+    before(:all) do
+      @volume = compute.volumes.create(
+        :name              => Fog::Brkt::Mock.name,
+        :computing_cell_id => @cell.id,
+        :billing_group_id  => @billing_group.id,
+        :size_in_gb        => 10,
+        :iops              => 100,
+        :iops_max          => 200
+      )
+      @response = compute.update_volume(@volume.id, {
+        :name => "new name"
+      })
+    end
+
+    after(:all) { @volume.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(volume_format) }
+      it { expect(subject["name"]).to eq "new name" }
+    end
+  end
+
   describe "#list_volumes" do
     before(:all) do
       @volume1 = compute.volumes.create(

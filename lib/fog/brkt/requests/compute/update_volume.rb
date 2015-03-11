@@ -7,14 +7,18 @@ module Fog
             :expects => [202],
             :method  => "POST",
             :path    => "v1/api/config/brktvolume/#{id}",
-            :body    => options
+            :body    => Fog::JSON.encode(options)
           )
         end
       end
 
       class Mock
         def update_volume(id, options={})
-          raise NotImplementedError
+          response = Excon::Response.new
+          volume_data = self.data[:volumes][id]
+          volume_data.merge!(Fog::StringifyKeys.stringify(options))
+          response.body = volume_data
+          response
         end
       end
     end
