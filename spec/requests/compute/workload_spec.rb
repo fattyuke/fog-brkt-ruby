@@ -33,11 +33,8 @@ describe "workload requests" do
   end
 
   after(:all) do
-    @billing_group.destroy
-    @cell.destroy
-    # wait while computing cell will be deleted completely and API will return 404
-    # to prevent hitting the limit
-    Fog.wait_for { @cell.completely_deleted? }
+    @billing_group.destroy if @billing_group
+    delete_computing_cell(@cell)
   end
 
   describe "#create_workload" do

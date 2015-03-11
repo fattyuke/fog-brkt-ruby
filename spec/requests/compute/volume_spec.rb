@@ -53,8 +53,8 @@ describe "volume requests" do
   end
 
   after(:all) do
-    @billing_group.destroy
-    delete_computing_cell(@cell)
+    @billing_group.destroy if @billing_group
+    delete_computing_cell(@cell) if @cell
   end
 
   describe "#create_volume" do

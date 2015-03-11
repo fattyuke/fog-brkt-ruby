@@ -75,6 +75,8 @@ module Fog
       request :list_security_groups
       request :create_security_group_rule
       request :delete_security_group_rule
+      request :list_security_group_rules
+      request :list_security_group_security_group_rules
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"

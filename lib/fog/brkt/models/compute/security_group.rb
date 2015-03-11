@@ -23,6 +23,10 @@ module Fog
 
           service.delete_security_group(id)
         end
+
+        def rules
+          service.security_group_rules(:security_group => self)
+        end
       end
     end
   end

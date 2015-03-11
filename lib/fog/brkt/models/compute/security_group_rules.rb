@@ -7,8 +7,14 @@ module Fog
       class SecurityGroupRules < Fog::Collection
         model Fog::Compute::Brkt::SecurityGroupRule
 
+        attr_accessor :security_group
+
         def all
-          raise NotImplemenetedError
+          if security_group.nil?
+            load(service.list_security_group_rules.body)
+          else
+            load(service.list_security_group_security_group_rules(security_group.id).body)
+          end
         end
 
         def get(id)
