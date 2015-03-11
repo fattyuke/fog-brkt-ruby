@@ -20,7 +20,6 @@ describe "security group requests" do
   end
 
   before(:all) { @cell = create_computing_cell }
-
   after(:all) { delete_computing_cell(@cell) }
 
   describe "#create_security_group" do

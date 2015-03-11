@@ -33,6 +33,8 @@ module Fog
       collection :zones
       model      :security_group
       collection :security_groups
+      model      :security_group_rule
+      collection :security_group_rules
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -71,6 +73,8 @@ module Fog
       request :create_security_group
       request :delete_security_group
       request :list_security_groups
+      request :create_security_group_rule
+      request :delete_security_group_rule
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -137,18 +141,19 @@ module Fog
 
         def self.data
           @data ||= {
-            :customer        => {
+            :customer             => {
               :id   => Fog::Brkt::Mock.id,
               :name => Fog::Brkt::Mock.name
             },
-            :computing_cells => {},
-            :billing_groups  => {},
-            :workloads       => {},
-            :servers         => {},
-            :volumes         => {},
-            :networks        => {},
-            :security_groups => {},
-            :zones           => {
+            :computing_cells      => {},
+            :billing_groups       => {},
+            :workloads            => {},
+            :servers              => {},
+            :volumes              => {},
+            :networks             => {},
+            :security_groups      => {},
+            :security_group_rules => {},
+            :zones                => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
                 "use_main_route_table" => false,
