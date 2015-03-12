@@ -35,6 +35,8 @@ module Fog
       collection :security_groups
       model      :security_group_rule
       collection :security_group_rules
+      model      :load_balancer
+      collection :load_balancers
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -78,6 +80,8 @@ module Fog
       request :delete_security_group_rule
       request :list_security_group_rules
       request :list_security_group_security_group_rules
+      request :create_load_balancer
+      request :delete_load_balancer
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -156,6 +160,7 @@ module Fog
             :networks             => {},
             :security_groups      => {},
             :security_group_rules => {},
+            :load_balancers       => {},
             :zones                => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
