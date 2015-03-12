@@ -12,7 +12,7 @@ module Fog
         end
 
         def get(id)
-          raise NotImplemenetedError
+          new(service.get_security_group(id).body)
         end
 
         def new(attributes={})

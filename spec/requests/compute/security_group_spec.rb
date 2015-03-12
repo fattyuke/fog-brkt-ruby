@@ -39,6 +39,24 @@ describe "security group requests" do
     end
   end
 
+  describe "#get_security_group" do
+    before(:all) do
+      @security_group = compute.security_groups.create(
+        :name    => Fog::Brkt::Mock.name,
+        :network => @cell.network.id
+      )
+      @response = compute.get_security_group(@security_group.id)
+    end
+
+    after(:all) { @security_group.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(security_group_format) }
+    end
+  end
+
   describe "#list_security_groups" do
     before(:all) do
       compute.security_groups.create(

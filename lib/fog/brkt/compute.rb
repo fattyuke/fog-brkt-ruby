@@ -72,6 +72,7 @@ module Fog
       request :list_computing_cells
       request :create_security_group
       request :delete_security_group
+      request :get_security_group
       request :list_security_groups
       request :create_security_group_rule
       request :delete_security_group_rule

@@ -13,10 +13,12 @@ module Fog
         attribute :description
         attribute :security_group
 
+        has_one_identity :security_group, :security_groups
+
         def save
           requires :security_group, :cidr_ip, :ip_proto, :port_range_from, :port_range_to
 
-          data = service.create_security_group_rule(security_group, attributes).body
+          data = service.create_security_group_rule(associations[:security_group], attributes).body
           merge_attributes(data)
 
           true
