@@ -83,4 +83,22 @@ describe "load balancer requests" do
       it { expect(subject["billing_group"]).to eq @workload.billing_group }
     end
   end
+
+  describe "#list_load_balancers" do
+    before(:all) do
+      @lb = compute.load_balancers.create({
+        :name           => Fog::Brkt::Mock.name,
+        :workload       => @workload.id,
+        :security_group => @security_group.id
+      })
+    end
+
+    after(:all) { @lb.destroy }
+
+    describe "response" do
+      subject { compute.list_load_balancers.body }
+
+      it { is_expected.to have_format([load_balancer_format]) }
+    end
+  end
 end

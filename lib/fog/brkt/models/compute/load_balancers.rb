@@ -8,7 +8,7 @@ module Fog
         model Fog::Compute::Brkt::LoadBalancer
 
         def all
-          raise NotImplementedError
+          load(service.list_load_balancers.body)
         end
 
         def get(id)
