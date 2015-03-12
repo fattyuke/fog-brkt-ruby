@@ -50,6 +50,7 @@ module Fog
       request :list_billing_groups
       request :create_workload
       request :delete_workload
+      request :update_workload
       request :get_workload
       request :list_workloads
       request :list_networks

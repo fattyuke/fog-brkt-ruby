@@ -54,6 +54,26 @@ describe "workload requests" do
     end
   end
 
+ describe "#update_workload" do
+    before(:all) do
+      @workload = compute.workloads.create({
+        :name          => Fog::Brkt::Mock.name,
+        :billing_group => @billing_group.id,
+        :zone          => @cell.zones.first.id
+      })
+      @response = compute.update_workload(@workload.id, { :name => "new name"} )
+    end
+
+    after(:all) { @workload.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(workload_format) }
+      it { expect(subject["name"]).to eq "new name" }
+    end
+  end
+
   describe "#list_workloads" do
     before(:all) { @response = compute.list_workloads }
 

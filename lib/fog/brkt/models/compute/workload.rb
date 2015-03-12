@@ -15,9 +15,13 @@ module Fog
         attribute :requested_state
 
         def save
-          requires :billing_group, :name, :zone
+          if persisted?
+            data = service.update_workload(id, attributes).body
+          else
+            requires :billing_group, :name, :zone
 
-          data = service.create_workload(billing_group, name, zone).body
+            data = service.create_workload(billing_group, name, zone).body
+          end
           merge_attributes(data)
           true
         end
@@ -26,6 +30,7 @@ module Fog
           requires :id
 
           service.delete_workload(id)
+          true
         end
       end
     end
