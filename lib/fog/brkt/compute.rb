@@ -19,6 +19,8 @@ module Fog
       collection :servers
       model      :volume
       collection :volumes
+      model      :operating_system
+      collection :operating_systems
       model      :image
       collection :images
       model      :workload
@@ -61,6 +63,8 @@ module Fog
       request :delete_server
       request :reboot_server
       request :list_servers
+      request :list_operating_systems
+      request :get_operating_system
       request :list_images
       request :get_image
       request :create_volume
@@ -228,6 +232,23 @@ module Fog
                 },
                 "id"                 => "f789efac46bf43c792e51b73d28fc398",
                 "name"               => "Ubuntu 13.10 Saucy (64 bit)"
+              },
+            },
+            :operating_systems => {
+              "60e32d5fe379431392f89fbdcd380da4" => {
+                "id" => "60e32d5fe379431392f89fbdcd380da4",
+                "customer" => nil,
+                "modified_by" => nil,
+                "description" => "",
+                "os_features" => {},
+                "modified_time" => "2015-02-23T22:03:46.991053+00:00",
+                "label" => "Bracket Ubuntu 14.04 Trusty (64 bit)",
+                "platform" => "linux",
+                "version" => "14.04",
+                "created_by" => nil,
+                "created_time" => "2015-02-23T22:03:46.991024+00:00",
+                "metadata" => {},
+                "name" => "ubuntu"
               }
             }
           }
