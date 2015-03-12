@@ -12,6 +12,10 @@ module Fog
         attribute :platform
         attribute :description
         attribute :os_features
+
+        def images
+          service.images(:operating_system => self)
+        end
       end
     end
   end

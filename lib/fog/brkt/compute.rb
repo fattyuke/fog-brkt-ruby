@@ -23,6 +23,8 @@ module Fog
       collection :operating_systems
       model      :image
       collection :images
+      model      :csp_image
+      collection :csp_images
       model      :workload
       collection :workloads
       model      :machine_type
@@ -65,8 +67,14 @@ module Fog
       request :list_servers
       request :list_operating_systems
       request :get_operating_system
+      request :create_image
+      request :delete_image
       request :list_images
+      request :list_os_images
       request :get_image
+      request :create_csp_image
+      request :delete_csp_image
+      request :list_image_csp_images
       request :create_volume
       request :delete_volume
       request :update_volume
@@ -169,6 +177,8 @@ module Fog
             :load_balancers       => {},
             :zones                => {
               "df43995a1d8a48d28b835238bfd079b4" => {
+                "id"                   => "df43995a1d8a48d28b835238bfd079b4",
+                "name"                 => "customer",
                 "customer"             => "ffffffffffff4fffafffffffffffff00",
                 "use_main_route_table" => false,
                 "network"              => "2ebf551a7de24bfea2280dcdc79ae0df",
@@ -176,16 +186,14 @@ module Fog
                 "modified_time"        => "2015-02-23T22:18:59.064137+00:00",
                 "requested_state"      => "AVAILABLE",
                 "created_by"           => "user@example.com",
-                "provider_zone"        => {
-                  "state" => "IGNORE",
-                  "why"   => ""
-                },
                 "created_time"         => "2015-02-23T22:18:59.064097+00:00",
                 "modified_by"          => "user@example.com",
                 "cidr_block"           => "10.0.0.0/18",
                 "metadata"             => {},
-                "id"                   => "df43995a1d8a48d28b835238bfd079b4",
-                "name"                 => "customer"
+                "provider_zone"        => {
+                  "state" => "IGNORE",
+                  "why"   => ""
+                }
               }
             },
             :machine_types   => {
@@ -202,6 +210,8 @@ module Fog
             },
             :images => {
               "f789efac46bf43c792e51b73d28fc398" => {
+                "id"                 => "f789efac46bf43c792e51b73d28fc398",
+                "name"               => "Ubuntu 13.10 Saucy (64 bit)",
                 "customer"           => nil,
                 "os_settings"        => {"mounts.options" => "nobootwait"},
                 "modified_by"        => nil,
@@ -229,11 +239,10 @@ module Fog
                   "metadata"      => {},
                   "id"            => "bd2c801afb174ca9baba61363a2a5554",
                   "name"          => "ubuntu"
-                },
-                "id"                 => "f789efac46bf43c792e51b73d28fc398",
-                "name"               => "Ubuntu 13.10 Saucy (64 bit)"
+                }
               },
             },
+            :csp_images => {},
             :operating_systems => {
               "60e32d5fe379431392f89fbdcd380da4" => {
                 "id" => "60e32d5fe379431392f89fbdcd380da4",
