@@ -27,9 +27,13 @@ module Fog
         attribute :provider_load_balancer
 
         def save
-          requires :name, :workload, :security_group
+          if persisted?
+            data = service.update_load_balancer(id, attributes).body
+          else
+            requires :name, :workload, :security_group
 
-          data = service.create_load_balancer(attributes).body
+            data = service.create_load_balancer(attributes).body
+          end
           merge_attributes(data)
           true
         end

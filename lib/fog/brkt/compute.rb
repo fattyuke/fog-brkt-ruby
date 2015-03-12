@@ -82,6 +82,7 @@ module Fog
       request :list_security_group_security_group_rules
       request :create_load_balancer
       request :delete_load_balancer
+      request :update_load_balancer
       request :list_load_balancers
 
       class Real

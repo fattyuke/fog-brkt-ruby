@@ -84,6 +84,28 @@ describe "load balancer requests" do
     end
   end
 
+  describe "#update_load_balancer" do
+    before(:all) do
+      @lb = compute.load_balancers.create({
+        :name           => Fog::Brkt::Mock.name,
+        :workload       => @workload.id,
+        :security_group => @security_group.id
+      })
+      @response = compute.update_load_balancer(@lb.id, {
+        :name => "new name"
+      })
+    end
+
+    after(:all) { @lb.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(load_balancer_format) }
+      it { expect(subject["name"]).to eq "new name" }
+    end
+  end
+
   describe "#list_load_balancers" do
     before(:all) do
       @lb = compute.load_balancers.create({
