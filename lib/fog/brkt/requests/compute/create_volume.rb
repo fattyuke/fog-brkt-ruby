@@ -53,7 +53,7 @@ module Fog
             "requested_state"             => "AVAILABLE",
             "created_by"                  => "user@example.com",
             "availability"                => 1,
-            "instance"                    => nil,
+            "instance"                    => options["instance"],
             "version"                     => 2,
             "computing_cell"              => options["computing_cell"],
             "bracket_volume_template"     => nil,

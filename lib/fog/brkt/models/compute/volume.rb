@@ -4,6 +4,10 @@ module Fog
   module Compute
     class Brkt
       class Volume < Fog::Model
+        module State
+          READY = "READY"
+        end
+
         identity :id
 
         attribute :name
@@ -18,6 +22,12 @@ module Fog
         attribute :deleted,                                                     :type => :boolean
         attribute :expired,                                                     :type => :boolean
         attribute :auto_snapshot_duration_days,                                 :type => :integer
+        attribute :provider_bracket_volume
+
+        def initialize(attributes={})
+          self.provider_bracket_volume = {}
+          super
+        end
 
         def save
           if persisted?
@@ -36,6 +46,10 @@ module Fog
 
           service.delete_volume(id)
           true
+        end
+
+        def ready?
+          provider_bracket_volume["state"] == State::READY
         end
       end
     end

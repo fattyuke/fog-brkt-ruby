@@ -78,6 +78,15 @@ module Fog
         def volumes
           service.volumes(:instance => self)
         end
+
+        def attach_volume(volume)
+          volume.instance = identity
+          volume.save
+        end
+
+        def attached?(volume)
+          not volumes.find { |v| v.identity == volume.identity }.nil?
+        end
       end
     end
   end
