@@ -44,6 +44,10 @@ module Fog
           service.delete_load_balancer(id)
           true
         end
+
+        def listeners
+          service.load_balancer_listeners(:load_balancer => self)
+        end
       end
     end
   end

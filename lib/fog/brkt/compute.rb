@@ -41,6 +41,8 @@ module Fog
       collection :security_group_rules
       model      :load_balancer
       collection :load_balancers
+      model      :load_balancer_listener
+      collection :load_balancer_listeners
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -97,6 +99,9 @@ module Fog
       request :delete_load_balancer
       request :update_load_balancer
       request :list_load_balancers
+      request :create_load_balancer_listener
+      request :delete_load_balancer_listener
+      request :list_load_balancer_listeners
 
       class Real
         API_HOST = "https://portal.demo.berndt.brkt.net"
@@ -167,15 +172,16 @@ module Fog
               :id   => Fog::Brkt::Mock.id,
               :name => Fog::Brkt::Mock.name
             },
-            :computing_cells      => {},
-            :billing_groups       => {},
-            :workloads            => {},
-            :servers              => {},
-            :volumes              => {},
-            :networks             => {},
-            :security_groups      => {},
-            :security_group_rules => {},
-            :load_balancers       => {},
+            :computing_cells         => {},
+            :billing_groups          => {},
+            :workloads               => {},
+            :servers                 => {},
+            :volumes                 => {},
+            :networks                => {},
+            :security_groups         => {},
+            :security_group_rules    => {},
+            :load_balancers          => {},
+            :load_balancer_listeners => {},
             :zones                => {
               "df43995a1d8a48d28b835238bfd079b4" => {
                 "id"                   => "df43995a1d8a48d28b835238bfd079b4",
