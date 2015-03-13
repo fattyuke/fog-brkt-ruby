@@ -106,6 +106,25 @@ describe "load balancer requests" do
     end
   end
 
+  describe "#get_load_balancer" do
+    before(:all) do
+      @lb = compute.load_balancers.create({
+        :name           => Fog::Brkt::Mock.name,
+        :workload       => @workload.id,
+        :security_group => @security_group.id
+      })
+      @response = compute.get_load_balancer(@lb.id)
+    end
+
+    after(:all) { @lb.destroy }
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(load_balancer_format) }
+    end
+  end
+
   describe "#list_load_balancers" do
     before(:all) do
       @lb = compute.load_balancers.create({

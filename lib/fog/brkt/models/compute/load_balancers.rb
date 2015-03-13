@@ -12,7 +12,7 @@ module Fog
         end
 
         def get(id)
-          raise NotImplementedError
+          new(service.get_load_balancer(id).body)
         end
       end
     end

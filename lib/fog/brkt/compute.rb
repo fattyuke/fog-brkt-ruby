@@ -98,6 +98,7 @@ module Fog
       request :create_load_balancer
       request :delete_load_balancer
       request :update_load_balancer
+      request :get_load_balancer
       request :list_load_balancers
       request :create_load_balancer_listener
       request :delete_load_balancer_listener

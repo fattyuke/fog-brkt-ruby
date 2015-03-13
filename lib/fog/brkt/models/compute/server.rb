@@ -21,10 +21,12 @@ module Fog
         attribute :ip_address
         attribute :internet_accessible,                                :type => :boolean
         attribute :internet_ip_address
+        attribute :load_balancer
 
         has_one_identity :workload, :workloads
         has_one_identity :image_definition, :images
         has_one_identity :machine_type, :machine_types
+        has_one_identity :load_balancer, :load_balancers
 
         def initialize(options={})
           self.provider_instance = {}
