@@ -22,6 +22,8 @@ module Fog
         attribute :internet_accessible,                                :type => :boolean
         attribute :internet_ip_address
         attribute :load_balancer
+        attribute :service_name
+        attribute :service_name_fqdn
 
         has_one_identity :workload, :workloads
         has_one_identity :image_definition, :images
