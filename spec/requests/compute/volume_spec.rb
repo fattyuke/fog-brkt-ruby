@@ -144,6 +144,31 @@ describe "volume requests" do
     end
   end
 
+  describe "#create_volume_snapshot" do
+    before(:all) do
+      @volume = compute.volumes.create(
+        :name              => Fog::Brkt::Mock.name,
+        :computing_cell_id => @cell.id,
+        :billing_group_id  => @billing_group.id,
+        :size_in_gb        => 10,
+        :iops              => 100,
+        :iops_max          => 200
+      )
+      @response = compute.create_volume_snapshot(@volume.id, {
+        :name          => @volume.name + " snapshot",
+        :billing_group => @volume.billing_group
+      })
+    end
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(volume_format) }
+      it { expect(subject["id"]).to_not eq @volume.id }
+      it { expect(subject["parent"]).to eq @volume.id }
+    end
+  end
+
   # describe "#list_instance_volumes" do
   #   before(:all) do
   #     compute.volumes.create(

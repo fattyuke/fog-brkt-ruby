@@ -51,6 +51,16 @@ module Fog
         def ready?
           provider_bracket_volume["state"] == State::READY
         end
+
+        def create_snapshot
+          requires :id, :name, :billing_group
+
+          snapshot_data = service.create_volume_snapshot(:id, {
+            "name"          => "#{name} snapshot", # TODO: customize?
+            "billing_group" => billing_group # TODO: customize?
+          }).body
+          collection.new(snapshot_data)
+        end
       end
     end
   end

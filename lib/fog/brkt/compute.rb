@@ -83,6 +83,7 @@ module Fog
       request :update_volume
       request :list_volumes
       request :list_instance_volumes
+      request :create_volume_snapshot
       request :create_computing_cell
       request :delete_computing_cell
       request :get_computing_cell
