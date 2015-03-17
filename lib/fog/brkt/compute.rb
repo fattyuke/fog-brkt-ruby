@@ -107,12 +107,12 @@ module Fog
       request :list_load_balancer_listeners
 
       class Real
-        API_HOST = "http://portal.demo.berndt.brkt.net"
+        DEFAULT_API_HOST = "http://portal.demo.berndt.brkt.net"
 
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
           @private_mac_key     = options[:brkt_private_mac_key]
-          @connection          = Fog::XML::Connection.new(API_HOST)
+          @connection          = Fog::XML::Connection.new(options[:api_host] || DEFAULT_API_HOST)
         end
 
         def request(params)
