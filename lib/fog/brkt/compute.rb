@@ -109,10 +109,13 @@ module Fog
       class Real
         DEFAULT_API_HOST = "http://portal.demo.berndt.brkt.net"
 
+        attr_reader :api_host
+
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
           @private_mac_key     = options[:brkt_private_mac_key]
-          @connection          = Fog::XML::Connection.new(options[:api_host] || DEFAULT_API_HOST)
+          @api_host            = options[:api_host] || DEFAULT_API_HOST
+          @connection          = Fog::XML::Connection.new(@api_host)
         end
 
         def request(params)
@@ -121,7 +124,7 @@ module Fog
           headers = params[:headers] || {}
           headers["Accept"]        = "application/json"
           headers["Content-type"]  = "application/json"
-          headers["Authorization"] = build_auth(URI.join(API_HOST, params[:path]), params[:method])
+          headers["Authorization"] = build_auth(URI.join(api_host, params[:path]), params[:method])
 
           response = @connection.request(params.merge(
             :headers => headers
