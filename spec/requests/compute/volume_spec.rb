@@ -160,6 +160,11 @@ describe "volume requests" do
       })
     end
 
+    after(:all) do
+      compute.delete_volume(@response.body["id"])
+      @volume.destroy
+    end
+
     describe "response" do
       subject { @response.body }
 

@@ -32,6 +32,10 @@ module Fog
           service.delete_workload(id)
           true
         end
+
+        def servers
+          service.servers(:workload => self)
+        end
       end
     end
   end

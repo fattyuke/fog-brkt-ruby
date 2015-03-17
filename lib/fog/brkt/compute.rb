@@ -55,6 +55,7 @@ module Fog
       request :update_workload
       request :get_workload
       request :list_workloads
+      request :list_workload_servers
       request :list_networks
       request :get_network
       request :create_zone
@@ -106,7 +107,7 @@ module Fog
       request :list_load_balancer_listeners
 
       class Real
-        API_HOST = "https://portal.demo.berndt.brkt.net"
+        API_HOST = "http://portal.demo.berndt.brkt.net"
 
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
