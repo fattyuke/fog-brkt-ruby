@@ -6,6 +6,11 @@ module Fog
       class Server < Fog::Compute::Server
         module State
           READY = "READY"
+          FAILED = "FAILED"
+          POWERING_OFF = "POWERING_OFF"
+          POWERED_OFF = "POWERED_OFF"
+          TERMINATING = "TERMINATING"
+          TERMINATED = "TERMINATED"
         end
 
         identity :id
@@ -35,8 +40,32 @@ module Fog
           super
         end
 
+        def state
+          provider_instance["state"]
+        end
+
         def ready?
-          provider_instance["state"] == State::READY
+          state == State::READY
+        end
+
+        def failed?
+          state == State::FAILED
+        end
+
+        def powering_off?
+          state == State::POWERING_OFF
+        end
+
+        def powered_off?
+          state == State::POWERED_OFF
+        end
+
+        def terminating?
+          state == State::TERMINATING
+        end
+
+        def terminated?
+          state == State::TERMINATED
         end
 
         def internet_accessible?

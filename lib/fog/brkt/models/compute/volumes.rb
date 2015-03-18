@@ -18,7 +18,11 @@ module Fog
         end
 
         def get(id)
-          raise NotImplementedError
+          begin
+            new(service.get_volume(id).body)
+          rescue Excon::Errors::NotFound
+            nil
+          end
         end
       end
     end

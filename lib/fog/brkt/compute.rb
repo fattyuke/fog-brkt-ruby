@@ -82,6 +82,7 @@ module Fog
       request :create_volume
       request :delete_volume
       request :update_volume
+      request :get_volume
       request :list_volumes
       request :list_instance_volumes
       request :create_volume_snapshot
