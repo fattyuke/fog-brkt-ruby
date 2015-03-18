@@ -18,7 +18,11 @@ module Fog
         end
 
         def get(id)
-          new(service.get_server(id).body)
+          begin
+            new(service.get_server(id).body)
+          rescue Excon::Errors::NotFound
+            nil
+          end
         end
 
         def new(attributes={})
