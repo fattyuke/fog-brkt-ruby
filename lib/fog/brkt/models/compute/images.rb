@@ -19,7 +19,11 @@ module Fog
         end
 
         def get(id)
-          new(service.get_image(id).body)
+          begin
+            new(service.get_image(id).body)
+          rescue Excon::Errors::NotFound
+            nil
+          end
         end
 
         def new(attributes={})
