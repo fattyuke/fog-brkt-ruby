@@ -29,6 +29,7 @@ module Fog
         attribute :load_balancer
         attribute :service_name
         attribute :service_name_fqdn
+        attribute :metadata
 
         has_one_identity :workload, :workloads
         has_one_identity :image_definition, :images
@@ -36,6 +37,7 @@ module Fog
         has_one_identity :load_balancer, :load_balancers
 
         def initialize(options={})
+          self.metadata = {}
           self.provider_instance = {}
           super
         end
