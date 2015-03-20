@@ -17,6 +17,12 @@ module Fog
             zones.each { |zone| zone.network = network }
           end
         end
+
+        def new(arguments={})
+          instance = super(arguments)
+          instance.network = network if network
+          instance
+        end
       end
     end
   end
