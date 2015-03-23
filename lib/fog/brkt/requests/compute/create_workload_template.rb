@@ -2,26 +2,26 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_workload_template(arguments={})
+        def create_workload_template(attributes={})
           request(
             :expects => [201],
             :method  => "POST",
             :path    => "v1/api/config/workloadtemplate",
-            :body    => Fog::JSON.encode(arguments)
+            :body    => Fog::JSON.encode(attributes)
           )
         end
       end
 
       class Mock
-        def create_workload_template(arguments={})
-          arguments = Fog::StringifyKeys.stringify(arguments)
+        def create_workload_template(attributes={})
+          attributes = Fog::StringifyKeys.stringify(attributes)
           id = Fog::Brkt::Mock.id
           data = {
             "id"                    => id,
-            "name"                  => arguments["name"],
+            "name"                  => attributes["name"],
             "description"           => "",
-            "assigned_groups"       => arguments["assigned_groups"],
-            "assigned_zones"        => arguments["assigned_zones"],
+            "assigned_groups"       => attributes["assigned_groups"],
+            "assigned_zones"        => attributes["assigned_zones"],
             "fixed_charge"          => "0.00",
             "base_hourly_rate"      => "0.00000",
             "hourly_cost"           => "0.00",

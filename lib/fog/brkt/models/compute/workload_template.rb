@@ -78,6 +78,10 @@ module Fog
           self.state = State::PUBLISHED
           save
         end
+
+        def server_templates
+          service.server_templates(:workload_template => self)
+        end
       end
     end
   end

@@ -15,6 +15,8 @@ module Fog
       model      :customer
       model      :billing_group
       collection :billing_groups
+      model      :server_template
+      collection :server_templates
       model      :server
       collection :servers
       model      :volume
@@ -71,6 +73,11 @@ module Fog
       request :list_network_zones
       request :list_machine_types
       request :get_server
+      request :create_server_template
+      request :delete_server_template
+      request :update_server_template
+      request :get_server_template
+      request :list_workload_template_server_templates
       request :create_server
       request :update_server
       request :delete_server
@@ -190,6 +197,7 @@ module Fog
             :billing_groups          => {},
             :workload_templates      => {},
             :workloads               => {},
+            :server_templates        => {},
             :servers                 => {},
             :volumes                 => {},
             :networks                => {},
