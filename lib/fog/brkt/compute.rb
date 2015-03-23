@@ -25,6 +25,8 @@ module Fog
       collection :images
       model      :csp_image
       collection :csp_images
+      model      :workload_template
+      collection :workload_templates
       model      :workload
       collection :workloads
       model      :machine_type
@@ -50,6 +52,11 @@ module Fog
       request :delete_billing_group
       request :get_billing_group
       request :list_billing_groups
+      request :create_workload_template
+      request :delete_workload_template
+      request :update_workload_template
+      request :list_workload_templates
+      request :get_workload_template
       request :create_workload
       request :delete_workload
       request :update_workload
@@ -181,6 +188,7 @@ module Fog
             },
             :computing_cells         => {},
             :billing_groups          => {},
+            :workload_templates      => {},
             :workloads               => {},
             :servers                 => {},
             :volumes                 => {},
