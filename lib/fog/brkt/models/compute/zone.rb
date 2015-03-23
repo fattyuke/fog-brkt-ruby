@@ -12,8 +12,6 @@ module Fog
         attribute :network,           :aliases => [:network_id, "network_id"]
         attribute :use_main_route_table, :type => :boolean
 
-        has_one_identity :network, :networks
-
         def save
           requires :network, :name, :cidr_block
 

@@ -13,15 +13,8 @@ module Fog
           if network.nil?
             load(service.list_zones.body)
           else
-            zones = load(service.list_network_zones(network.id).body)
-            zones.each { |zone| zone.network = network }
+            load(service.list_network_zones(network.id).body)
           end
-        end
-
-        def new(arguments={})
-          instance = super(arguments)
-          instance.network = network if network
-          instance
         end
       end
     end
