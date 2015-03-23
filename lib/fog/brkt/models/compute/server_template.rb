@@ -66,6 +66,10 @@ module Fog
         def internet_accessible?
           !!internet_accessible
         end
+
+        def volume_templates
+          service.volume_templates(:server_template => self)
+        end
       end
     end
   end

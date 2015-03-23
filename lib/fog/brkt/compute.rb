@@ -19,6 +19,8 @@ module Fog
       collection :server_templates
       model      :server
       collection :servers
+      model      :volume_template
+      collection :volume_templates
       model      :volume
       collection :volumes
       model      :operating_system
@@ -93,6 +95,9 @@ module Fog
       request :create_csp_image
       request :delete_csp_image
       request :list_image_csp_images
+      request :create_volume_template
+      request :delete_volume_template
+      request :list_volume_templates
       request :create_volume
       request :delete_volume
       request :update_volume
@@ -199,6 +204,7 @@ module Fog
             :workloads               => {},
             :server_templates        => {},
             :servers                 => {},
+            :volume_templates        => {},
             :volumes                 => {},
             :networks                => {},
             :security_groups         => {},
