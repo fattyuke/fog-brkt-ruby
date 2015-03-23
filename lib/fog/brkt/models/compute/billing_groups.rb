@@ -12,7 +12,7 @@ module Fog
         end
 
         def get(id)
-          new(service.get_billing_group(id))
+          new(service.get_billing_group(id).body)
         end
       end
     end
