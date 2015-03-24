@@ -274,35 +274,35 @@ Wait synchronously for workload to become ready:
 
 Now let's add a new server to this workload:
 
-  2.2.0 > workload.servers.create()
-  ArgumentError: name, image_definition and machine_type are required for this operation
+    2.2.0 > workload.servers.create()
+    ArgumentError: name, image_definition and machine_type are required for this operation
 
 To see list of available machine types:
 
-  2.2.0 > compute.machine_types
-   =>   <Fog::Compute::Brkt::MachineTypes
-      [
-                    <Fog::Compute::Brkt::MachineType
-          id="565f94793df94bbba3f45ae2745ee23a",
-          cpu_cores=4,
-          ram=15.0,
-          storage_gb=80,
-          encrypted_storage_gb=36.0,
-          hourly_cost=0.49,
-          provider=1,
-          supports_pv=true
-        >,
-                    <Fog::Compute::Brkt::MachineType
-          id="721a109fd3e547cd8790bfd41e977712",
-          cpu_cores=8,
-          ram=30.0,
-          storage_gb=160,
-          encrypted_storage_gb=72.0,
-          hourly_cost=0.98,
-          provider=1,
-          supports_pv=true
-        >,
-        ... skipped ...
+    2.2.0 > compute.machine_types
+     =>   <Fog::Compute::Brkt::MachineTypes
+        [
+                      <Fog::Compute::Brkt::MachineType
+            id="565f94793df94bbba3f45ae2745ee23a",
+            cpu_cores=4,
+            ram=15.0,
+            storage_gb=80,
+            encrypted_storage_gb=36.0,
+            hourly_cost=0.49,
+            provider=1,
+            supports_pv=true
+          >,
+                      <Fog::Compute::Brkt::MachineType
+            id="721a109fd3e547cd8790bfd41e977712",
+            cpu_cores=8,
+            ram=30.0,
+            storage_gb=160,
+            encrypted_storage_gb=72.0,
+            hourly_cost=0.98,
+            provider=1,
+            supports_pv=true
+          >,
+          ... skipped ...
 
 Now try to create a server:
 
