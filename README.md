@@ -18,7 +18,260 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+First of all you need to create a compute object:
+
+    2.2.0 > compute = Fog::Compute.new({
+        :provider => "brkt",
+        :brkt_public_access_token => "token here",
+        :brkt_private_mac_key => "mac key here",
+        :brkt_api_host: "api.host" # optional
+    })
+
+Let's check existance of computing cells & billing groups:
+
+    2.2.0 > compute.computing_cells
+    =>   <Fog::Compute::Brkt::ComputingCells
+    [
+                  <Fog::Compute::Brkt::ComputingCell
+        id="78830636ebcb4151b2d3d638258fd785",
+        name="us-west-2",
+        description="",
+        provider="AWS",
+        gateway_ip="10.0.249.4",
+        provider_options={"default_aws_avail_zone"=>"us-west-2b", "state"=>"READY", "aws_region"=>"us-west-2", "why"=>""}
+      >
+    ]
+
+    2.2.0 > compute.billing_groups
+    =>   <Fog::Compute::Brkt::BillingGroups
+      [
+                <Fog::Compute::Brkt::BillingGroup
+          id="147bfba168444dbcad2b79e88ae9afc9",
+          name="default",
+          description="",
+          members=["/v1/api/config/billinggroup/147bfba168444dbcad2b79e88ae9afc9/members"],
+          customer="ffffffffffff4fffafffffffffffff00"
+        >
+      ]
+     >
+    2.2.0 > default_billing_group = compute.billing_groups.get("147bfba168444dbcad2b79e88ae9afc9")
+     =>    <Fog::Compute::Brkt::BillingGroup
+        id="147bfba168444dbcad2b79e88ae9afc9",
+        name="default",
+        description="",
+        members=["/v1/api/config/billinggroup/147bfba168444dbcad2b79e88ae9afc9/members"],
+        customer="ffffffffffff4fffafffffffffffff00"
+      >
+
+
+Creating workload template:
+
+    2.2.0 > compute.workload_templates.create()
+    ArgumentError: name, assigned_groups and assigned_zones are required for this operation
+
+    2.2.0 > workload_template = compute.workload_templates.create({
+        :name => "test workload template",
+        :description => "workload template for test purposes",
+        :assigned_groups => [default_billing_group.id],
+        :assigned_zones => [compute.computing_cells.first.zones.first.id]
+    })
+     =>   <Fog::Compute::Brkt::WorkloadTemplate
+        id="902c983665ea451bbf193c38d38f95ce",
+        name="test workload template",
+        description="workload template for test purposes",
+        assigned_groups=["147bfba168444dbcad2b79e88ae9afc9"],
+        assigned_zones=["df43995a1d8a48d28b835238bfd079b4"],
+        fixed_charge=0.0,
+        base_hourly_rate=0.0,
+        hourly_cost=0.0,
+        daily_cost=0.0,
+        monthly_cost=0.0,
+        max_cost=0.0,
+        enable_service_domain=false,
+        state="PUBLISHED",
+        metadata={}
+      >
+
+Check whether worload template comtains any server templates:
+
+    2.2.0 > workload_template.server_templates
+     =>   <Fog::Compute::Brkt::ServerTemplates
+        [
+
+        ]
+      >
+
+Let's create one:
+
+    2.2.0 > workload_template.server_templates.create()
+    ArgumentError: name and image_definition are required for this operation
+
+Image definition is required to create an instance template. To list available image definitions:
+
+    2.2.0 :034 > compute.images
+     =>   <Fog::Compute::Brkt::Images
+        [
+                      <Fog::Compute::Brkt::Image
+            id="f789efac46bf43c792e51b73d28fc398",
+            name="Ubuntu 13.10 Saucy (64 bit)",
+            description="",
+            state="READY",
+            is_base=true,
+            is_encrypted=false,
+            os={"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.944208+00:00", "label"=>"Ubuntu 13.10 Saucy (64 bit)", "platform"=>"linux", "version"=>"13.10", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.944180+00:00", "metadata"=>{}, "id"=>"bd2c801afb174ca9baba61363a2a5554", "name"=>"ubuntu"},
+            os_settings={"mounts.options"=>"nobootwait"}
+          >,
+                      <Fog::Compute::Brkt::Image
+            id="ea83044d366646c493717ac11b67b766",
+            name="Red Hat Enterprise Linux 6.4 (64 bit)",
+            description="",
+            state="READY",
+            is_base=true,
+            is_encrypted=false,
+            os={"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.949930+00:00", "label"=>"Red Hat Enterprise Linux 6.4 (64 bit)", "platform"=>"linux", "version"=>"6.4", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.949899+00:00", "metadata"=>{}, "id"=>"bcd4bbc6368c47cf95fc95e791d1e066", "name"=>"rhel"},
+            os_settings={"mounts.options"=>"nofail"}
+          ...
+    2.2.0 > image = compute.images.first
+     =>   <Fog::Compute::Brkt::Image
+        id="f789efac46bf43c792e51b73d28fc398",
+        name="Ubuntu 13.10 Saucy (64 bit)",
+        description="",
+        state="READY",
+        is_base=true,
+        is_encrypted=false,
+        os={"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.944208+00:00", "label"=>"Ubuntu 13.10 Saucy (64 bit)", "platform"=>"linux", "version"=>"13.10", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.944180+00:00", "metadata"=>{}, "id"=>"bd2c801afb174ca9baba61363a2a5554", "name"=>"ubuntu"},
+        os_settings={"mounts.options"=>"nobootwait"}
+
+    2.2.0 > workload_template.server_templates.create({
+        :name => "test server",
+        :description => "server for test purposes",
+        :image_definition => image.id
+    })
+
+
+Check server templates list again:
+
+    2.2.0 > workload_template.server_templates
+     =>   <Fog::Compute::Brkt::ServerTemplates
+        [
+                      <Fog::Compute::Brkt::ServerTemplate
+            id="ffe1198f18ae446b89c03378e437009a",
+            name="test server",
+            description="server for test purposes",
+            service_name="",
+            workload_template="902c983665ea451bbf193c38d38f95ce",
+            image_definition={"customer"=>nil, "os_settings"=>{"mounts.options"=>"nobootwait"}, "modified_by"=>nil, "description"=>"", "unencrypted_parent"=>nil, "csp_images"=>"/v1/api/config/imagedefinition/f789efac46bf43c792e51b73d28fc398/cspimages", "created_by"=>nil, "is_encrypted"=>false, "metadata"=>{}, "state"=>"READY", "modified_time"=>"2015-02-23T22:03:47.036014+00:00", "created_time"=>"2015-02-23T22:03:47.035985+00:00", "is_base"=>true, "os"=>{"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.944208+00:00", "label"=>"Ubuntu 13.10 Saucy (64 bit)", "platform"=>"linux", "version"=>"13.10", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.944180+00:00", "metadata"=>{}, "id"=>"bd2c801afb174ca9baba61363a2a5554", "name"=>"ubuntu"}, "id"=>"f789efac46bf43c792e51b73d28fc398", "name"=>"Ubuntu 13.10 Saucy (64 bit)"},
+            machine_type=nil,
+            assigned_groups=["147bfba168444dbcad2b79e88ae9afc9"],
+            security_groups=[],
+            load_balancer_template=nil,
+            requires_ssd=false,
+            requires_encryption=false,
+            min_quantity=1,
+            cpu_arch="amd64",
+            cpu_cores_minimum=1,
+            ram_minimum=2,
+            requires_gpu=false,
+            fixed_charge=0.0,
+            base_hourly_rate=0.1225,
+            hourly_cost=0.13,
+            daily_cost=2.94,
+            monthly_cost=88.2,
+            cloudinit_id="a132f53b7d07491ebfd619e15bb575e2",
+            cloudinit_script="",
+            cloudinit_type="DEFAULT",
+            internet_accessible=false,
+            state="PUBLISHED",
+            metadata={}
+          >
+        ]
+      >
+
+Deploy workload template:
+
+    2.2.0 > workload = workload_template.deploy(default_billing_group)
+     =>   <Fog::Compute::Brkt::Workload
+        id="e3ceb8eb0ea7424aa76b530b3332e65d",
+        name="test workload template",
+        description="workload template for test purposes",
+        billing_group="147bfba168444dbcad2b79e88ae9afc9",
+        zone="df43995a1d8a48d28b835238bfd079b4",
+        fixed_charge=0.0,
+        base_hourly_rate=0.1225,
+        hourly_cost=0.13,
+        daily_cost=2.94,
+        monthly_cost=88.2,
+        max_cost=0.0,
+        state="IGNORE",
+        service_domain=nil,
+        expired=false,
+        workload_template="902c983665ea451bbf193c38d38f95ce"
+      >
+
+Wait synchronously for workload to become ready:
+
+    2.2.0 > workload.wait_for { ready? }
+    => {:duration=>185.0}
+    2.2.0 > workload.ready?
+    => true
+    2.2.0 > workload.servers
+     =>   <Fog::Compute::Brkt::Servers
+        [
+                      <Fog::Compute::Brkt::Server
+            id="f9d1f58e31544709bd2408c5fc02da3b",
+            name="test server",
+            description="server for test purposes",
+            workload=        <Fog::Compute::Brkt::Workload
+              id="e3ceb8eb0ea7424aa76b530b3332e65d",
+              name="test workload template",
+              description="workload template for test purposes",
+              billing_group="147bfba168444dbcad2b79e88ae9afc9",
+              zone="df43995a1d8a48d28b835238bfd079b4",
+              fixed_charge=0.0,
+              base_hourly_rate=0.1225,
+              hourly_cost=0.13,
+              daily_cost=2.94,
+              monthly_cost=88.2,
+              max_cost=0.0,
+              state="READY",
+              service_domain=nil,
+              expired=false,
+              workload_template="902c983665ea451bbf193c38d38f95ce"
+            >,
+            image_definition=        <Fog::Compute::Brkt::Image
+              id="f789efac46bf43c792e51b73d28fc398",
+              name="Ubuntu 13.10 Saucy (64 bit)",
+              description="",
+              state="READY",
+              is_base=true,
+              is_encrypted=false,
+              os={"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.944208+00:00", "label"=>"Ubuntu 13.10 Saucy (64 bit)", "platform"=>"linux", "version"=>"13.10", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.944180+00:00", "metadata"=>{}, "id"=>"bd2c801afb174ca9baba61363a2a5554", "name"=>"ubuntu"},
+              os_settings={"mounts.options"=>"nobootwait"}
+            >,
+            machine_type=        <Fog::Compute::Brkt::MachineType
+              id="59e0c9a0ca0f41dba86fb30ccb56ddfd",
+              cpu_cores=1,
+              ram=3.75,
+              storage_gb=4,
+              encrypted_storage_gb=1.8,
+              hourly_cost=0.13,
+              provider=1,
+              supports_pv=true
+            >,
+            ram=3.75,
+            cpu_cores=1,
+            provider_instance={"state"=>"READY", "why"=>""},
+            ip_address="10.0.37.241",
+            internet_accessible=false,
+            internet_ip_address=nil,
+            load_balancer=nil,
+            service_name=nil,
+            service_name_fqdn=nil,
+            metadata={}
+          >
+        ]
+      >
+
 
 ## Testing
 
