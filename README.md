@@ -24,7 +24,7 @@ First of all you need to create a compute object:
         :provider => "brkt",
         :brkt_public_access_token => "token here",
         :brkt_private_mac_key => "mac key here",
-        :brkt_api_host: "api.host" # optional
+        :brkt_api_host: "api.host"
     })
 
 Let's check existance of computing cells & billing groups:

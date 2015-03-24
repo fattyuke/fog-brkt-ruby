@@ -9,7 +9,7 @@ module Fog
   module Compute
     class Brkt < Fog::Service
 
-      requires :brkt_public_access_token, :brkt_private_mac_key
+      requires :brkt_public_access_token, :brkt_private_mac_key, :brkt_api_host
 
       model_path "fog/brkt/models/compute"
       model      :customer
@@ -139,14 +139,12 @@ module Fog
       request :list_load_balancer_listeners
 
       class Real
-        DEFAULT_API_HOST = "http://portal.demo.berndt.brkt.net"
-
         attr_reader :api_host
 
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
           @private_mac_key     = options[:brkt_private_mac_key]
-          @api_host            = options[:brkt_api_host] || DEFAULT_API_HOST
+          @api_host            = options[:brkt_api_host]
           @connection          = Fog::XML::Connection.new(@api_host)
         end
 
