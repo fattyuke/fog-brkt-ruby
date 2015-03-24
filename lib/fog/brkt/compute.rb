@@ -135,7 +135,7 @@ module Fog
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
           @private_mac_key     = options[:brkt_private_mac_key]
-          @api_host            = options[:api_host] || DEFAULT_API_HOST
+          @api_host            = options[:brkt_api_host] || DEFAULT_API_HOST
           @connection          = Fog::XML::Connection.new(@api_host)
         end
 
