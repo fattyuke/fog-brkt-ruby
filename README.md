@@ -272,10 +272,101 @@ Wait synchronously for workload to become ready:
         ]
       >
 
+Now let's add a new server to this workload:
+
+  2.2.0 > workload.servers.create()
+  ArgumentError: name, image_definition and machine_type are required for this operation
+
+To see list of available machine types:
+
+  2.2.0 > compute.machine_types
+   =>   <Fog::Compute::Brkt::MachineTypes
+      [
+                    <Fog::Compute::Brkt::MachineType
+          id="565f94793df94bbba3f45ae2745ee23a",
+          cpu_cores=4,
+          ram=15.0,
+          storage_gb=80,
+          encrypted_storage_gb=36.0,
+          hourly_cost=0.49,
+          provider=1,
+          supports_pv=true
+        >,
+                    <Fog::Compute::Brkt::MachineType
+          id="721a109fd3e547cd8790bfd41e977712",
+          cpu_cores=8,
+          ram=30.0,
+          storage_gb=160,
+          encrypted_storage_gb=72.0,
+          hourly_cost=0.98,
+          provider=1,
+          supports_pv=true
+        >,
+        ... skipped ...
+
+Now try to create a server:
+
+    2.2.0 > server = workload.servers.create({
+      :name => "instance created not from template",
+      :image_definition => image,
+      :machine_type => compute.machine_types.first.id
+    })
+     =>   <Fog::Compute::Brkt::Server
+        id="e690f0ac37a249ebac732097b03aa1f4",
+        name="instance created not from template",
+        description="",
+        workload=    <Fog::Compute::Brkt::Workload
+          id="57fd3a603c164ce3b9530a1b96e2e21a",
+          name="test workload template",
+          description="workload template for test purposes",
+          billing_group="147bfba168444dbcad2b79e88ae9afc9",
+          zone="df43995a1d8a48d28b835238bfd079b4",
+          fixed_charge=0.0,
+          base_hourly_rate=0.6125,
+          hourly_cost=0.62,
+          daily_cost=14.7,
+          monthly_cost=441.0,
+          max_cost=0.0,
+          state="BOOTING",
+          service_domain=nil,
+          expired=false,
+          workload_template="bfd5c3a8933b40369bf05a4752fee251"
+        >,
+        image_definition=    <Fog::Compute::Brkt::Image
+          id="f789efac46bf43c792e51b73d28fc398",
+          name="Ubuntu 13.10 Saucy (64 bit)",
+          description="",
+          state="READY",
+          is_base=true,
+          is_encrypted=false,
+          os={"customer"=>nil, "modified_by"=>nil, "description"=>"", "os_features"=>{}, "modified_time"=>"2015-02-23T22:03:46.944208+00:00", "label"=>"Ubuntu 13.10 Saucy (64 bit)", "platform"=>"linux", "version"=>"13.10", "created_by"=>nil, "created_time"=>"2015-02-23T22:03:46.944180+00:00", "metadata"=>{}, "id"=>"bd2c801afb174ca9baba61363a2a5554", "name"=>"ubuntu"},
+          os_settings={"mounts.options"=>"nobootwait"}
+        >,
+        machine_type=    <Fog::Compute::Brkt::MachineType
+          id="565f94793df94bbba3f45ae2745ee23a",
+          cpu_cores=4,
+          ram=15.0,
+          storage_gb=80,
+          encrypted_storage_gb=36.0,
+          hourly_cost=0.49,
+          provider=1,
+          supports_pv=true
+        >,
+        ram=15.0,
+        cpu_cores=4,
+        provider_instance={"state"=>"IGNORE", "why"=>""},
+        ip_address=nil,
+        internet_accessible=false,
+        internet_ip_address=nil,
+        load_balancer=nil,
+        service_name=nil,
+        service_name_fqdn=nil,
+        metadata={}
+      >
 
 ## Testing
 
-To run test suite execute(it will mock interaction with API by default):
+To run test suite execute (it will mock interaction with API by default):
 
     $ rake spec
 
@@ -283,7 +374,7 @@ To run test suite against a real API endpoint execute:
 
     $ FOG_MOCK=false BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> rake spec
 
-In non-mocking mode some test take a long time to execute (for example you can test reboot instance behavior only after it's booted completely), to skip a slowest test add FAST_TESTS=true
+In non-mocking mode some test take a long time to execute (for example you can test reboot instance behavior only after it's booted completely), to skip a slowest tests add FAST_TESTS=true
 
     $ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> rake spec
 
