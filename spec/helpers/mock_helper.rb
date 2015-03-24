@@ -18,5 +18,5 @@ else
     :brkt_private_mac_key     => ENV['BRKT_PRIVATE_MAC_KEY']
   }
   credentials[:brkt_api_endpoint] = ENV['BRKT_API_HOST'] if ENV['BRKT_API_HOST']
-  Fog.credentials(credentials.merge(Fog.credentials))
+  Fog.credentials = credentials.merge(Fog.credentials)
 end
