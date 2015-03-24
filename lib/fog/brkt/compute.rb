@@ -61,6 +61,7 @@ module Fog
       request :update_workload_template
       request :list_workload_templates
       request :get_workload_template
+      request :deploy_workload_template
       request :create_workload
       request :delete_workload
       request :update_workload

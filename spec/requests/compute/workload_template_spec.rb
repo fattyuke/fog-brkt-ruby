@@ -102,7 +102,7 @@ describe "workload requests" do
   describe "#get_workload_template" do
     before(:all) do
       @workload_template = compute.workload_templates.create({
-        :name          => Fog::Brkt::Mock.name,
+        :name            => Fog::Brkt::Mock.name,
         :assigned_groups => [@billing_group.id],
         :assigned_zones  => [@cell.zones.first.id]
       })
@@ -115,6 +115,34 @@ describe "workload requests" do
       subject { @response.body }
 
       it { is_expected.to have_format(workload_template_format) }
+    end
+  end
+
+  describe "#deploy_workload_template" do
+    before(:all) do
+      @workload_template = compute.workload_templates.create({
+        :name            => Fog::Brkt::Mock.name,
+        :assigned_groups => [@billing_group.id],
+        :assigned_zones  => [@cell.zones.first.id]
+      })
+      @workload_name = Fog::Brkt::Mock.name
+      @response = compute.deploy_workload_template(@workload_template.id, {
+        :name          => @workload_name,
+        :billing_group => @billing_group.id,
+        :zone          => @cell.zones.first.id
+      })
+    end
+
+    after(:all) do
+      compute.workloads.get(@response.body["id"]).destroy
+      @workload_template.destroy
+    end
+
+    describe "response" do
+      subject { @response.body }
+
+      it { expect(subject["name"]).to eq @workload_name }
+      it { expect(subject["workload_template"]).to eq @workload_template.id }
     end
   end
 end

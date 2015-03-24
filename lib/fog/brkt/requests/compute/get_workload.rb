@@ -5,7 +5,7 @@ module Fog
         def get_workload(id)
           request(
             :expects => [200],
-            :path    => "v2/api/config/workload/#{id}"
+            :path    => "v1/api/config/workload/#{id}"
           )
         end
       end

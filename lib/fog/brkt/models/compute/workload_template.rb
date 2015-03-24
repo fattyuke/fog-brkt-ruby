@@ -82,6 +82,16 @@ module Fog
         def server_templates
           service.server_templates(:workload_template => self)
         end
+
+        def deploy(billing_group, attributes={})
+          raise ArgumentError, "attributes must be hash" unless attributes.is_a?(Hash)
+          attributes["name"] ||= name
+          attributes["billing_group"] = billing_group.id
+          attributes["zone"] = assigned_zones.first # Fix?
+
+          workload_data = service.deploy_workload_template(self.id, attributes).body
+          service.workloads.new(workload_data)
+        end
       end
     end
   end
