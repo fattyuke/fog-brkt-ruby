@@ -49,6 +49,8 @@ module Fog
       collection :load_balancer_templates
       model      :load_balancer
       collection :load_balancers
+      model      :load_balancer_template_listener
+      collection :load_balancer_template_listeners
       model      :load_balancer_listener
       collection :load_balancer_listeners
 
@@ -129,6 +131,9 @@ module Fog
       request :update_load_balancer
       request :get_load_balancer
       request :list_load_balancers
+      request :create_load_balancer_template_listener
+      request :delete_load_balancer_template_listener
+      request :list_load_balancer_template_listeners
       request :create_load_balancer_listener
       request :delete_load_balancer_listener
       request :list_load_balancer_listeners

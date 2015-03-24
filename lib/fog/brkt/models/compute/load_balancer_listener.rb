@@ -1,30 +1,16 @@
 require "fog/core/model"
+require "fog/brkt/models/compute/base_listener"
 
 module Fog
   module Compute
     class Brkt
-      class LoadBalancerListener < Fog::Model
+      class LoadBalancerListener < BaseListener
         identity :id
 
         attribute :load_balancer
-        attribute :instance_protocol
-        attribute :instance_port, :type => :integer
-        attribute :listener_protocol
-        attribute :listener_port, :type => :integer
-        attribute :stickiness, :type => :boolean
-        attribute :is_health_check_listener, :type => :boolean
-
-        def stickiness?
-          stickiness
-        end
-
-        def health_check?
-          is_health_check_listener
-        end
 
         def save
-          requires :load_balancer, :instance_protocol, :instance_port, :listener_protocol,
-            :listener_port
+          requires :load_balancer, :instance_protocol, :instance_port, :listener_protocol, :listener_port
 
           data = service.create_load_balancer_listener(attributes).body
           merge_attributes(data)

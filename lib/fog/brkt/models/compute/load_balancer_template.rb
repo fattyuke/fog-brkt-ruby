@@ -37,6 +37,10 @@ module Fog
           service.delete_load_balancer_template(id)
           true
         end
+
+        def listeners
+          service.load_balancer_template_listeners(:load_balancer_template => self)
+        end
       end
     end
   end
