@@ -41,7 +41,7 @@ describe "load balancer requests" do
 
   before(:all) do
     @cell = create_computing_cell
-    billing_group = compute.billing_groups.create(
+    @billing_group = compute.billing_groups.create(
       :customer_id => compute.customer.id,
       :name        => Fog::Brkt::Mock.name
     )
@@ -50,13 +50,14 @@ describe "load balancer requests" do
       :network => @cell.network.id
     )
     @workload = compute.workloads.create(
-      :billing_group_id => billing_group.id,
+      :billing_group_id => @billing_group.id,
       :zone_id          => @cell.zones.first.id,
       :name             => Fog::Brkt::Mock.name
     )
   end
 
   after(:all) do
+    @billing_group.destroy if @billing_group
     delete_computing_cell(@cell)
   end
 

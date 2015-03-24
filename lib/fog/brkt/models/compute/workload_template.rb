@@ -83,6 +83,10 @@ module Fog
           service.server_templates(:workload_template => self)
         end
 
+        def load_balancer_templates
+          service.load_balancer_templates(:workload_template => self)
+        end
+
         def deploy(billing_group, attributes={})
           raise ArgumentError, "attributes must be hash" unless attributes.is_a?(Hash)
           attributes["name"] ||= name

@@ -45,6 +45,8 @@ module Fog
       collection :security_groups
       model      :security_group_rule
       collection :security_group_rules
+      model      :load_balancer_template
+      collection :load_balancer_templates
       model      :load_balancer
       collection :load_balancers
       model      :load_balancer_listener
@@ -118,6 +120,10 @@ module Fog
       request :delete_security_group_rule
       request :list_security_group_rules
       request :list_security_group_security_group_rules
+      request :create_load_balancer_template
+      request :delete_load_balancer_template
+      request :update_load_balancer_template
+      request :list_load_balancer_templates
       request :create_load_balancer
       request :delete_load_balancer
       request :update_load_balancer
@@ -210,6 +216,7 @@ module Fog
             :networks                => {},
             :security_groups         => {},
             :security_group_rules    => {},
+            :load_balancer_templates => {},
             :load_balancers          => {},
             :load_balancer_listeners => {},
             :zones                => {
