@@ -92,7 +92,7 @@ Creating workload template:
         metadata={}
       >
 
-Check whether worload template comtains any server templates:
+Check whether worload template contains any server templates:
 
     2.2.0 > workload_template.server_templates
      =>   <Fog::Compute::Brkt::ServerTemplates
