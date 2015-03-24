@@ -9,12 +9,12 @@ module Fog
         attribute :name
         attribute :description
         attribute :members, :type => :array
-        attribute :customer
+        attribute :customer, :aliases => [:customer_id]
 
         def save
-          requires :name, :customer_id
+          requires :name, :customer
 
-          data = service.create_billing_group(customer_id, name, {
+          data = service.create_billing_group(customer, name, {
             :description => description,
             :members     => members
           }).body
