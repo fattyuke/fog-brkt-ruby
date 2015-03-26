@@ -16,7 +16,20 @@ Or install it yourself as:
 
     $ gem install fog-brkt
 
+### Install from source (development)
+
+To build and install the gem from source:
+
+    $ git clone https://github.int.brkt.com/berndt/brkt-fog-ruby
+    $ cd brkt-fog-ruby
+    $ gem build fog-brkt.gemspec
+    $ sudo gem install ./fog-brkt-0.1.0.gem
+
 ## Usage
+
+To require fog-brkt:
+
+    2.2.0 > require "fog/brkt"
 
 First of all you need to create a compute object:
 
@@ -24,7 +37,7 @@ First of all you need to create a compute object:
         :provider => "brkt",
         :brkt_public_access_token => "token here",
         :brkt_private_mac_key => "mac key here",
-        :brkt_api_host: "api.host"
+        :brkt_api_host => "api.host"
     })
 
 Let's check existance of computing cells & billing groups:
