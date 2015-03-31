@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class Image < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -13,6 +14,7 @@ module Fog
         attribute :is_encrypted, :aliases => :encrypted, :type => :boolean
         attribute :os
         attribute :os_settings
+        # @!endgroup
 
         def encrypted?
           !!is_encrypted
@@ -22,6 +24,10 @@ module Fog
           !!is_base
         end
 
+        # Create Image.
+        # Required attributes: *name*, *os*
+        #
+        # @return [true]
         def save
           requires :name, :os
 
@@ -30,6 +36,9 @@ module Fog
           true
         end
 
+        # Delete image
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -37,6 +46,7 @@ module Fog
           true
         end
 
+        # @return [CspImages] Csp images collection
         def csp_images
           service.csp_images(:image => self)
         end

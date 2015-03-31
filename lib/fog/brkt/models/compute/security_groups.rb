@@ -7,10 +7,17 @@ module Fog
       class SecurityGroups < Fog::Collection
         model Fog::Compute::Brkt::SecurityGroup
 
+        # Get security groups
+        #
+        # @return [Array<SecurityGroup>] security groups
         def all
           load(service.list_security_groups.body)
         end
 
+        # Get security group by ID
+        #
+        # @param [String] id security group id
+        # @return [SecurityGroup] security group
         def get(id)
           new(service.get_security_group(id).body)
         end

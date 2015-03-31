@@ -7,8 +7,14 @@ module Fog
       class Zones < Fog::Collection
         model Fog::Compute::Brkt::Zone
 
+        # @return [Network]
         attr_accessor :network
 
+        # Get network zones.
+        # If {#network} attribute is set, returns only zones
+        # scoped by network and returns all zones otherwise
+        #
+        # @return [Array<Zone>] zones
         def all
           if network.nil?
             load(service.list_zones.body)

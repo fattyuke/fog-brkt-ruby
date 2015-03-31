@@ -139,8 +139,15 @@ module Fog
       request :list_load_balancer_listeners
 
       class Real
+        # @return [String] api host
         attr_reader :api_host
 
+        # Returns a new instance of Real
+        #
+        # @param [Hash] options connection options
+        # @option options [String] :brkt_public_access_token public access token – *required*
+        # @option options [String] :brkt_private_mac_key private mac key – *required*
+        # @option options [String] :brkt_api_host API host (with protocol schema, example: http://portal.brkt.net) – *required*
         def initialize(options={})
           @public_access_token = options[:brkt_public_access_token]
           @private_mac_key     = options[:brkt_private_mac_key]
@@ -148,6 +155,10 @@ module Fog
           @connection          = Fog::XML::Connection.new(@api_host)
         end
 
+        # @param [Hash] params reqest parameters
+        # @option params [String] :method
+        # @option params [String] :path
+        # @option params [Hash] :headers
         def request(params)
           params[:method] ||= "GET"
 
@@ -167,6 +178,9 @@ module Fog
           response
         end
 
+        # Returns a current customer
+        #
+        # @return [Customer] customer object
         def customer
           @customer ||= begin
             Customer.new(get_customer.body)

@@ -8,6 +8,7 @@ module Fog
           READY = "READY"
         end
 
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -23,12 +24,18 @@ module Fog
         attribute :expired,                                                     :type => :boolean
         attribute :auto_snapshot_duration_days,                                 :type => :integer
         attribute :provider_bracket_volume
+        # @!endgroup
 
         def initialize(attributes={})
           self.provider_bracket_volume = {}
           super
         end
 
+        # Create or update volume.
+        # Required attributes for create: {#name}, {#computing_cell}, {#billing_group},
+        # {#size_in_gb}, {#iops}, {#iops_max}
+        #
+        # @return [true]
         def save
           if persisted?
             requires :id
@@ -41,6 +48,9 @@ module Fog
           true
         end
 
+        # Delete volume
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -52,6 +62,9 @@ module Fog
           provider_bracket_volume["state"] == State::READY
         end
 
+        # Create volume snapshot
+        #
+        # @return [Volume] new volume instance
         def create_snapshot
           requires :id, :name, :billing_group
 

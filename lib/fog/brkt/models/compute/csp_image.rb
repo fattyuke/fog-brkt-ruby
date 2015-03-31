@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class CspImage < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :provider
@@ -11,12 +12,17 @@ module Fog
         attribute :csp_settings
         attribute :state
         attribute :image_definition
+        # @!endgroup
 
         def initialize(attributes={})
           self.provider = "AWS"
           super
         end
 
+        # Create CSP image.
+        # Required attributes: *provider*, *image_definition*
+        #
+        # @return [true]
         def save
           requires :provider, :image_definition
 
@@ -25,6 +31,9 @@ module Fog
           true
         end
 
+        # Delete CSP image
+        #
+        # @return [true]
         def destroy
           requires :id
 

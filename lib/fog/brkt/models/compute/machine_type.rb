@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class MachineType < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :cpu_cores,            :type => :integer
@@ -13,6 +14,7 @@ module Fog
         attribute :hourly_cost,          :type => :float
         attribute :provider,             :type => :integer
         attribute :supports_pv,          :type => :boolean
+        # @!endgroup
       end
     end
   end

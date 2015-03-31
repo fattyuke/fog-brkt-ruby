@@ -1,0 +1,473 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>
+  File: README
+  
+    &mdash; Documentation by YARD 0.8.7.6
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '';
+  framesUrl = "frames.html#!file.README.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><div id='filecontents'>
+<h1 id="label-Fog-3A-3ABrkt">Fog::Brkt</h1>
+
+<p>Module for the &#39;fog&#39; gem to support Bracket</p>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>Add this line to your application&#39;s Gemfile:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_gem'>gem</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>fog-brkt</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<p>And then execute:</p>
+
+<pre class="code ruby"><code class="ruby">$ bundle</code></pre>
+
+<p>Or install it yourself as:</p>
+
+<pre class="code ruby"><code class="ruby">$ gem install fog-brkt</code></pre>
+
+<h2 id="label-Usage">Usage</h2>
+
+<p>Require library:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; require &quot;fog/brkt&quot;</code></pre>
+
+<p>First of all you need to create a compute object:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; compute = Fog::Compute.new({
+    :provider =&gt; &quot;brkt&quot;,
+    :brkt_public_access_token =&gt; &quot;token here&quot;,
+    :brkt_private_mac_key =&gt; &quot;mac key here&quot;,
+    :brkt_api_host =&gt; &quot;http://api.host&quot;
+})</code></pre>
+
+<p>Let&#39;s check existance of computing cells &amp; billing groups:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; compute.computing_cells
+=&gt;   &lt;Fog::Compute::Brkt::ComputingCells
+[
+              &lt;Fog::Compute::Brkt::ComputingCell
+    id=&quot;78830636ebcb4151b2d3d638258fd785&quot;,
+    name=&quot;us-west-2&quot;,
+    description=&quot;&quot;,
+    provider=&quot;AWS&quot;,
+    gateway_ip=&quot;10.0.249.4&quot;,
+    provider_options={&quot;default_aws_avail_zone&quot;=&gt;&quot;us-west-2b&quot;, &quot;state&quot;=&gt;&quot;READY&quot;, &quot;aws_region&quot;=&gt;&quot;us-west-2&quot;, &quot;why&quot;=&gt;&quot;&quot;}
+  &gt;
+]
+
+2.2.0 &gt; compute.billing_groups
+=&gt;   &lt;Fog::Compute::Brkt::BillingGroups
+  [
+            &lt;Fog::Compute::Brkt::BillingGroup
+      id=&quot;147bfba168444dbcad2b79e88ae9afc9&quot;,
+      name=&quot;default&quot;,
+      description=&quot;&quot;,
+      members=[&quot;/v1/api/config/billinggroup/147bfba168444dbcad2b79e88ae9afc9/members&quot;],
+      customer=&quot;ffffffffffff4fffafffffffffffff00&quot;
+    &gt;
+  ]
+ &gt;
+2.2.0 &gt; default_billing_group = compute.billing_groups.get(&quot;147bfba168444dbcad2b79e88ae9afc9&quot;)
+ =&gt;    &lt;Fog::Compute::Brkt::BillingGroup
+    id=&quot;147bfba168444dbcad2b79e88ae9afc9&quot;,
+    name=&quot;default&quot;,
+    description=&quot;&quot;,
+    members=[&quot;/v1/api/config/billinggroup/147bfba168444dbcad2b79e88ae9afc9/members&quot;],
+    customer=&quot;ffffffffffff4fffafffffffffffff00&quot;
+  &gt;</code></pre>
+
+<p>Creating workload template:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; compute.workload_templates.create()
+ArgumentError: name, assigned_groups and assigned_zones are required for this operation
+
+2.2.0 &gt; workload_template = compute.workload_templates.create({
+    :name =&gt; &quot;test workload template&quot;,
+    :description =&gt; &quot;workload template for test purposes&quot;,
+    :assigned_groups =&gt; [default_billing_group.id],
+    :assigned_zones =&gt; [compute.computing_cells.first.zones.first.id]
+})
+ =&gt;   &lt;Fog::Compute::Brkt::WorkloadTemplate
+    id=&quot;902c983665ea451bbf193c38d38f95ce&quot;,
+    name=&quot;test workload template&quot;,
+    description=&quot;workload template for test purposes&quot;,
+    assigned_groups=[&quot;147bfba168444dbcad2b79e88ae9afc9&quot;],
+    assigned_zones=[&quot;df43995a1d8a48d28b835238bfd079b4&quot;],
+    fixed_charge=0.0,
+    base_hourly_rate=0.0,
+    hourly_cost=0.0,
+    daily_cost=0.0,
+    monthly_cost=0.0,
+    max_cost=0.0,
+    enable_service_domain=false,
+    state=&quot;PUBLISHED&quot;,
+    metadata={}
+  &gt;</code></pre>
+
+<p>Check whether worload template contains any server templates:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload_template.server_templates
+ =&gt;   &lt;Fog::Compute::Brkt::ServerTemplates
+    [
+
+    ]
+  &gt;</code></pre>
+
+<p>Let&#39;s create one:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload_template.server_templates.create()
+ArgumentError: name and image_definition are required for this operation</code></pre>
+
+<p>Image definition is required to create an instance template. To list
+available image definitions:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 :034 &gt; compute.images
+ =&gt;   &lt;Fog::Compute::Brkt::Images
+    [
+                  &lt;Fog::Compute::Brkt::Image
+        id=&quot;f789efac46bf43c792e51b73d28fc398&quot;,
+        name=&quot;Ubuntu 13.10 Saucy (64 bit)&quot;,
+        description=&quot;&quot;,
+        state=&quot;READY&quot;,
+        is_base=true,
+        is_encrypted=false,
+        os={&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.944208+00:00&quot;, &quot;label&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;13.10&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.944180+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bd2c801afb174ca9baba61363a2a5554&quot;, &quot;name&quot;=&gt;&quot;ubuntu&quot;},
+        os_settings={&quot;mounts.options&quot;=&gt;&quot;nobootwait&quot;}
+      &gt;,
+                  &lt;Fog::Compute::Brkt::Image
+        id=&quot;ea83044d366646c493717ac11b67b766&quot;,
+        name=&quot;Red Hat Enterprise Linux 6.4 (64 bit)&quot;,
+        description=&quot;&quot;,
+        state=&quot;READY&quot;,
+        is_base=true,
+        is_encrypted=false,
+        os={&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.949930+00:00&quot;, &quot;label&quot;=&gt;&quot;Red Hat Enterprise Linux 6.4 (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;6.4&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.949899+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bcd4bbc6368c47cf95fc95e791d1e066&quot;, &quot;name&quot;=&gt;&quot;rhel&quot;},
+        os_settings={&quot;mounts.options&quot;=&gt;&quot;nofail&quot;}
+      ...
+2.2.0 &gt; image = compute.images.first
+ =&gt;   &lt;Fog::Compute::Brkt::Image
+    id=&quot;f789efac46bf43c792e51b73d28fc398&quot;,
+    name=&quot;Ubuntu 13.10 Saucy (64 bit)&quot;,
+    description=&quot;&quot;,
+    state=&quot;READY&quot;,
+    is_base=true,
+    is_encrypted=false,
+    os={&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.944208+00:00&quot;, &quot;label&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;13.10&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.944180+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bd2c801afb174ca9baba61363a2a5554&quot;, &quot;name&quot;=&gt;&quot;ubuntu&quot;},
+    os_settings={&quot;mounts.options&quot;=&gt;&quot;nobootwait&quot;}
+
+2.2.0 &gt; workload_template.server_templates.create({
+    :name =&gt; &quot;test server&quot;,
+    :description =&gt; &quot;server for test purposes&quot;,
+    :image_definition =&gt; image.id
+})</code></pre>
+
+<p>Check server templates list again:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload_template.server_templates
+ =&gt;   &lt;Fog::Compute::Brkt::ServerTemplates
+    [
+                  &lt;Fog::Compute::Brkt::ServerTemplate
+        id=&quot;ffe1198f18ae446b89c03378e437009a&quot;,
+        name=&quot;test server&quot;,
+        description=&quot;server for test purposes&quot;,
+        service_name=&quot;&quot;,
+        workload_template=&quot;902c983665ea451bbf193c38d38f95ce&quot;,
+        image_definition={&quot;customer&quot;=&gt;nil, &quot;os_settings&quot;=&gt;{&quot;mounts.options&quot;=&gt;&quot;nobootwait&quot;}, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;unencrypted_parent&quot;=&gt;nil, &quot;csp_images&quot;=&gt;&quot;/v1/api/config/imagedefinition/f789efac46bf43c792e51b73d28fc398/cspimages&quot;, &quot;created_by&quot;=&gt;nil, &quot;is_encrypted&quot;=&gt;false, &quot;metadata&quot;=&gt;{}, &quot;state&quot;=&gt;&quot;READY&quot;, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:47.036014+00:00&quot;, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:47.035985+00:00&quot;, &quot;is_base&quot;=&gt;true, &quot;os&quot;=&gt;{&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.944208+00:00&quot;, &quot;label&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;13.10&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.944180+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bd2c801afb174ca9baba61363a2a5554&quot;, &quot;name&quot;=&gt;&quot;ubuntu&quot;}, &quot;id&quot;=&gt;&quot;f789efac46bf43c792e51b73d28fc398&quot;, &quot;name&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;},
+        machine_type=nil,
+        assigned_groups=[&quot;147bfba168444dbcad2b79e88ae9afc9&quot;],
+        security_groups=[],
+        load_balancer_template=nil,
+        requires_ssd=false,
+        requires_encryption=false,
+        min_quantity=1,
+        cpu_arch=&quot;amd64&quot;,
+        cpu_cores_minimum=1,
+        ram_minimum=2,
+        requires_gpu=false,
+        fixed_charge=0.0,
+        base_hourly_rate=0.1225,
+        hourly_cost=0.13,
+        daily_cost=2.94,
+        monthly_cost=88.2,
+        cloudinit_id=&quot;a132f53b7d07491ebfd619e15bb575e2&quot;,
+        cloudinit_script=&quot;&quot;,
+        cloudinit_type=&quot;DEFAULT&quot;,
+        internet_accessible=false,
+        state=&quot;PUBLISHED&quot;,
+        metadata={}
+      &gt;
+    ]
+  &gt;</code></pre>
+
+<p>Deploy workload template:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload = workload_template.deploy(default_billing_group)
+ =&gt;   &lt;Fog::Compute::Brkt::Workload
+    id=&quot;e3ceb8eb0ea7424aa76b530b3332e65d&quot;,
+    name=&quot;test workload template&quot;,
+    description=&quot;workload template for test purposes&quot;,
+    billing_group=&quot;147bfba168444dbcad2b79e88ae9afc9&quot;,
+    zone=&quot;df43995a1d8a48d28b835238bfd079b4&quot;,
+    fixed_charge=0.0,
+    base_hourly_rate=0.1225,
+    hourly_cost=0.13,
+    daily_cost=2.94,
+    monthly_cost=88.2,
+    max_cost=0.0,
+    state=&quot;IGNORE&quot;,
+    service_domain=nil,
+    expired=false,
+    workload_template=&quot;902c983665ea451bbf193c38d38f95ce&quot;
+  &gt;</code></pre>
+
+<p>Wait synchronously for workload to become ready:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload.wait_for { ready? }
+=&gt; {:duration=&gt;185.0}
+2.2.0 &gt; workload.ready?
+=&gt; true
+2.2.0 &gt; workload.servers
+ =&gt;   &lt;Fog::Compute::Brkt::Servers
+    [
+                  &lt;Fog::Compute::Brkt::Server
+        id=&quot;f9d1f58e31544709bd2408c5fc02da3b&quot;,
+        name=&quot;test server&quot;,
+        description=&quot;server for test purposes&quot;,
+        workload=        &lt;Fog::Compute::Brkt::Workload
+          id=&quot;e3ceb8eb0ea7424aa76b530b3332e65d&quot;,
+          name=&quot;test workload template&quot;,
+          description=&quot;workload template for test purposes&quot;,
+          billing_group=&quot;147bfba168444dbcad2b79e88ae9afc9&quot;,
+          zone=&quot;df43995a1d8a48d28b835238bfd079b4&quot;,
+          fixed_charge=0.0,
+          base_hourly_rate=0.1225,
+          hourly_cost=0.13,
+          daily_cost=2.94,
+          monthly_cost=88.2,
+          max_cost=0.0,
+          state=&quot;READY&quot;,
+          service_domain=nil,
+          expired=false,
+          workload_template=&quot;902c983665ea451bbf193c38d38f95ce&quot;
+        &gt;,
+        image_definition=        &lt;Fog::Compute::Brkt::Image
+          id=&quot;f789efac46bf43c792e51b73d28fc398&quot;,
+          name=&quot;Ubuntu 13.10 Saucy (64 bit)&quot;,
+          description=&quot;&quot;,
+          state=&quot;READY&quot;,
+          is_base=true,
+          is_encrypted=false,
+          os={&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.944208+00:00&quot;, &quot;label&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;13.10&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.944180+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bd2c801afb174ca9baba61363a2a5554&quot;, &quot;name&quot;=&gt;&quot;ubuntu&quot;},
+          os_settings={&quot;mounts.options&quot;=&gt;&quot;nobootwait&quot;}
+        &gt;,
+        machine_type=        &lt;Fog::Compute::Brkt::MachineType
+          id=&quot;59e0c9a0ca0f41dba86fb30ccb56ddfd&quot;,
+          cpu_cores=1,
+          ram=3.75,
+          storage_gb=4,
+          encrypted_storage_gb=1.8,
+          hourly_cost=0.13,
+          provider=1,
+          supports_pv=true
+        &gt;,
+        ram=3.75,
+        cpu_cores=1,
+        provider_instance={&quot;state&quot;=&gt;&quot;READY&quot;, &quot;why&quot;=&gt;&quot;&quot;},
+        ip_address=&quot;10.0.37.241&quot;,
+        internet_accessible=false,
+        internet_ip_address=nil,
+        load_balancer=nil,
+        service_name=nil,
+        service_name_fqdn=nil,
+        metadata={}
+      &gt;
+    ]
+  &gt;</code></pre>
+
+<p>Now let&#39;s add a new server to this workload:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; workload.servers.create()
+ArgumentError: name, image_definition and machine_type are required for this operation</code></pre>
+
+<p>To see list of available machine types:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; compute.machine_types
+ =&gt;   &lt;Fog::Compute::Brkt::MachineTypes
+    [
+                  &lt;Fog::Compute::Brkt::MachineType
+        id=&quot;565f94793df94bbba3f45ae2745ee23a&quot;,
+        cpu_cores=4,
+        ram=15.0,
+        storage_gb=80,
+        encrypted_storage_gb=36.0,
+        hourly_cost=0.49,
+        provider=1,
+        supports_pv=true
+      &gt;,
+                  &lt;Fog::Compute::Brkt::MachineType
+        id=&quot;721a109fd3e547cd8790bfd41e977712&quot;,
+        cpu_cores=8,
+        ram=30.0,
+        storage_gb=160,
+        encrypted_storage_gb=72.0,
+        hourly_cost=0.98,
+        provider=1,
+        supports_pv=true
+      &gt;,
+      ... skipped ...</code></pre>
+
+<p>Now try to create a server:</p>
+
+<pre class="code ruby"><code class="ruby">2.2.0 &gt; server = workload.servers.create({
+  :name =&gt; &quot;instance created not from template&quot;,
+  :image_definition =&gt; image,
+  :machine_type =&gt; compute.machine_types.first.id
+})
+ =&gt;   &lt;Fog::Compute::Brkt::Server
+    id=&quot;e690f0ac37a249ebac732097b03aa1f4&quot;,
+    name=&quot;instance created not from template&quot;,
+    description=&quot;&quot;,
+    workload=    &lt;Fog::Compute::Brkt::Workload
+      id=&quot;57fd3a603c164ce3b9530a1b96e2e21a&quot;,
+      name=&quot;test workload template&quot;,
+      description=&quot;workload template for test purposes&quot;,
+      billing_group=&quot;147bfba168444dbcad2b79e88ae9afc9&quot;,
+      zone=&quot;df43995a1d8a48d28b835238bfd079b4&quot;,
+      fixed_charge=0.0,
+      base_hourly_rate=0.6125,
+      hourly_cost=0.62,
+      daily_cost=14.7,
+      monthly_cost=441.0,
+      max_cost=0.0,
+      state=&quot;BOOTING&quot;,
+      service_domain=nil,
+      expired=false,
+      workload_template=&quot;bfd5c3a8933b40369bf05a4752fee251&quot;
+    &gt;,
+    image_definition=    &lt;Fog::Compute::Brkt::Image
+      id=&quot;f789efac46bf43c792e51b73d28fc398&quot;,
+      name=&quot;Ubuntu 13.10 Saucy (64 bit)&quot;,
+      description=&quot;&quot;,
+      state=&quot;READY&quot;,
+      is_base=true,
+      is_encrypted=false,
+      os={&quot;customer&quot;=&gt;nil, &quot;modified_by&quot;=&gt;nil, &quot;description&quot;=&gt;&quot;&quot;, &quot;os_features&quot;=&gt;{}, &quot;modified_time&quot;=&gt;&quot;2015-02-23T22:03:46.944208+00:00&quot;, &quot;label&quot;=&gt;&quot;Ubuntu 13.10 Saucy (64 bit)&quot;, &quot;platform&quot;=&gt;&quot;linux&quot;, &quot;version&quot;=&gt;&quot;13.10&quot;, &quot;created_by&quot;=&gt;nil, &quot;created_time&quot;=&gt;&quot;2015-02-23T22:03:46.944180+00:00&quot;, &quot;metadata&quot;=&gt;{}, &quot;id&quot;=&gt;&quot;bd2c801afb174ca9baba61363a2a5554&quot;, &quot;name&quot;=&gt;&quot;ubuntu&quot;},
+      os_settings={&quot;mounts.options&quot;=&gt;&quot;nobootwait&quot;}
+    &gt;,
+    machine_type=    &lt;Fog::Compute::Brkt::MachineType
+      id=&quot;565f94793df94bbba3f45ae2745ee23a&quot;,
+      cpu_cores=4,
+      ram=15.0,
+      storage_gb=80,
+      encrypted_storage_gb=36.0,
+      hourly_cost=0.49,
+      provider=1,
+      supports_pv=true
+    &gt;,
+    ram=15.0,
+    cpu_cores=4,
+    provider_instance={&quot;state&quot;=&gt;&quot;IGNORE&quot;, &quot;why&quot;=&gt;&quot;&quot;},
+    ip_address=nil,
+    internet_accessible=false,
+    internet_ip_address=nil,
+    load_balancer=nil,
+    service_name=nil,
+    service_name_fqdn=nil,
+    metadata={}
+  &gt;</code></pre>
+
+<h2 id="label-Testing">Testing</h2>
+
+<p>To run test suite execute (it will mock interaction with API by default):</p>
+
+<pre class="code ruby"><code class="ruby">$ rake spec</code></pre>
+
+<p>To run test suite against a real API endpoint execute:</p>
+
+<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; rake spec</code></pre>
+
+<p>In non-mocking mode some test take a long time to execute (for example you
+can test reboot instance behavior only after it&#39;s booted completely),
+to skip a slowest tests add FAST_TESTS=true</p>
+
+<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; rake spec</code></pre>
+
+<h2 id="label-Contributing">Contributing</h2>
+<ol><li>
+<p>Fork it</p>
+</li><li>
+<p>Create your feature branch (<code>git checkout -b my-new-feature</code>)</p>
+</li><li>
+<p>Commit your changes (<code>git commit -am &#39;Add some
+feature&#39;</code>)</p>
+</li><li>
+<p>Push to the branch (<code>git push origin my-new-feature</code>)</p>
+</li><li>
+<p>Create a new Pull Request</p>
+</li></ol>
+</div></div>
+
+    <div id="footer">
+  Generated on Tue Mar 31 18:48:00 2015 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.6 (ruby-2.2.0).
+</div>
+
+  </body>
+</html>

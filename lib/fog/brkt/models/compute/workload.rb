@@ -8,6 +8,7 @@ module Fog
           READY = "READY"
         end
 
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -24,7 +25,12 @@ module Fog
         attribute :service_domain
         attribute :expired
         attribute :workload_template
+        # @!endgroup
 
+        # Create or update workload.
+        # Required attributes for create: {#name}, {#billing_group}, {#zone}
+        #
+        # @return [true]
         def save
           if persisted?
             data = service.update_workload(id, attributes).body
@@ -37,6 +43,9 @@ module Fog
           true
         end
 
+        # Delete server
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -44,6 +53,9 @@ module Fog
           true
         end
 
+        # Get servers in the workload
+        #
+        # @return [Servers] servers collection
         def servers
           service.servers(:workload => self)
         end

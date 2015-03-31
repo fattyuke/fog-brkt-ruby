@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class OperatingSystem < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -12,7 +13,11 @@ module Fog
         attribute :platform
         attribute :description
         attribute :os_features
+        # @!endgroup
 
+        # Get images associated with operating system
+        #
+        # @return [Images] images collection
         def images
           service.images(:operating_system => self)
         end

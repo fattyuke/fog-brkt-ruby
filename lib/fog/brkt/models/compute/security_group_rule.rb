@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class SecurityGroupRule < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :cidr_ip
@@ -12,9 +13,15 @@ module Fog
         attribute :port_range_to, :type => :integer
         attribute :description
         attribute :security_group
+        # @!endgroup
 
         has_one_identity :security_group, :security_groups
 
+        # Create security group rule.
+        # Required attributes on create: {#security_group}, {#cidr_ip},
+        # {#ip_proto}, {#port_range_from}, {#port_range_to}
+        #
+        # @return [true]
         def save
           requires :security_group, :cidr_ip, :ip_proto, :port_range_from, :port_range_to
 
@@ -24,6 +31,9 @@ module Fog
           true
         end
 
+        # Delete security group rule
+        #
+        # @return [true]
         def destroy
           requires :id
 

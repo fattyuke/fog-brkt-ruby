@@ -7,8 +7,12 @@ module Fog
       class Volumes < Fog::Collection
         model Fog::Compute::Brkt::Volume
 
+        # @return [Server]
         attr_accessor :instance
 
+        # Get volumes.
+        #
+        # @return [Array<Volume>] volumes
         def all
           if instance.nil?
             load(service.list_volumes.body)
@@ -17,6 +21,10 @@ module Fog
           end
         end
 
+        # Get volume by ID
+        #
+        # @param [String] id volume id
+        # @return [Volume,nil] volume if found, nil otherwise
         def get(id)
           begin
             new(service.get_volume(id).body)
