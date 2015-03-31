@@ -18,13 +18,17 @@ Or install it yourself as:
 
 ## Usage
 
+Require library:
+
+    2.2.0 > require "fog/brkt"
+
 First of all you need to create a compute object:
 
     2.2.0 > compute = Fog::Compute.new({
         :provider => "brkt",
         :brkt_public_access_token => "token here",
         :brkt_private_mac_key => "mac key here",
-        :brkt_api_host: "api.host"
+        :brkt_api_host => "http://api.host"
     })
 
 Let's check existance of computing cells & billing groups:
