@@ -10,7 +10,8 @@ end
 if Fog.mock?
   Fog.credentials = {
     :brkt_public_access_token => "token",
-    :brkt_private_mac_key     => "key"
+    :brkt_private_mac_key     => "key",
+    :brkt_api_host            => "http://not.important"
   }.merge(Fog.credentials)
 else
   credentials = {
