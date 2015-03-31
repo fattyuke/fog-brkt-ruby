@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class LoadBalancer < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -26,7 +27,12 @@ module Fog
         attribute :health_check_timeout, :type => :integer
         attribute :provider_load_balancer
         attribute :metadata
+        # @!endgroup
 
+        # Create or update load balancer.
+        # Required attributes on create: {#name}, {#workload}, {#security_group}
+        #
+        # @return [true]
         def save
           if persisted?
             data = service.update_load_balancer(id, attributes).body
@@ -39,6 +45,9 @@ module Fog
           true
         end
 
+        # Delete load balancer
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -46,6 +55,9 @@ module Fog
           true
         end
 
+        # Get load balancer listeners associated with load balancer
+        #
+        # @return [LoadBalancerListeners] load balancer listeners collection
         def listeners
           service.load_balancer_listeners(:load_balancer => self)
         end

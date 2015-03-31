@@ -27,7 +27,7 @@ To build and install the gem from source:
 
 ## Usage
 
-To require fog-brkt:
+Require library:
 
     2.2.0 > require "fog/brkt"
 
@@ -37,7 +37,7 @@ First of all you need to create a compute object:
         :provider => "brkt",
         :brkt_public_access_token => "token here",
         :brkt_private_mac_key => "mac key here",
-        :brkt_api_host => "api.host"
+        :brkt_api_host => "http://api.host"
     })
 
 Let's check existance of computing cells & billing groups:
@@ -381,15 +381,20 @@ Now try to create a server:
 
 To run test suite execute (it will mock interaction with API by default):
 
-    $ rake spec
+    $ bundle exec rake spec
 
 To run test suite against a real API endpoint execute:
 
-    $ FOG_MOCK=false BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> rake spec
+    $ FOG_MOCK=false BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> bundle exec rake spec
 
 In non-mocking mode some test take a long time to execute (for example you can test reboot instance behavior only after it's booted completely), to skip a slowest tests add FAST_TESTS=true
 
-    $ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> rake spec
+    $ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=<api host> BRKT_PUBLIC_ACCESS_TOKEN=<api public toke> BRKT_PRIVATE_MAC_KEY=<api private mac key> bundle exec rake spec
+
+## Generating documentation
+
+To (re)generate documentation simply run
+    $ bundle exec yard
 
 ## Contributing
 

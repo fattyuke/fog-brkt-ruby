@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class Zone < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :cidr_block
@@ -11,7 +12,12 @@ module Fog
         attribute :provider_zone
         attribute :network,           :aliases => [:network_id, "network_id"]
         attribute :use_main_route_table, :type => :boolean
+        # @!endgroup
 
+        # Create zone.
+        # Required attributes for create: {#name}, {#network}, {#cidr_block}
+        #
+        # @return [true]
         def save
           requires :network, :name, :cidr_block
 
@@ -20,6 +26,9 @@ module Fog
           true
         end
 
+        # Delete zone
+        #
+        # @return [true]
         def destroy
           requires :id
 

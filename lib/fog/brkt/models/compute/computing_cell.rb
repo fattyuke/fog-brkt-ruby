@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class ComputingCell < Fog::Model
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -11,16 +12,21 @@ module Fog
         attribute :provider
         attribute :gateway_ip
         attribute :provider_options, :aliases => ["provider_computing_cell", :provider_computing_cell]
+        # @!endgroup
 
         has_one :network, :networks
 
-        def initialize(options={})
+        def initialize(arguments={})
           self.provider = "AWS"
           self.provider_options = {}
-          self.network = Network.new(:service => options[:service])
+          self.network = Network.new(:service => arguments[:service])
           super
         end
 
+        # Create computing cell.
+        # Required attributes: *name*, *provider*, *network*, *provider_options*
+        #
+        # @return [true]
         def save
           requires :name, :provider, :network, :provider_options
           if provider_options.empty?
@@ -36,6 +42,9 @@ module Fog
           true
         end
 
+        # Delete computing cell
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -43,10 +52,17 @@ module Fog
           true
         end
 
+        # Get network zones associated with computing cell's network
+        #
+        # @return [Zones] network zones collection
         def zones
           network.zones
         end
 
+        # Set a new network
+        #
+        # @param [Hash, Network] new_network a network object or attributes hash
+        # @return [void]
         def network=(new_network)
           if network && new_network.is_a?(Hash)
             network.merge_attributes(new_network)
@@ -55,6 +71,7 @@ module Fog
           end
         end
 
+        # Returns true if API responds with 404
         def completely_deleted?
           begin
             reload

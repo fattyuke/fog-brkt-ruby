@@ -7,10 +7,17 @@ module Fog
       class BillingGroups < Fog::Collection
         model Fog::Compute::Brkt::BillingGroup
 
+        # Get billing groups
+        #
+        # @return [Array<BillingGroup>] billing groups
         def all
           load(service.list_billing_groups.body)
         end
 
+        # Get billing group by ID
+        #
+        # @param [String] id Billing group id
+        # @return [BillingGroup] billing group
         def get(id)
           new(service.get_billing_group(id).body)
         end

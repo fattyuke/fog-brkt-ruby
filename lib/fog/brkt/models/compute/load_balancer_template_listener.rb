@@ -5,10 +5,17 @@ module Fog
   module Compute
     class Brkt
       class LoadBalancerTemplateListener < BaseListener
+        # @!group Attributes
         identity :id
 
         attribute :load_balancer_template
+        # @!endgroup
 
+        # Create balancer template listener.
+        # Required attributes: {#load_balancer_template}, {#instance_protocol}, {#instance_port},
+        # {#listener_protocol}, {#listener_port}
+        #
+        # @return [true]
         def save
           requires :load_balancer_template, :instance_protocol, :instance_port,
             :listener_protocol, :listener_port
@@ -18,6 +25,9 @@ module Fog
           true
         end
 
+        # Delete load balancer template listener
+        #
+        # @return [true]
         def destroy
           requires :id
 

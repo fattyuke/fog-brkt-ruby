@@ -13,6 +13,7 @@ module Fog
           TERMINATED = "TERMINATED"
         end
 
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -30,6 +31,7 @@ module Fog
         attribute :service_name
         attribute :service_name_fqdn
         attribute :metadata
+        # @!endgroup
 
         has_one_identity :workload, :workloads
         has_one_identity :image_definition, :images
@@ -42,6 +44,7 @@ module Fog
           super
         end
 
+        # @return [String]
         def state
           provider_instance["state"]
         end
@@ -74,9 +77,15 @@ module Fog
           !!internet_accessible
         end
 
+        # Create or update server.
+        # Required attributes for create: {#name}, {#image_definition}, {#machine_type},
+        # {#workload}
+        #
+        # @return [true]
         def save
           if persisted?
-            data = service.update_server(attributes).body
+            requires :id
+            data = service.update_server(id, attributes).body
           else
             requires :name, :image_definition, :machine_type, :workload
 
@@ -92,6 +101,9 @@ module Fog
           true
         end
 
+        # Reboot server
+        #
+        # @return [true]
         def reboot
           requires :id
 
@@ -99,6 +111,9 @@ module Fog
           true
         end
 
+        # Terminate server
+        #
+        # @return [true]
         def destroy
           requires :id
 
@@ -106,15 +121,25 @@ module Fog
           true
         end
 
+        # Get volumes attached to a server
+        #
+        # @return [Volumes] volumes collection
         def volumes
           service.volumes(:instance => self)
         end
 
+        # Attach volume to a server
+        #
+        # @param [Volume] volume
+        # @return [void]
         def attach_volume(volume)
           volume.instance = identity
           volume.save
         end
 
+        # Check if volume attached to a server
+        #
+        # @return [Boolean]
         def attached?(volume)
           not volumes.find { |v| v.identity == volume.identity }.nil?
         end

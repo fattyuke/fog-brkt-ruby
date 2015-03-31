@@ -4,6 +4,7 @@ module Fog
   module Compute
     class Brkt
       class ServerTemplate < Fog::Compute::Server
+        # @!group Attributes
         identity :id
 
         attribute :name
@@ -33,7 +34,12 @@ module Fog
         attribute :internet_accessible, :type => :boolean
         attribute :state
         attribute :metadata
+        # @!endgroup
 
+        # Create or update server template.
+        # Required attributes for create: {#name}, {#image_definition}, {#workload_template}
+        #
+        # @return [true]
         def save
           if persisted?
             data = service.update_server_template(id, attributes).body
@@ -49,6 +55,9 @@ module Fog
           true
         end
 
+        # Delete server template
+        #
+        # @return [true]
         def destroy
           requires :id
           service.delete_server_template(id)
@@ -67,6 +76,9 @@ module Fog
           !!internet_accessible
         end
 
+        # Get volume templates attached to a server template
+        #
+        # @return [VolumeTemplates] volume templates collection
         def volume_templates
           service.volume_templates(:server_template => self)
         end
