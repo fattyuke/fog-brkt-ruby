@@ -25,4 +25,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "fog-core", "~> 1.29"
   spec.add_dependency "fog-xml", "~> 0.1"
   spec.add_dependency "fog-json", "~> 1.0"
+  spec.add_dependency "yard", "~> 0.8"
 end
