@@ -20,12 +20,16 @@ Or install it yourself as:
 
 To build and install the gem from source:
 
-    $ git clone https://github.int.brkt.com/berndt/brkt-fog-ruby
+    $ git clone git@github.com:brkt/fog-brkt-ruby.git
     $ cd brkt-fog-ruby
     $ gem build fog-brkt.gemspec
     $ sudo gem install ./fog-brkt-0.1.0.gem
 
 ## Usage
+
+Dependencies:
+
+In order to connect to https://portal.brkt.com ruby must be compiled against a recent version of openssl.  Specifically it must support TLS 1.2.  If the ssl handshake fails when trying to connect to the BRKT API server, check your openssl version, and specifically the version that ruby was built against.
 
 Require library:
 
