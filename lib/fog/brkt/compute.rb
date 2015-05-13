@@ -7,6 +7,14 @@ require "fog/brkt/core"
 
 module Fog
   module Compute
+    module State
+      READY = "READY"
+      FAILED = "FAILED"
+      POWERING_OFF = "POWERING_OFF"
+      POWERED_OFF = "POWERED_OFF"
+      TERMINATING = "TERMINATING"
+      TERMINATED = "TERMINATED"
+    end
     class Brkt < Fog::Service
 
       requires :brkt_public_access_token, :brkt_private_mac_key, :brkt_api_host
@@ -29,6 +37,8 @@ module Fog
       collection :images
       model      :csp_image
       collection :csp_images
+      model      :cloudinit
+      collection :cloudinits
       model      :workload_template
       collection :workload_templates
       model      :workload
@@ -100,6 +110,11 @@ module Fog
       request :create_csp_image
       request :delete_csp_image
       request :list_image_csp_images
+      request :create_cloudinit
+      request :get_cloudinit
+      request :delete_cloudinit
+      request :list_cloudinits
+      request :update_cloudinit
       request :create_volume_template
       request :delete_volume_template
       request :list_volume_templates
@@ -131,6 +146,7 @@ module Fog
       request :update_load_balancer
       request :get_load_balancer
       request :list_load_balancers
+      request :list_workload_load_balancers
       request :create_load_balancer_template_listener
       request :delete_load_balancer_template_listener
       request :list_load_balancer_template_listeners
@@ -224,6 +240,7 @@ module Fog
             },
             :computing_cells         => {},
             :billing_groups          => {},
+            :cloudinits              => {},
             :workload_templates      => {},
             :workloads               => {},
             :server_templates        => {},

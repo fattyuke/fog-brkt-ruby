@@ -14,7 +14,8 @@ module Fog
       class Mock
         def delete_computing_cell(id)
           response = Excon::Response.new
-          self.data[:computing_cells].delete(id)
+          computing_cell = self.data[:computing_cells][id]
+          computing_cell["provider_computing_cell"]["state"] = "TERMINATED"
           response
         end
       end

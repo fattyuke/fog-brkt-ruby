@@ -5,7 +5,7 @@ module Fog
         def get_security_group(id)
           request(
             :expects => [200],
-            :path    => "v1/api/config/securitygroup/#{id}"
+            :path    => "v1/api/config/securitygroup/#{id}?show_deleted=true"
           )
         end
       end

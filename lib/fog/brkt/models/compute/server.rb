@@ -4,15 +4,6 @@ module Fog
   module Compute
     class Brkt
       class Server < Fog::Compute::Server
-        module State
-          READY = "READY"
-          FAILED = "FAILED"
-          POWERING_OFF = "POWERING_OFF"
-          POWERED_OFF = "POWERED_OFF"
-          TERMINATING = "TERMINATING"
-          TERMINATED = "TERMINATED"
-        end
-
         # @!group Attributes
         identity :id
 
@@ -30,6 +21,7 @@ module Fog
         attribute :load_balancer
         attribute :service_name
         attribute :service_name_fqdn
+        attribute :cloudinit
         attribute :metadata
         # @!endgroup
 
@@ -37,6 +29,7 @@ module Fog
         has_one_identity :image_definition, :images
         has_one_identity :machine_type, :machine_types
         has_one_identity :load_balancer, :load_balancers
+        has_one_identity :cloudinit, :cloudinits
 
         def initialize(options={})
           self.metadata = {}
@@ -50,27 +43,27 @@ module Fog
         end
 
         def ready?
-          state == State::READY
+          state == Compute::State::READY
         end
 
         def failed?
-          state == State::FAILED
+          state == Compute::State::FAILED
         end
 
         def powering_off?
-          state == State::POWERING_OFF
+          state == Compute::State::POWERING_OFF
         end
 
         def powered_off?
-          state == State::POWERED_OFF
+          state == Compute::State::POWERED_OFF
         end
 
         def terminating?
-          state == State::TERMINATING
+          state == Compute::State::TERMINATING
         end
 
         def terminated?
-          state == State::TERMINATED
+          state == Compute::State::TERMINATED
         end
 
         def internet_accessible?
@@ -89,6 +82,7 @@ module Fog
           else
             requires :name, :image_definition, :machine_type, :workload
 
+            attributes[:cloudinit] = associations[:cloudinit]
             data = service.create_server(
               associations[:image_definition],
               associations[:machine_type],

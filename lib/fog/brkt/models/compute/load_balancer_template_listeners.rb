@@ -18,6 +18,18 @@ module Fog
           requires :load_balancer_template
           load(service.list_load_balancer_template_listeners(load_balancer_template.id).body)
         end
+
+        # Create a new instance of a load balancer template listener
+        # If {#load_balancer_template} attribute is set, sets
+        # {LoadBalancerTemplateListener#load_balancer_template} attribute
+        # to a {#load_balancer_template}'s id
+        #
+        # @param [Hash] attributes load balancer template listener attributes
+        # @return [LoadBalancerTemplateListener] LoadBalancerTemplateListener instance
+        def new(attributes={})
+          requires :load_balancer_template
+          super({:load_balancer_template => load_balancer_template.id}.merge(attributes))
+        end
       end
     end
   end

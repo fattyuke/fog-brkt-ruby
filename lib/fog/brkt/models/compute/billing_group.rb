@@ -10,17 +10,16 @@ module Fog
         attribute :name
         attribute :description
         attribute :members, :type => :array
-        attribute :customer, :aliases => [:customer_id]
         # @!endgroup
 
         # Create billing group.
-        # Required attributes: *name*, *customer*
+        # Required attributes: *name*
         #
         # @return [true]
         def save
-          requires :name, :customer
+          requires :name
 
-          data = service.create_billing_group(customer, name, {
+          data = service.create_billing_group(name, {
             :description => description,
             :members     => members
           }).body

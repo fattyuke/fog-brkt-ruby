@@ -2,13 +2,13 @@ module Fog
   module Compute
     class Brkt
       class Real
-        def create_billing_group(customer_id, name, options = {})
+        def create_billing_group(name, options = {})
           request(
             :expects => [201],
             :method  => 'POST',
             :path    => 'v1/api/config/billinggroup/',
             :body    => Fog::JSON.encode({
-              :customer    => customer_id,
+              :customer    => customer.id,
               :name        => name,
               :description => options[:description],
               :members     => options[:members]
@@ -18,11 +18,11 @@ module Fog
       end
 
       class Mock
-        def create_billing_group(customer_id, name, options = {})
+        def create_billing_group(name, options = {})
           response = Excon::Response.new
           id = Fog::Brkt::Mock.id
           data = {
-            'customer'          => customer_id,
+            'customer'          => customer.id,
             'spent_cost'        => '0.00',
             'modified_by'       => 'admin@brkt.com',
             'name'              => name,

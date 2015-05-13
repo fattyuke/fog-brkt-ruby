@@ -5,7 +5,7 @@ module Fog
         def get_load_balancer(id)
           request(
             :expects => [200],
-            :path    => "v1/api/config/loadbalancer/#{id}"
+            :path    => "v1/api/config/loadbalancer/#{id}?show_deleted=true"
           )
         end
       end

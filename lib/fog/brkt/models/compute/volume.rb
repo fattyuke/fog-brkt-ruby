@@ -4,9 +4,6 @@ module Fog
   module Compute
     class Brkt
       class Volume < Fog::Model
-        module State
-          READY = "READY"
-        end
 
         # @!group Attributes
         identity :id
@@ -58,8 +55,33 @@ module Fog
           true
         end
 
+        # @return [String]
+        def state
+          provider_bracket_volume["state"]
+        end
+
         def ready?
-          provider_bracket_volume["state"] == State::READY
+          state == Compute::State::READY
+        end
+
+        def failed?
+          state == Compute::State::FAILED
+        end
+
+        def powering_off?
+          state == Compute::State::POWERING_OFF
+        end
+
+        def powered_off?
+          state == Compute::State::POWERED_OFF
+        end
+
+        def terminating?
+          state == Compute::State::TERMINATING
+        end
+
+        def terminated?
+          state == Compute::State::TERMINATED
         end
 
         # Create volume snapshot

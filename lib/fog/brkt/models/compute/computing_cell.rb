@@ -71,14 +71,25 @@ module Fog
           end
         end
 
-        # Returns true if API responds with 404
-        def completely_deleted?
-          begin
-            reload
-            false
-          rescue Excon::Errors::NotFound
-            true
-          end
+        # @return [String]
+        def state
+          provider_options["state"]
+        end
+
+        def ready?
+          state == Compute::State::READY
+        end
+
+        def failed?
+          state == Compute::State::FAILED
+        end
+
+        def terminating?
+          state == Compute::State::TERMINATING
+        end
+
+        def terminated?
+          state == Compute::State::TERMINATED
         end
       end
     end

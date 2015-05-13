@@ -39,7 +39,7 @@ module Fog
             "metadata"                => {},
             "provider_computing_cell" => {
               "default_aws_avail_zone" => "us-west-2b",
-              "state"                  => "IGNORE",
+              "state"                  => "READY",
               "aws_region"             => "us-west-2",
               "why"                    => ""
             },
@@ -58,7 +58,7 @@ module Fog
               "cidr_block"       => cidr_block,
               "metadata"         => {},
               "provider_network" => {
-                "state" => "IGNORE",
+                "state" => "READY",
                 "why"   => ""
               }
             }

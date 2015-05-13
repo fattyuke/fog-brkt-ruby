@@ -29,7 +29,7 @@ describe "network zone requests" do
     @cell.destroy
     # wait while computing cell will be deleted completely and API will return 404
     # to prevent hitting the limit
-    Fog.wait_for { @cell.completely_deleted? }
+    Fog.wait_for { @cell.terminated? }
   end
 
   describe "#create_zone" do

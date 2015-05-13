@@ -18,6 +18,18 @@ module Fog
           requires :load_balancer
           load(service.list_load_balancer_listeners(load_balancer.id).body)
         end
+
+        # Create a new instance of a load balancer listener
+        # If {#load_balancer} attribute is set, sets
+        # {LoadBalancerListener#load_balancer} attribute
+        # to a {#load_balancer}'s id
+        #
+        # @param [Hash] attributes load balancer listener attributes
+        # @return [LoadBalancerListener] LoadBalancerListener instance
+        def new(attributes={})
+          requires :load_balancer
+          super({:load_balancer => load_balancer.id}.merge(attributes))
+        end
       end
     end
   end

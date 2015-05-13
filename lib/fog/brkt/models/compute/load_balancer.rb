@@ -55,6 +55,35 @@ module Fog
           true
         end
 
+        # @return [String]
+        def state
+          provider_load_balancer["state"]
+        end
+
+        def ready?
+          state == Compute::State::READY
+        end
+
+        def failed?
+          state == Compute::State::FAILED
+        end
+
+        def powering_off?
+          state == Compute::State::POWERING_OFF
+        end
+
+        def powered_off?
+          state == Compute::State::POWERED_OFF
+        end
+
+        def terminating?
+          state == Compute::State::TERMINATING
+        end
+
+        def terminated?
+          state == Compute::State::TERMINATED
+        end
+
         # Get load balancer listeners associated with load balancer
         #
         # @return [LoadBalancerListeners] load balancer listeners collection

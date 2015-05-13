@@ -35,12 +35,17 @@ def delete_computing_cell(cell)
   cell.destroy
   # wait while computing cell will be deleted completely and API will return 404
   # to prevent hitting the limit
-  Fog.wait_for { cell.completely_deleted? }
+  Fog.wait_for { cell.terminated? }
 end
 
 def fast_tests?
   ENV["FAST_TESTS"] == "true" || ENV["FAST_TESTS"] == "1"
 end
 
-RSpec.configure do |c|
+RSpec.configure do |config|
+  # Use color not only in STDOUT but also in pagers and files
+  config.tty = true
+
+  # Use the specified formatter
+  config.formatter = :documentation
 end

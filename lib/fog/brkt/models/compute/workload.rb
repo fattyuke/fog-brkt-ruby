@@ -4,9 +4,6 @@ module Fog
   module Compute
     class Brkt
       class Workload < Fog::Model
-        module State
-          READY = "READY"
-        end
 
         # @!group Attributes
         identity :id
@@ -22,6 +19,7 @@ module Fog
         attribute :monthly_cost, :type => :float
         attribute :max_cost, :type => :float
         attribute :state
+        attribute :enable_service_domain, :type => :boolean
         attribute :service_domain
         attribute :expired
         attribute :workload_template
@@ -53,6 +51,22 @@ module Fog
           true
         end
 
+        def ready?
+          state == Compute::State::READY
+        end
+
+        # Returns true if API responds with 404
+        # The API is kind of broken here and doesn't actually update
+        # the state... so we fake it.
+        def terminated?
+          begin
+            reload
+            false
+          rescue Excon::Errors::NotFound
+            true
+          end
+        end
+
         # Get servers in the workload
         #
         # @return [Servers] servers collection
@@ -60,12 +74,15 @@ module Fog
           service.servers(:workload => self)
         end
 
-        def expired?
-          !!expired
+        # Get load balancers in the workload
+        #
+        # @return [LoadBalancer] load balancers collection
+        def load_balancers
+          service.load_balancers(:workload => self)
         end
 
-        def ready?
-          state == State::READY
+        def expired?
+          !!expired
         end
       end
     end

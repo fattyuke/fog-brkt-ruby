@@ -5,7 +5,7 @@ module Fog
         def get_server(id)
           request(
             :expects => [200],
-            :path    => "v2/api/config/instance/#{id}"
+            :path    => "v2/api/config/instance/#{id}?show_deleted=true"
           )
         end
       end

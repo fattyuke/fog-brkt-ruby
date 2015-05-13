@@ -24,7 +24,7 @@ describe "billing group requests" do
   describe "#create_billing_group" do
     before(:all) do
       @group_name = Fog::Brkt::Mock.name
-      @response = compute.create_billing_group(compute.customer.id, @group_name, {
+      @response = compute.create_billing_group(@group_name, {
         description: "description",
         members:     ["user@example.com"]
       })
@@ -48,7 +48,6 @@ describe "billing group requests" do
   describe "#list_billing_groups" do
     before(:all) do
       @billing_group = compute.billing_groups.create(
-        :customer_id => compute.customer.id,
         :name        => Fog::Brkt::Mock.name
       )
       @response = compute.list_billing_groups

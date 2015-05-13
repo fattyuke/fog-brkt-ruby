@@ -37,6 +37,7 @@ module Fog
             "modified_time"       => "2015-03-04T22:32:02.496169+00:00",
             "internet_accessible" => false,
             "machine_type"        => machine_type_id,
+            "cloudinit"           => "df43995a1d8a48d28b835238bfd079b4",
             "created_time"        => "2015-03-04T22:32:02.496133+00:00",
             "internet_ip_address" => "127.0.0.1",
             "ip_address"          => nil,

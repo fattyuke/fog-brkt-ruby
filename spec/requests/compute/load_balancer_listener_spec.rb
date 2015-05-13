@@ -72,8 +72,7 @@ describe "load balancer listener requests" do
 
   describe "#list_load_balancer_listeners" do
     before(:all) do
-      compute.load_balancer_listeners.create({
-        :load_balancer            => @lb.id,
+      @lb.listeners.create({
         :instance_protocol        => "HTTP",
         :instance_port            => 80,
         :listener_protocol        => "HTTP",

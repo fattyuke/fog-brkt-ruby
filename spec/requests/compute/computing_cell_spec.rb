@@ -47,14 +47,6 @@ describe "computing cell requests" do
     after(:all) do
       id = @response.body["id"]
       compute.delete_computing_cell(id)
-      Fog.wait_for do
-        begin
-          compute.get_computing_cell(id)
-          false
-        rescue
-          true
-        end
-      end
     end
 
     describe "response" do

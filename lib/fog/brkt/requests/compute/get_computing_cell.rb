@@ -5,7 +5,7 @@ module Fog
         def get_computing_cell(id)
           request(
             :expects => [200],
-            :path    => "v1/api/config/computingcell/#{id}"
+            :path    => "v1/api/config/computingcell/#{id}?show_deleted=true"
           )
         end
       end
