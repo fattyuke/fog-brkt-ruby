@@ -3,10 +3,12 @@ module Fog
     class Brkt
       class Real
         def update_server_template(id, attributes)
+          attributes[:image_definition] = attributes[:image_definition]["id"]
           request(
             :expects => [202],
             :method  => "POST",
-            :path    => "v1/api/config/instancetemplate/#{id}"
+            :path    => "v1/api/config/instancetemplate/#{id}",
+            :body    => Fog::JSON.encode(attributes)
           )
         end
       end
