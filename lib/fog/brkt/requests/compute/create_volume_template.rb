@@ -32,7 +32,7 @@ module Fog
             "is_readonly"                 => false,
             "auto_snapshot_duration_days" => 7,
             "large_io"                    => false,
-            "durability"                  => 2,
+            "availability"                => 2,
             "slo"                         => 1,
             "fs_label"                    => "",
             "fs_type"                     => nil,
