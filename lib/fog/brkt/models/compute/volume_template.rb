@@ -17,7 +17,7 @@ module Fog
         attribute :is_readonly, :type => :boolean
         attribute :auto_snapshot_duration_days, :type => :integer
         attribute :large_io, :type => :boolean
-        attribute :availability, :type => :integer
+        attribute :durability, :type => :integer
         attribute :slo
         attribute :fs_label
         attribute :fs_type

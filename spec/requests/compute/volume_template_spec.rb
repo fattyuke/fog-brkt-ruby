@@ -14,7 +14,7 @@ describe "volume template requests" do
       "is_readonly"                 => Fog::Boolean,
       "auto_snapshot_duration_days" => Integer,
       "large_io"                    => Fog::Boolean,
-      "availability"                => Integer,
+      "durability"                  => Integer,
       "slo"                         => Integer,
       "fs_label"                    => String,
       "fs_type"                     => Fog::Nullable::String,
