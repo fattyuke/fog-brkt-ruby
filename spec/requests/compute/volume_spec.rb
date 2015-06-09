@@ -34,7 +34,7 @@ describe "volume requests" do
       "slo"                         => Integer,
       "requested_state"             => String,
       "created_by"                  => String,
-      "availability"                => Integer,
+      "durability"                  => Integer,
       "instance"                    => Fog::Nullable::String,
       "version"                     => Integer,
       "iops_max"                    => Integer,

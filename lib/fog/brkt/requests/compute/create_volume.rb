@@ -52,7 +52,7 @@ module Fog
             "slo"                         => 1,
             "requested_state"             => "AVAILABLE",
             "created_by"                  => "user@example.com",
-            "availability"                => 1,
+            "durability"                  => 1,
             "instance"                    => options["instance"],
             "version"                     => 2,
             "computing_cell"              => options["computing_cell"],
