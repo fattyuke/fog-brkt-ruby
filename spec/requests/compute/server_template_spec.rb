@@ -60,8 +60,8 @@ describe "server template requests" do
 
   after(:all) do
     @workload_template.destroy if @workload_template
-    @billing_group.destroy if @billing_group
     delete_computing_cell(@cell) if @cell
+    @billing_group.destroy if @billing_group
   end
 
   describe "#create_server_template" do

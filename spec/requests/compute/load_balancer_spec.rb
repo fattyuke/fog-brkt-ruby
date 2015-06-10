@@ -57,8 +57,8 @@ describe "load balancer requests" do
   end
 
   after(:all) do
-    @billing_group.destroy if @billing_group
     delete_computing_cell(@cell)
+    @billing_group.destroy if @billing_group
   end
 
   describe "#create_load_balancer" do
