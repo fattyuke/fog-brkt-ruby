@@ -3,7 +3,9 @@ module Fog
     class Brkt
       class Real
         def update_server_template(id, attributes)
-          attributes[:image_definition] = attributes[:image_definition]["id"]
+          if attributes.fetch(:image_definition, {}).has_key?("id")
+            attributes[:image_definition] = attributes[:image_definition]["id"]
+          end
           request(
             :expects => [202],
             :method  => "POST",
