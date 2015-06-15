@@ -18,11 +18,13 @@ These Ruby files all have the .rb file extension. To run any of these Ruby scrip
 
 Alternatively, these example scripts have been configured to run without using the Ruby command. The shebang line is already done for you; it's the first line in the script starting with #!. This tells the shell what type of file this is. In this case it's a Ruby file to be executed with the Ruby interpreter. To mark the file as executable, run the command chmod +x {scriptname}.rb. This will set a file permission bit indicating that the file is a program and that it can be run. Now, to run the program simply enter the command ./{scriptname}.rb.
 
-Since it's a bad practice to have your credentials in source code, you should load them from the default fog configuration file: ~/.fog. This file could look like this:
+<b>Since it's a bad practice to have your credentials in source code, you should load them from the default fog configuration file: ~/.fog. This file could look like this:<b>
 
+```
 default:
   brkt_public_access_token: <YOUR_ACCESS_TOKEN>
   brkt_private_mac_key: <YOUR_SECRET_MAC_KEY>
+```
 
 If there is no .fog file in your home directory, simply create one.
 
