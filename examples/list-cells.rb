@@ -29,7 +29,7 @@ require "fog/brkt"
 ##########################################################
 compute = Fog::Compute.new({
     :provider => "brkt",
-    :brkt_api_host => "https://portal.stage.brkt.com/"
+    :brkt_api_host => "https://{url of portal @ brkt.com}/"
 })
 ##########################################################
 
