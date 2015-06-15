@@ -1,6 +1,6 @@
 # Fog::Brkt Examples
 
-[![Fog::Brkt VERSION](https://img.shields.io/badge/Fog%3A%3ABrkt%20Version-.9-green.svg)](https://github.com/brkt/fog-brkt-ruby)
+[![Fog::Brkt VERSION](https://img.shields.io/badge/Fog%3A%3ABrkt%20Version-alpha-green.svg)](https://github.com/brkt/fog-brkt-ruby)
 
 The following folder contains a collection of examples of using the Fog::Brkt module in Ruby scripts. Use these examples as your guide to integrate Fog::Ruby into your Bracket projects! For  description of the module please see: https://github.com/brkt/fog-brkt-ruby 
 
