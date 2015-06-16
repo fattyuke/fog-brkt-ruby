@@ -18,7 +18,7 @@ These Ruby files all have the .rb file extension. To run any of these Ruby scrip
 
 Alternatively, these example scripts have been configured to run without using the Ruby command. The shebang line is already done for you; it's the first line in the script starting with #!. This tells the shell what type of file this is. In this case it's a Ruby file to be executed with the Ruby interpreter. To mark the file as executable, run the command chmod +x {scriptname}.rb. This will set a file permission bit indicating that the file is a program and that it can be run. Now, to run the program simply enter the command ./{scriptname}.rb.
 
-<b>Since it's a bad practice to have your credentials in source code, you should load them from the default fog configuration file: ~/.fog. This file could look like this:</b>
+**Since it's a bad practice to have your credentials in source code, you should load them from the default fog configuration file: ~/.fog. This file could look like this:**
 
 ```
 default:
@@ -30,7 +30,7 @@ If there is no .fog file in your home directory, simply create one. For more inf
 
 Note: All examples require a proper Bracket portal url. You will need to edit the following code block in each of these examples, and add in the proper url of your portal.
 
-```
+```ruby
 # First establish a connection to the API portal
 ##########################################################
 compute = Fog::Compute.new({
@@ -40,7 +40,7 @@ compute = Fog::Compute.new({
 ##########################################################
 
 ```
-As an alternative, you could add the ```brkt_api_host:``` line to the .fog file shown above.
+As an alternative, you could add the `brkt_api_host:` line to the .fog file shown above.
 
 
 ## Contributing
