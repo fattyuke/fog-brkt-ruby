@@ -65,4 +65,4 @@ created by Andy Ryan based on original work done by Berndt Jung<br>
 andy@brkt.com<br>
 date: 6/15/15
 
-<a name="fogfootnote"><i>!</a>: This text was copied directly from the Fog github README page which can be found here: https://github.com/fog/fog</i>
+<a name="fogfootnote">*!</a>: This text was copied directly from the Fog github README page which can be found here: https://github.com/fog/fog*
