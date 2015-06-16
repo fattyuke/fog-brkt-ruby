@@ -4,11 +4,11 @@
 
 ![fog](http://geemus.s3.amazonaws.com/fog.png)
 
-fog is the Ruby cloud services library, top to bottom:
+fog is the Ruby cloud services library, top to bottom:<sup>[!](#fogfootnote)</sup>
 
-* Collections provide a simplified interface, making clouds easier to work with and switch between.<sup>[1](#myfootnote1)</sup>
-* Requests allow power users to get the most out of the features of each individual cloud.
-* Mocks make testing and integrating a breeze.
+* Collections provide a simplified interface, making clouds easier to work with and switch between.<sup>[!](#fogfootnote)</sup>
+* Requests allow power users to get the most out of the features of each individual cloud.<sup>[!](#fogfootnote)</sup>
+* Mocks make testing and integrating a breeze.<sup>[!](#fogfootnote)</sup>
 
 The following folder contains a collection of examples of using the Fog::Brkt module in Ruby scripts. Use these examples as your guide to integrate Fog::Ruby into your Bracket projects! For  description of the module please see: https://github.com/brkt/fog-brkt-ruby 
 
@@ -65,4 +65,4 @@ created by Andy Ryan based on original work done by Berndt Jung<br>
 andy@brkt.com<br>
 date: 6/15/15
 
-<a name="myfootnote1">1</a>: Footnote content goes here
+<a name="fogfootnote"><i>!</a>: This text was copied directly from the Fog github README page which can be found here: https://github.com/fog/fog</i>
