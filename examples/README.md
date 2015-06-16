@@ -6,7 +6,7 @@
 
 fog is the Ruby cloud services library, top to bottom:
 
-* Collections provide a simplified interface, making clouds easier to work with and switch between.
+* Collections provide a simplified interface, making clouds easier to work with and switch between.<sup>[1](#myfootnote1)</sup>
 * Requests allow power users to get the most out of the features of each individual cloud.
 * Mocks make testing and integrating a breeze.
 
@@ -64,3 +64,5 @@ Fog::Brkt is a module for the 'fog' gem to support Bracket Computing Cells.
 created by Andy Ryan based on original work done by Berndt Jung<br>
 andy@brkt.com<br>
 date: 6/15/15
+
+<a name="myfootnote1">1</a>: Footnote content goes here
