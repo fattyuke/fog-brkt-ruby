@@ -40,6 +40,8 @@ compute = Fog::Compute.new({
 ##########################################################
 
 ```
+As an alternative, you could add the ```brkt_api_host:``` line to the .fog file shown above.
+
 
 ## Contributing
 
