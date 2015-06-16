@@ -29,8 +29,6 @@ require "fog/brkt"
 ##########################################################
 compute = Fog::Compute.new({
     :provider => "brkt",
-    :brkt_public_access_token => "93e...",
-    :brkt_private_mac_key => "b48...",
     :brkt_api_host => "https://{url of portal @ brkt.com}/"
 })
 ##########################################################
