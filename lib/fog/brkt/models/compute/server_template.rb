@@ -17,7 +17,6 @@ module Fog
         attribute :security_groups
         attribute :load_balancer_template
         attribute :requires_ssd, :type => :boolean
-        attribute :requires_encryption, :type => :boolean
         attribute :min_quantity, :type => :integer
         attribute :cpu_arch
         attribute :cpu_cores_minimum, :type => :integer
