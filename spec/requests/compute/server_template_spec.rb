@@ -15,7 +15,6 @@ describe "server template requests" do
       "load_balancer_template"   => Fog::Nullable::String,
       "machine_type"             => Fog::Nullable::String,
       "requires_ssd"             => Fog::Boolean,
-      "requires_encryption"      => Fog::Boolean,
       "min_quantity"             => Integer,
       "cpu_arch"                 => String,
       "cpu_cores_minimum"        => Integer,

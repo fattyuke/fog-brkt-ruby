@@ -183,7 +183,6 @@ Check server templates list again:
             security_groups=[],
             load_balancer_template=nil,
             requires_ssd=false,
-            requires_encryption=false,
             min_quantity=1,
             cpu_arch="amd64",
             cpu_cores_minimum=1,
