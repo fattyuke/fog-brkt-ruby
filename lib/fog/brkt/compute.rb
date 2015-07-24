@@ -53,6 +53,8 @@ module Fog
       collection :load_balancer_template_listeners
       model      :load_balancer_listener
       collection :load_balancer_listeners
+      model      :cloudinit
+      collection :cloudinits
 
       request_path "fog/brkt/requests/compute"
       request :get_customer
@@ -137,6 +139,11 @@ module Fog
       request :create_load_balancer_listener
       request :delete_load_balancer_listener
       request :list_load_balancer_listeners
+      request :create_cloudinit
+      request :delete_cloudinit
+      request :update_cloudinit
+      request :get_cloudinit
+      request :list_cloudinits
 
       class Real
         # @return [String] api host

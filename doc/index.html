@@ -81,7 +81,25 @@
 
 <pre class="code ruby"><code class="ruby">$ gem install fog-brkt</code></pre>
 
+<h3 id="label-Install+from+source+-28development-29">Install from source (development)</h3>
+
+<p>To build and install the gem from source:</p>
+
+<pre class="code ruby"><code class="ruby">$ git clone git@github.com:brkt/fog-brkt-ruby.git
+$ cd brkt-fog-ruby
+$ gem build fog-brkt.gemspec
+$ sudo gem install ./fog-brkt-0.1.0.gem</code></pre>
+
 <h2 id="label-Usage">Usage</h2>
+
+<p>Dependencies:</p>
+
+<p>In order to connect to <a
+href="https://portal.brkt.com">portal.brkt.com</a> ruby must be compiled
+against a recent version of openssl. Specifically it must support TLS 1.2.
+If the ssl handshake fails when trying to connect to the BRKT API server,
+check your openssl version, and specifically the version that ruby was
+built against.</p>
 
 <p>Require library:</p>
 
@@ -435,17 +453,21 @@ ArgumentError: name, image_definition and machine_type are required for this ope
 
 <p>To run test suite execute (it will mock interaction with API by default):</p>
 
-<pre class="code ruby"><code class="ruby">$ rake spec</code></pre>
+<pre class="code ruby"><code class="ruby">$ bundle exec rake spec</code></pre>
 
 <p>To run test suite against a real API endpoint execute:</p>
 
-<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; rake spec</code></pre>
+<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; bundle exec rake spec</code></pre>
 
 <p>In non-mocking mode some test take a long time to execute (for example you
 can test reboot instance behavior only after it&#39;s booted completely),
 to skip a slowest tests add FAST_TESTS=true</p>
 
-<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; rake spec</code></pre>
+<pre class="code ruby"><code class="ruby">$ FOG_MOCK=false FAST_TESTS=true BRKT_API_HOST=&lt;api host&gt; BRKT_PUBLIC_ACCESS_TOKEN=&lt;api public toke&gt; BRKT_PRIVATE_MAC_KEY=&lt;api private mac key&gt; bundle exec rake spec</code></pre>
+
+<h2 id="label-Generating+documentation">Generating documentation</h2>
+
+<p>To (re)generate documentation simply run  $ bundle exec yard</p>
 
 <h2 id="label-Contributing">Contributing</h2>
 <ol><li>
@@ -463,9 +485,9 @@ feature&#39;</code>)</p>
 </div></div>
 
     <div id="footer">
-  Generated on Tue Mar 31 18:47:59 2015 by
+  Generated on Thu Jul 23 18:03:07 2015 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.7.6 (ruby-2.2.0).
+  0.8.7.6 (ruby-2.2.2).
 </div>
 
   </body>

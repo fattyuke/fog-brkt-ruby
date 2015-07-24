@@ -1,4 +1,5 @@
 require "fog/compute/models/server"
+require "fog/brkt/models/compute/cloudinit"
 
 module Fog
   module Compute
@@ -28,6 +29,7 @@ module Fog
         attribute :daily_cost, :type => :float
         attribute :monthly_cost, :type => :float
         attribute :cloudinit_id
+        attribute :cloudinit_config
         attribute :cloudinit_script
         attribute :cloudinit_type
         attribute :internet_accessible, :type => :boolean
@@ -41,6 +43,18 @@ module Fog
         # @return [true]
         def save
           if persisted?
+            # Fog::Model has no support for attr_changed? like ActiveModel
+            if (@_original_cloudinit_config && @_original_cloudinit_config != cloudinit_config) ||
+                (@_original_cloudinit_script && @_original_cloudinit_script != cloudinit_script) ||
+                (@_original_cloudinit_type && @_original_cloudinit_type != cloudinit_type)
+              cloudinit = service.cloudinits.get(cloudinit_id)
+              cloudinit.cloud_config = cloudinit_config
+              cloudinit.user_script = cloudinit_script
+              cloudinit.deployment_type = cloudinit_type
+              cloudinit.save
+              @_original_cloudinit_config = @_original_cloudinit_script = @_original_cloudinit_type = nil
+            end
+
             data = service.update_server_template(id, attributes).body
           else
             requires :workload_template, :name, :image_definition
@@ -73,6 +87,31 @@ module Fog
 
         def internet_accessible?
           !!internet_accessible
+        end
+
+        # The Cloud init object associated with this server template
+        #
+        # @return [Cloudinit] cloud init
+        def cloudinit
+          service.cloudinits.get(cloudinit_id)
+        end
+
+        #:nodoc:
+        def cloudinit_config=(value)
+          @_original_cloudinit_config ||= cloudinit_config
+          attributes[:cloudinit_config] = value
+        end
+
+        #:nodoc:
+        def cloudinit_script=(value)
+          @_original_cloudinit_script ||= cloudinit_script
+          attributes[:cloudinit_script] = value
+        end
+
+        #:nodoc:
+        def cloudinit_type=(value)
+          @_original_cloudinit_type ||= cloudinit_type
+          attributes[:cloudinit_type] = value
         end
 
         # Get volume templates attached to a server template
