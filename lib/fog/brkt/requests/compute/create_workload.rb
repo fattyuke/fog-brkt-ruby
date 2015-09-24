@@ -3,6 +3,10 @@ module Fog
     class Brkt
       class Real
         def create_workload(billing_group_id, name, zone, options={})
+          unless options[:lease_expire_time].nil?
+            options[:lease_expire_time] = options[:lease_expire_time].iso8601
+          end
+
           request(
             :expects => [201],
             :method  => "POST",
