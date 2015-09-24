@@ -8,10 +8,14 @@ module Fog
           READY = "READY"
         end
 
+
         # @!group Attributes
+
         identity :id
 
+        # @return [String]
         attribute :name
+        # @return [String]
         attribute :description
         attribute :billing_group, :aliases => [:billing_group_id, "billing_group_id"]
         attribute :zone,          :aliases => [:zone_id, "zone_id"]
@@ -21,10 +25,14 @@ module Fog
         attribute :daily_cost, :type => :float
         attribute :monthly_cost, :type => :float
         attribute :max_cost, :type => :float
+        # @return [Time]
+        attribute :lease_expire_time, :type => :time
+        # @return [String]
         attribute :state
         attribute :service_domain
         attribute :expired
         attribute :workload_template
+
         # @!endgroup
 
         # Create or update workload.
@@ -60,6 +68,9 @@ module Fog
           service.servers(:workload => self)
         end
 
+        # Has the resource lease expired
+        #
+        # @return [Servers] servers collection
         def expired?
           !!expired
         end
