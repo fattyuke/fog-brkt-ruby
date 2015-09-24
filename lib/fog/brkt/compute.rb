@@ -327,7 +327,8 @@ module Fog
                 "metadata" => {},
                 "name" => "ubuntu"
               }
-            }
+            },
+            :cloudinits => {},
           }
         end
 

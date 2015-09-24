@@ -14,6 +14,16 @@ if Fog.mock?
     :brkt_api_host            => "http://not.important"
   }.merge(Fog.credentials)
 else
+  public_access_token  = ENV['BRKT_PUBLIC_ACCESS_TOKEN']
+  brkt_private_mac_key = ENV['BRKT_PRIVATE_MAC_KEY']
+  api_host             = ENV['BRKT_API_HOST']
+
+  if public_access_token.nil? || public_access_token == '' || brkt_private_mac_key.nil? || brkt_private_mac_key == ''
+    puts "\n\n[Warning] You have to specify BRKT_PUBLIC_ACCESS_TOKEN and BRKT_PRIVATE_MAC_KEY " \
+      "env variables when running specs not in mock mode\n\n"
+    exit(1)
+  end
+
   credentials = {
     :brkt_public_access_token => ENV['BRKT_PUBLIC_ACCESS_TOKEN'],
     :brkt_private_mac_key     => ENV['BRKT_PRIVATE_MAC_KEY']
