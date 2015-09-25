@@ -90,7 +90,7 @@ describe Fog::Compute::Brkt::Server do
       context 'when not ready?' do
         before { allow(server).to receive(:ready?) { false } }
 
-        it { expect { server.stop }.to raise_error(Fog::Compute::Brkt::Server::InavalidStateError) }
+        it { expect { server.stop }.to raise_error(Fog::Compute::Brkt::Server::InvalidStateError) }
       end
     end
   end
@@ -106,7 +106,7 @@ describe Fog::Compute::Brkt::Server do
       context 'when not powered_off?' do
         before { allow(server).to receive(:powered_off?).and_return(false) }
 
-        it { expect { server.start }.to raise_error(Fog::Compute::Brkt::Server::InavalidStateError) }
+        it { expect { server.start }.to raise_error(Fog::Compute::Brkt::Server::InvalidStateError) }
       end
     end
   end
