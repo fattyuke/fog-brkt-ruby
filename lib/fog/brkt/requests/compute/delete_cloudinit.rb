@@ -12,7 +12,7 @@ module Fog
       end
 
       class Mock
-        def delete_billing_group(id)
+        def delete_cloudinit(id)
           response = Excon::Response.new
           self.data[:cloudinits].delete(id)
           response
