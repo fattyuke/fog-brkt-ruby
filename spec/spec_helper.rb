@@ -1,17 +1,17 @@
-ENV["BUNDLE_GEMFILE"] ||= File.expand_path("../../Gemfile", __FILE__)
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
-require "rubygems"
-require "bundler"
+require 'rubygems'
+require 'bundler'
 Bundler.setup(:default, :test)
 
-$:.unshift(File.expand_path("../../lib", __FILE__))
+$:.unshift(File.expand_path('../../lib', __FILE__))
 
-require "rspec/core"
-require "fog/brkt"
+require 'rspec/core'
+require 'fog/brkt'
 
 require File.expand_path(File.join(File.dirname(__FILE__), 'helpers', 'mock_helper'))
 
-Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f}
+Dir[File.dirname(__FILE__) + '/support/**/*.rb'].each {|f| require f}
 
 Excon.ssl_verify_peer = false
 Fog.timeout = 600 # wait for no longer than 10 minutes
@@ -23,11 +23,19 @@ def compute
 end
 compute # touch compute service to load models & requests classes
 
+def aws_region
+  ENV['BRKT_AWS_REGION'] || 'us-east-1'
+end
+
 def create_computing_cell(options={})
   compute.computing_cells.create({
     :name             => Fog::Brkt::Mock.name,
-    :network          => { :cidr_block => "10.0.0.0/16" },
-    :provider_options => { :aws_region => "us-west-2" }
+    :network          => {
+      :cidr_block       => '10.0.0.0/16',
+    },
+    :provider_options => {
+      :aws_region       => aws_region,
+    }
   }.merge(options))
 end
 
@@ -39,7 +47,7 @@ def delete_computing_cell(cell)
 end
 
 def fast_tests?
-  ENV["FAST_TESTS"] == "true" || ENV["FAST_TESTS"] == "1"
+  ENV['FAST_TESTS'] == 'true' || ENV['FAST_TESTS'] == '1'
 end
 
 RSpec.configure do |config|

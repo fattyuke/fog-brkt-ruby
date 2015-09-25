@@ -35,7 +35,6 @@ describe "server template requests" do
       "cloudinit_id"             => String,
       "cloudinit_script"         => String,
       "cloudinit_type"           => String,
-      "bracket_volume_templates" => String,
       # "cloudinit_config"         => nil, ???
       "internet_accessible"      => Fog::Boolean,
       "metadata"                 => Hash,

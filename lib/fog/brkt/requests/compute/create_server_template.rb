@@ -49,7 +49,6 @@ module Fog
             "cloudinit_id"             => Fog::Brkt::Mock.id,
             "cloudinit_script"         => "",
             "cloudinit_type"           => "DEFAULT",
-            "bracket_volume_templates" => "/v1/api/config/serverblueprint/#{id}/lunblueprints",
             "cloudinit_config"         => nil,
             "internet_accessible"      => false,
             "metadata"                 => {},

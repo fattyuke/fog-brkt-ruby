@@ -40,8 +40,9 @@ describe "computing cell requests" do
   describe "#create_computing_cell" do
     before(:all) do
       @cell_name = Fog::Brkt::Mock.name
-      @response = compute.create_computing_cell(@cell_name, "10.0.0.0/16", "AWS",
-        {:aws_region => "us-west-2"})
+      @response = compute.create_computing_cell(@cell_name, "10.0.0.0/16", "AWS", {
+        :aws_region => aws_region
+      })
     end
 
     after(:all) do
