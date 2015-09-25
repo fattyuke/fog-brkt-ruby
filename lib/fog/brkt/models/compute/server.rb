@@ -4,7 +4,7 @@ module Fog
   module Compute
     class Brkt
       class Server < Fog::Compute::Server
-        class InavalidStateError < StandardError; end
+        class InvalidStateError < StandardError; end
 
         module State
           READY = "READY"
@@ -177,7 +177,7 @@ module Fog
         private
 
         def raise_invalid_state(expected_state)
-          raise InavalidStateError.new("expected to be in #{expected_state} state, but actually is #{state}")
+          raise InvalidStateError.new("expected to be in #{expected_state} state, but actually is #{state}")
         end
       end
     end
