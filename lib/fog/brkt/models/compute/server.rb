@@ -4,6 +4,8 @@ module Fog
   module Compute
     class Brkt
       class Server < Fog::Compute::Server
+        class InavalidStateError < StandardError; end
+
         module State
           READY = "READY"
           FAILED = "FAILED"
@@ -13,12 +15,18 @@ module Fog
           TERMINATED = "TERMINATED"
         end
 
+        module StateRequest
+          STOPPED = "STOPPED"
+          AVAILABLE = "AVAILABLE"
+        end
+
         # @!group Attributes
         identity :id
 
         attribute :name
         attribute :description
         attribute :workload
+        attribute :requested_state
         attribute :image_definition,   :aliases => ["image_id", :image_id]
         attribute :machine_type,       :aliases => ["machine_type_id", :machine_type_id]
         attribute :ram,                                                :type => :float
@@ -111,6 +119,28 @@ module Fog
           true
         end
 
+        # Stop server
+        #
+        # @return [true]
+        def stop
+          requires :id
+          raise_invalid_state(State::READY) unless ready?
+
+          self.requested_state = StateRequest::STOPPED
+          save
+        end
+
+        # Start server
+        #
+        # @return [true]
+        def start
+          requires :id
+          raise_invalid_state(State::POWERED_OFF) unless powered_off?
+
+          self.requested_state = StateRequest::AVAILABLE
+          save
+        end
+
         # Terminate server
         #
         # @return [true]
@@ -142,6 +172,12 @@ module Fog
         # @return [Boolean]
         def attached?(volume)
           not volumes.find { |v| v.identity == volume.identity }.nil?
+        end
+
+        private
+
+        def raise_invalid_state(expected_state)
+          raise InavalidStateError.new("expected to be in #{expected_state} state, but actually is #{state}")
         end
       end
     end
