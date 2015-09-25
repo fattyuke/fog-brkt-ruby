@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+puts 'Loading Brkt Cloud console...'
+
+require 'rubygems'
+
+$:.unshift(File.expand_path('../../lib', __FILE__))
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+
+require 'bundler'
+Bundler.setup(:default)
+
+require 'irb/completion'
+require 'pry'
+require 'fog/brkt'
+
+public_access_token = ENV['BRKT_PUBLIC_ACCESS_TOKEN']
+private_mac_key     = ENV['BRKT_PRIVATE_MAC_KEY']
+api_host            = ENV['BRKT_API_HOST']
+
+puts "OK"
+
+access_parameters = {
+    provider:                 'brkt',
+    brkt_public_access_token: public_access_token,
+    brkt_private_mac_key:     private_mac_key,
+    brkt_api_host:            api_host
+}
+
+compute = Fog::Compute.new(access_parameters)
+
+binding.pry :quiet => true
