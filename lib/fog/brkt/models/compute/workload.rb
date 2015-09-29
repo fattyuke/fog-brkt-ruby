@@ -32,6 +32,7 @@ module Fog
         attribute :service_domain
         attribute :expired
         attribute :workload_template
+        attribute :metadata
 
         # @!endgroup
 
