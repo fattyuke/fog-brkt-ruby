@@ -1,4 +1,4 @@
-describe "workload requests" do
+describe "workload templates requests" do
   let(:workload_template_format) do
     {
       "id"                    => String,

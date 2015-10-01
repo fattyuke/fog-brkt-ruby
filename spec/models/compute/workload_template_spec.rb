@@ -64,7 +64,7 @@ describe Fog::Compute::Brkt::WorkloadTemplate do
           :id => "foo",
           :state => described_class::State::PUBLISHED
         })
-        expect { workload_template.publish! }.to raise_error
+        expect { workload_template.publish! }.to raise_error(ArgumentError)
       end
 
       it "published if wasnt published" do
