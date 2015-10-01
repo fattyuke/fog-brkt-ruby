@@ -6,7 +6,10 @@
 # Script Description: List all billing groups
 #
 # Script dependancies:
-#   
+#
+#  Gems:
+#    irb-completion
+#    fog-brkt
 #
 # Copyright 2015, Bracket Computing, Inc.
 #
@@ -14,7 +17,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#     http://www.apache.org/licenses/LICENSE-2.0
+#  http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,13 +31,13 @@ require "fog/brkt"
 # First establish a connection to the API portal
 ##########################################################
 compute = Fog::Compute.new({
-    :provider => "brkt",
-    :brkt_api_host => "https://{url of portal @ brkt.com}/"
+  :provider => "brkt",
+  :brkt_api_host => "https://{url of portal @ brkt.com}/"
 })
 ##########################################################
 
 print "List of Billing Groups:\n"
 listgroups = compute.billing_groups
 listgroups.each do |groupname|
-	puts "#{groupname.name}: #{groupname.id}"
+  puts "#{groupname.name}: #{groupname.id}"
 end
