@@ -40,6 +40,7 @@ module Fog
         attribute :service_name_fqdn
         attribute :metadata
         attribute :cloudinit,          :aliases => ["cloudinit_id", :cloudinit_id]
+        attribute :security_groups
         # @!endgroup
 
         has_one_identity :workload, :workloads
