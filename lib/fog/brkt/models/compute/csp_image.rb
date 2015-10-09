@@ -24,9 +24,16 @@ module Fog
         #
         # @return [true]
         def save
-          requires :provider, :image_definition
+          if persisted?
+            requires :id
 
-          data = service.create_csp_image(attributes).body
+            data = service.update_csp_image(id, attributes).body
+          else
+            requires :provider, :image_definition
+
+            data = service.create_csp_image(attributes).body
+          end
+
           merge_attributes(data)
           true
         end

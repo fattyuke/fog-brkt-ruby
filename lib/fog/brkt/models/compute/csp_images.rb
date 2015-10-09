@@ -31,6 +31,14 @@ module Fog
           instance.image_definition = image.id
           instance
         end
+
+        # Get cloud service provider image by ID
+        #
+        # @param [String] id CSP image id
+        # @return [CspImage] cloud service provider image
+        def get(id)
+          new(service.get_csp_image(id).body)
+        end
       end
     end
   end

@@ -74,4 +74,49 @@ describe "scp image requests" do
       it { expect(subject["image_definition"]["id"]).to eq @image.id }
     end
   end
+
+  describe "#update_csp_image" do
+    before(:all) do
+      @image = compute.images.create({
+        :name => Fog::Brkt::Mock.name,
+        :os   => os_id
+      })
+      @csp_image = @image.csp_images.create({:csp_image_id => 'foo'})
+      @response = compute.update_csp_image(@csp_image.id, {:csp_image_id => 'bar'})
+    end
+
+    after(:all) do
+      @csp_image.destroy
+      @image.destroy
+    end
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(csp_image_format) }
+      it { expect(subject["csp_image_id"]).to eq 'bar' }
+    end
+  end
+
+  describe "#get_csp_image" do
+    before(:all) do
+      @image = compute.images.create({
+        :name => Fog::Brkt::Mock.name,
+        :os   => os_id
+      })
+      @csp_image = @image.csp_images.create({:csp_image_id => 'foo'})
+      @response = compute.get_csp_image(@csp_image.id)
+    end
+
+    after(:all) do
+      @csp_image.destroy
+      @image.destroy
+    end
+
+    describe "response" do
+      subject { @response.body }
+
+      it { is_expected.to have_format(csp_image_format) }
+    end
+  end
 end
