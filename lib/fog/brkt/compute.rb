@@ -100,7 +100,9 @@ module Fog
       request :list_os_images
       request :get_image
       request :create_csp_image
+      request :update_csp_image
       request :delete_csp_image
+      request :get_csp_image
       request :list_image_csp_images
       request :create_volume_template
       request :delete_volume_template
