@@ -2,14 +2,21 @@ module Fog
   module Compute
     class Brkt
       class Cloudinit < Fog::Model
+        module Type
+          DEFAULT    = 'DEFAULT'
+          CONFIGURED = 'CONFIGURED'
+          ADVANCED   = 'ADVANCED'
+        end
+
         # @!group Attributes
         identity :id
 
         attribute :name
         attribute :description
+        attribute :deployment_type, :default => Type::DEFAULT
         attribute :cloud_config
+        attribute :user_data
         attribute :user_script
-        attribute :deployment_type, :default => "DEFAULT"
         attribute :metadata
         # @!endgroup
 
