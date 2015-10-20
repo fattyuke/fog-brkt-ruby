@@ -176,7 +176,96 @@ module Fog
           not volumes.find { |v| v.identity == volume.identity }.nil?
         end
 
+        attr_writer :ssh_ip_address, :ssh_port
+        attr_reader :private_key_path
+
+        def private_key_path=(private_key_path)
+          @private_key_path = File.expand_path(private_key_path)
+          @private_key = File.read(@private_key_path)
+        end
+
+        # Get private SSH key for ssh/scp used interactions with server
+        #
+        # @return [String] private SSH key
+        def private_key
+          @private_key ||= private_key_path && File.read(private_key_path)
+        end
+
+        def private_key=(value)
+          @private_key = value
+        end
+
+        # Get TCP port used for ssh/scp interactions with server
+        #
+        # @return [Fixnum] port
+        # @note By default this returns 22
+        def ssh_port
+          @ssh_port ||= 22
+        end
+
+        # Get IP Address used for ssh/scp interactions with server
+        #
+        # @return [String] IP Address
+        # @note By default this returns the ip_address
+        def ssh_ip_address
+          @ssh_ip_address || ip_address
+        end
+
+        # Upload file to server using SCP
+        #
+        # @param local_path [String] local file path
+        # @param remote_path [String] remote_path remote file path
+        # @param upload_options [Hash] upload options (optional)
+        def upload(local_path, remote_path, upload_options = {})
+          requires :ssh_ip_address, :ssh_username
+
+          Fog::SCP.new(ssh_ip_address, ssh_username, ssh_options).upload(local_path, remote_path, upload_options)
+        end
+
+        # Download file from server using SCP
+        #
+        # @param remote_path [String] remote file path
+        # @param local_path [String] local file path
+        # @param download_options [Hash] upload options (optional)
+        def download(remote_path, local_path, download_options = {})
+          requires :ssh_ip_address, :ssh_username
+
+          Fog::SCP.new(ssh_ip_address, ssh_username, ssh_options).download(remote_path, local_path, download_options)
+        end
+
+        # Run commands on server with SSH
+        #
+        # @param commands [String, Array] single command or array of commands to execute (optional)
+        # @param options [Hash] SSH options
+        def ssh(commands, options = {}, &blk)
+          requires :ssh_ip_address, :ssh_username
+
+          options = ssh_options.merge(options)
+
+          Fog::SSH.new(ssh_ip_address, ssh_username, options).run(commands, &blk)
+        end
+
+        # Check if server SSHable
+        #
+        # @param options [Hash] SSH options (optional)
+        # @return [Boolean]
+        def sshable?(options = {})
+          ready? && !ssh_ip_address.nil? && !!Timeout.timeout(8) { ssh("pwd", options) }
+        rescue SystemCallError, Net::SSH::AuthenticationFailed, Net::SSH::Disconnect, Timeout::Error
+          false
+        end
+
         private
+
+        def ssh_options
+          @ssh_options ||= {}
+          ssh_options = @ssh_options.merge(:port => ssh_port)
+          if private_key
+            ssh_options[:key_data] = [private_key]
+            ssh_options[:auth_methods] = %w(publickey)
+          end
+          ssh_options
+        end
 
         def raise_invalid_state(expected_state)
           raise InvalidStateError.new("expected to be in #{expected_state} state, but actually is #{state}")
