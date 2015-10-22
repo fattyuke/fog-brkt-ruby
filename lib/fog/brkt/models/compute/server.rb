@@ -176,7 +176,7 @@ module Fog
           not volumes.find { |v| v.identity == volume.identity }.nil?
         end
 
-        attr_writer :ssh_ip_address, :ssh_port
+        attr_writer :ssh_ip_address, :ssh_username, :ssh_port
         attr_reader :private_key_path
 
         def private_key_path=(private_key_path)
