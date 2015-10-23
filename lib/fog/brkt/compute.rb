@@ -146,6 +146,7 @@ module Fog
       request :update_cloudinit
       request :get_cloudinit
       request :list_cloudinits
+      request :get_server_free_volume_attach_points
 
       class Real
         # @return [String] api host

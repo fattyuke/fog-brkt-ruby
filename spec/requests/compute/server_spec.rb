@@ -155,4 +155,38 @@ describe "server requests" do
       end
     end
   end
+
+  describe "#get_server_free_volume_attach_points" do
+    before(:all) do
+      @server = compute.servers.create(
+        :name            => Fog::Brkt::Mock.name,
+        :image_id        => image.id,
+        :machine_type_id => machine_type.id,
+        :workload        => @workload.id
+      )
+    end
+
+    after(:all) { @server.destroy }
+
+    describe "response" do
+      let(:response_format) do
+        {
+          "name"                           => String,
+          "customer"                       => String,
+          "free_brkt_volume_attach_points" => Array,
+          "modified_by"                    => String,
+          "description"                    => String,
+          "created_time"                   => String,
+          "modified_time"                  => String,
+          "id"                             => String,
+          "created_by"                     => String
+        }
+      end
+
+      subject { compute.get_server_free_volume_attach_points(@server.id).body }
+
+      it { is_expected.to have_format(response_format) }
+      it { expect(subject['id']).to eq @server.id      }
+    end
+  end
 end
