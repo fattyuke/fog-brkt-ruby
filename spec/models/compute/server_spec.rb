@@ -110,4 +110,21 @@ describe Fog::Compute::Brkt::Server do
       end
     end
   end
+
+  describe '#ssh_port' do
+    it 'returns 22 by default' do
+      expect(new_server.ssh_port).to eq(22)
+    end
+  end
+
+  describe '#ssh_ip_address' do
+    it 'returns #ip_address if was not set explicitly' do
+      expect(new_server(ip_address: '192.168.1.100').ssh_ip_address).to eq('192.168.1.100')
+    end
+
+    it 'returns value if was set explicitly' do
+      server = new_server(ip_address: '192.168.1.100', ssh_ip_address: '192.168.1.101')
+      expect(server.ssh_ip_address).to eq('192.168.1.101')
+    end
+  end
 end
