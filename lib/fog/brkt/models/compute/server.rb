@@ -255,6 +255,14 @@ module Fog
           false
         end
 
+        # Returns available volume attach points
+        #
+        # @return [Array]
+        def free_volume_attach_points
+          requires :id
+          service.get_server_free_volume_attach_points(id).body['free_brkt_volume_attach_points']
+        end
+
         private
 
         def ssh_options
